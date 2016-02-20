@@ -8,7 +8,7 @@ namespace TradeEngine
     class Item
     {
 
-        public string Name { get; set; };
+        public string Name { get; set; }
 
         public Item(string name)
         {
