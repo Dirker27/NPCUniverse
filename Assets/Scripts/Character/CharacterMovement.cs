@@ -17,11 +17,11 @@ public class CharacterMovement : MonoBehaviour {
         if (destination != null)
         {
             Move();
-        }
 
-        if (Vector3.Distance(destination.transform.position, transform.position) < 3f)
-        {
-            destination = null;
+            if (Vector3.Distance(destination.transform.position, transform.position) < 3f)
+            {
+                destination = destination.GetRandomDestination();
+            }
         }
 	}
 
