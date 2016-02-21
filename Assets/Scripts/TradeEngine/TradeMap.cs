@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Assets.Scripts.TradeEngine
 {
-    class Map
+    class TradeMap
     {
-        public List<City> Cities { get; set; }
-        public List<Route> Routes { get; set; }
+        public List<TradeCity> Cities { get; set; }
+        public List<TradeRoute> Routes { get; set; }
 
-        public Map(List<City> cities, List<Route> routes)
+        public TradeMap(List<TradeCity> cities, List<TradeRoute> routes)
         {
             Cities = cities;
             Routes = routes;

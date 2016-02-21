@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Assets.Scripts.TradeEngine
 {
-    class City
+    class TradeCity
     {
-        public List<Route> Routes { get; set; }
-        public MarketPlace MarketPlace { get; set; }
+        public List<TradeRoute> Routes { get; set; }
+        public TradeMarketPlace MarketPlace { get; set; }
 
-        public City(List<Route> routes, MarketPlace marketPlace)
+        public TradeCity(List<TradeRoute> routes, TradeMarketPlace marketPlace)
         {
             Routes = routes;
             MarketPlace = marketPlace;

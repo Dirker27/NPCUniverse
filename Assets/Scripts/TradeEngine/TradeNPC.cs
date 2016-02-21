@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Assets.Scripts.TradeEngine
 {
-    class NPC
+    class TradeNPC
     {
-        public Inventory Inventory { get; set; }
-        public City CurrentCity { get; set; }
-        public City DestinationCity { get; set; }
-        public NPC(Inventory inventory, City currentCity, City destinationCity)
+        public TradeInventory Inventory { get; set; }
+        public TradeCity CurrentCity { get; set; }
+        public TradeCity DestinationCity { get; set; }
+        public TradeNPC(TradeInventory inventory, TradeCity currentCity, TradeCity destinationCity)
         {
             Inventory = inventory;
             CurrentCity = currentCity;
@@ -36,9 +36,9 @@ namespace Assets.Scripts.TradeEngine
             TradeOrders orders = oracle.WhatShouldISell(CurrentCity, Inventory.Items);
 
             Inventory.Currency += CurrentCity.MarketPlace.SellThese(orders.Manifests);
-            foreach(Item sold in orders.Manifests)
+            foreach(TradeItem sold in orders.Manifests)
             {
-                foreach(Item toRemove in Inventory.Items)
+                foreach(TradeItem toRemove in Inventory.Items)
                 {
                     if (sold == toRemove)
                     {

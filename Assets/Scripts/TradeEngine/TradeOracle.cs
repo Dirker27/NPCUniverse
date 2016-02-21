@@ -12,17 +12,17 @@ namespace Assets.Scripts.TradeEngine
 
         }
 
-        public TradeOrders WhatShouldIBuy(Inventory traderInventory, City currentCity, List<Route> avaliableTradeRoutes)
+        public TradeOrders WhatShouldIBuy(TradeInventory traderInventory, TradeCity currentCity, List<TradeRoute> avaliableTradeRoutes)
         {
             int bestProfit = 0;
-            Item bestItem = new Item("Temp");
+            TradeItem bestItem = new TradeItem("Temp");
             int canAffordOfBestItem = 0;
-            Route bestRoute = avaliableTradeRoutes[0];
+            TradeRoute bestRoute = avaliableTradeRoutes[0];
             int purchasedPrice = 0;
 
-            foreach(Route route in avaliableTradeRoutes)
+            foreach(TradeRoute route in avaliableTradeRoutes)
             {
-                City destination = route.CityOne;
+                TradeCity destination = route.CityOne;
                 if (route.CityOne == currentCity)
                 {
                     destination = route.CityTwo;
@@ -51,7 +51,7 @@ namespace Assets.Scripts.TradeEngine
             }
 
             
-            List<Item> manifest = new List<Item>();
+            List<TradeItem> manifest = new List<TradeItem>();
             bestItem.PurchasedPrice = purchasedPrice;
             for (int i = 0; i < canAffordOfBestItem; i ++)
             {
@@ -63,13 +63,13 @@ namespace Assets.Scripts.TradeEngine
             return tradeOrder;
         }
 
-        public TradeOrders WhatShouldISell(City currentCity, List<Item> manifest)
+        public TradeOrders WhatShouldISell(TradeCity currentCity, List<TradeItem> manifest)
         {
-            List<Item> toSell = new List<Item>();
+            List<TradeItem> toSell = new List<TradeItem>();
 
             foreach (TradeData data in currentCity.MarketPlace.TradeDataManifest)
             {
-                foreach (Item item in manifest)
+                foreach (TradeItem item in manifest)
                 {
                     if (item == data.Item)
                     {

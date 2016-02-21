@@ -5,22 +5,22 @@ using System.Text;
 
 namespace Assets.Scripts.TradeEngine
 {
-    class MarketPlace
+    class TradeMarketPlace
     {
         public List<TradeData> TradeDataManifest { get; set; }
-        public List<Route> TradeRoutes { get; set; }
-        public MarketPlace(List<TradeData> tradeDataManifest, List<Route> tradeRoutes)
+        public List<TradeRoute> TradeRoutes { get; set; }
+        public TradeMarketPlace(List<TradeData> tradeDataManifest, List<TradeRoute> tradeRoutes)
         {
             TradeDataManifest = tradeDataManifest;
             TradeRoutes = tradeRoutes;
         }
 
-        public int BuyThese(List<Item> manifest)
+        public int BuyThese(List<TradeItem> manifest)
         {
             int cost = 0;
             Dictionary<TradeData, int> trades = new Dictionary<TradeData, int>();
 
-            foreach(Item good in manifest)
+            foreach(TradeItem good in manifest)
             {
                 foreach(TradeData data in TradeDataManifest)
                 {
@@ -47,13 +47,13 @@ namespace Assets.Scripts.TradeEngine
             return cost;
         }
 
-        public int SellThese(List<Item> manifest)
+        public int SellThese(List<TradeItem> manifest)
         {
             int profit = 0;
 
             Dictionary<TradeData, int> trades = new Dictionary<TradeData, int>();
 
-            foreach (Item good in manifest)
+            foreach (TradeItem good in manifest)
             {
                 foreach (TradeData data in TradeDataManifest)
                 {

@@ -7,12 +7,12 @@ namespace Assets.Scripts.TradeEngine
 {
     class TradeData
     {
-        public Item Item { get; set; }
+        public TradeItem Item { get; set; }
         public int BaseCost { get; set; }
         public int DesiredAmount { get; set; }
         public int CurrentAmount { get; set; }
 
-        public TradeData(Item item, int baseCost, int desiredAmount, int currentAmount)
+        public TradeData(TradeItem item, int baseCost, int desiredAmount, int currentAmount)
         {
             Item = item;
             BaseCost = baseCost;

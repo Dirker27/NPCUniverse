@@ -7,10 +7,10 @@ namespace Assets.Scripts.TradeEngine
 {
     class TradeOrders
     {
-        public Route Destination { get; set; }
-        public List<Item> Manifests { get; set; }
+        public TradeRoute Destination { get; set; }
+        public List<TradeItem> Manifests { get; set; }
 
-        public TradeOrders(Route destination, List<Item> manifest)
+        public TradeOrders(TradeRoute destination, List<TradeItem> manifest)
         {
             Destination = destination;
             Manifests = manifest;

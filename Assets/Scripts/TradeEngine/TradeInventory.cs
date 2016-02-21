@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Assets.Scripts.TradeEngine
 {
-    class Inventory
+    class TradeInventory
     {
         public int Currency { get; set; }
-        public List<Item> Items { get; set; }
+        public List<TradeItem> Items { get; set; }
 
-        public Inventory(int currency, List<Item> items)
+        public TradeInventory(int currency, List<TradeItem> items)
         {
             Currency = currency;
             Items = items;

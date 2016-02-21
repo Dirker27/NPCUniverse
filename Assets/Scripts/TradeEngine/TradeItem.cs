@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Assets.Scripts.TradeEngine
 {
-    class Item
+    class TradeItem
     {
 
         public string Name { get; set; }
         public int PurchasedPrice { get; set; }
-        public Item(string name)
+        public TradeItem(string name)
         {
             Name = name;
         }
