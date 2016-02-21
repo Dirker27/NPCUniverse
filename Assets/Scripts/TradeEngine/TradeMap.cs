@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assets.Scripts.TradeEngine
+class TradeMap
 {
-    class TradeMap
-    {
-        public List<TradeCity> Cities { get; set; }
-        public List<TradeRoute> Routes { get; set; }
+    public List<TradeCity> Cities { get; set; }
+    public List<TradeRoute> Routes { get; set; }
 
-        public TradeMap(List<TradeCity> cities, List<TradeRoute> routes)
-        {
-            Cities = cities;
-            Routes = routes;
-        }
+    public TradeMap(List<TradeCity> cities, List<TradeRoute> routes)
+    {
+        Cities = cities;
+        Routes = routes;
     }
 }

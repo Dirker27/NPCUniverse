@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assets.Scripts.TradeEngine
+public class TradeOrders
 {
-    class TradeOrders
-    {
-        public TradeRoute Destination { get; set; }
-        public List<TradeItem> Manifests { get; set; }
+    public TradeRoute Destination { get; set; }
+    public List<Item> Manifests { get; set; }
 
-        public TradeOrders(TradeRoute destination, List<TradeItem> manifest)
-        {
-            Destination = destination;
-            Manifests = manifest;
-        }
+    public TradeOrders(TradeRoute destination, List<Item> manifest)
+    {
+        Destination = destination;
+        Manifests = manifest;
     }
 }

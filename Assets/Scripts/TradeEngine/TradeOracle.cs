@@ -3,87 +3,84 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assets.Scripts.TradeEngine
+public class TradeOracle
 {
-    class TradeOracle
+    public TradeOracle()
     {
-        public TradeOracle()
+
+    }
+
+    public TradeOrders WhatShouldIBuy(Inventory traderInventory, TradeCity currentCity, List<TradeRoute> avaliableTradeRoutes)
+    {
+        int bestProfit = 0;
+        Item bestItem = null; // new Item("Temp");
+        int canAffordOfBestItem = 0;
+        TradeRoute bestRoute = avaliableTradeRoutes[0];
+        int purchasedPrice = 0;
+
+        foreach(TradeRoute route in avaliableTradeRoutes)
         {
-
-        }
-
-        public TradeOrders WhatShouldIBuy(TradeInventory traderInventory, TradeCity currentCity, List<TradeRoute> avaliableTradeRoutes)
-        {
-            int bestProfit = 0;
-            TradeItem bestItem = new TradeItem("Temp");
-            int canAffordOfBestItem = 0;
-            TradeRoute bestRoute = avaliableTradeRoutes[0];
-            int purchasedPrice = 0;
-
-            foreach(TradeRoute route in avaliableTradeRoutes)
+            TradeCity destination = route.CityOne;
+            if (route.CityOne == currentCity)
             {
-                TradeCity destination = route.CityOne;
-                if (route.CityOne == currentCity)
-                {
-                    destination = route.CityTwo;
-                }
+                destination = route.CityTwo;
+            }
 
-                foreach(TradeData currentTradeData in currentCity.MarketPlace.TradeDataManifest)
+            foreach(TradeData currentTradeData in currentCity.MarketPlace.TradeDataManifest)
+            {
+                if (currentTradeData.CurrentCost() < traderInventory.currency)
                 {
-                    if (currentTradeData.CurrentCost() < traderInventory.Currency)
+                    foreach (TradeData destinationTradeData in destination.MarketPlace.TradeDataManifest)
                     {
-                        foreach (TradeData destinationTradeData in destination.MarketPlace.TradeDataManifest)
+                        if (currentTradeData.Item == destinationTradeData.Item)
                         {
-                            if (currentTradeData.Item == destinationTradeData.Item)
+                            if (destinationTradeData.CurrentCost() - currentTradeData.CurrentCost() > bestProfit)
                             {
-                                if (destinationTradeData.CurrentCost() - currentTradeData.CurrentCost() > bestProfit)
-                                {
-                                    bestProfit = destinationTradeData.CurrentCost() - currentTradeData.CurrentCost();
-                                    bestItem = currentTradeData.Item;
-                                    canAffordOfBestItem = currentTradeData.CurrentCost() / traderInventory.Currency;
-                                    bestRoute = route;
-                                    purchasedPrice = currentTradeData.CurrentCost();
-                                }
+                                bestProfit = destinationTradeData.CurrentCost() - currentTradeData.CurrentCost();
+                                bestItem = currentTradeData.Item;
+                                canAffordOfBestItem = currentTradeData.CurrentCost() / traderInventory.currency;
+                                bestRoute = route;
+                                purchasedPrice = currentTradeData.CurrentCost();
                             }
                         }
                     }
                 }
             }
-
-            
-            List<TradeItem> manifest = new List<TradeItem>();
-            bestItem.PurchasedPrice = purchasedPrice;
-            for (int i = 0; i < canAffordOfBestItem; i ++)
-            {
-                manifest.Add(bestItem);
-            }
-
-            TradeOrders tradeOrder = new TradeOrders(bestRoute, manifest);
-
-            return tradeOrder;
         }
 
-        public TradeOrders WhatShouldISell(TradeCity currentCity, List<TradeItem> manifest)
+            
+        List<Item> manifest = new List<Item>();
+        bestItem.purchasedPrice = purchasedPrice;
+        for (int i = 0; i < canAffordOfBestItem; i ++)
         {
-            List<TradeItem> toSell = new List<TradeItem>();
+            manifest.Add(bestItem);
+        }
 
-            foreach (TradeData data in currentCity.MarketPlace.TradeDataManifest)
+        TradeOrders tradeOrder = new TradeOrders(bestRoute, manifest);
+
+        return tradeOrder;
+    }
+
+    public TradeOrders WhatShouldISell(TradeCity currentCity, List<Item> manifest)
+    {
+        List<Item> toSell = new List<Item>();
+
+        foreach (TradeData data in currentCity.MarketPlace.TradeDataManifest)
+        {
+            foreach (Item item in manifest)
             {
-                foreach (TradeItem item in manifest)
+                if (item == data.Item)
                 {
-                    if (item == data.Item)
+                    if (data.CurrentCost() < item.purchasedPrice)
                     {
-                        if (data.CurrentCost() < item.PurchasedPrice)
-                        {
-                            toSell.Add(item);
-                        }
+                        toSell.Add(item);
                     }
                 }
             }
-
-            TradeOrders tradeOrder = new TradeOrders(null, toSell);
-
-            return tradeOrder;
         }
+
+        TradeOrders tradeOrder = new TradeOrders(null, toSell);
+
+        return tradeOrder;
     }
 }
