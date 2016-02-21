@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TradeEngine
+namespace Assets.Scripts.TradeEngine
 {
     class City
     {
