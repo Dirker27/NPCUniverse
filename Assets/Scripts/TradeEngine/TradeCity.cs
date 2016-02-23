@@ -1,9 +1,7 @@
-﻿using System;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-public class TradeCity
+public class TradeCity : MonoBehaviour
 {
     public List<TradeRoute> Routes { get; set; }
     public TradeMarketPlace MarketPlace { get; set; }

@@ -20,7 +20,7 @@ public class CharacterMovement : MonoBehaviour {
 
             if (Vector3.Distance(destination.transform.position, transform.position) < 3f)
             {
-                destination = destination.GetRandomDestination();
+                destination = null;
             }
         }
 	}

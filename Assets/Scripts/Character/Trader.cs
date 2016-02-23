@@ -1,38 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using UnityEngine;
+using System;
+using System.Collections;
 
 class Trader : NonPlayableCharacter
 {
     private Inventory inventory;
-    public TradeCity CurrentCity;
-    public TradeCity DestinationCity;
+    private TradeOracle oracle;
+
+    public TradeCity currentCity;
+    public TradeCity destinationCity;
 
     void Start()
     {
+        Console.Out.WriteLine("sup?");
         this.inventory = GetComponent<Inventory>();
+        this.oracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
+        if (this.oracle == null)
+        {
+            Console.Out.WriteLine("FUUUUUUK");
+            throw new Exception("Oh shit.");
+        }
+    }
+
+    void Update()
+    {
+        Console.Out.WriteLine("bro?");
+        if (! GetComponent<CharacterMovement>().isInTransit())
+        {
+            BuyGoodsAndSetDestination(oracle);
+        }
     }
 
     public void BuyGoodsAndSetDestination(TradeOracle oracle)
     {
-        TradeOrders orders = oracle.WhatShouldIBuy(inventory, CurrentCity, CurrentCity.MarketPlace.TradeRoutes);
+        TradeOrders orders = oracle.WhatShouldIBuy(inventory, currentCity, currentCity.MarketPlace.TradeRoutes);
             
-        DestinationCity = orders.Destination.CityOne;
-        if (CurrentCity == orders.Destination.CityOne)
+        destinationCity = orders.Destination.CityOne;
+        if (currentCity == orders.Destination.CityOne)
         {
-            DestinationCity = orders.Destination.CityTwo;
+            destinationCity = orders.Destination.CityTwo;
         }
-        inventory.currency -= CurrentCity.MarketPlace.BuyThese(orders.Manifests);
+        inventory.currency -= currentCity.MarketPlace.BuyThese(orders.Manifests);
         inventory.items.AddRange(orders.Manifests);
-            
+
+
+        GetComponent<CharacterMovement>().destination = destinationCity.gameObject.GetComponent<NavigationWaypoint>();
     }
 
     public void SellGoods(TradeOracle oracle)
     {
-        TradeOrders orders = oracle.WhatShouldISell(CurrentCity, inventory.items);
+        TradeOrders orders = oracle.WhatShouldISell(currentCity, inventory.items);
 
-        inventory.currency += CurrentCity.MarketPlace.SellThese(orders.Manifests);
+        inventory.currency += currentCity.MarketPlace.SellThese(orders.Manifests);
         foreach(Item sold in orders.Manifests)
         {
             foreach(Item toRemove in inventory.items)

@@ -37,10 +37,10 @@ public class TradeMarketPlace
             }
         }
 
-        foreach (KeyValuePair<TradeData, int> kvp in trades)
+        /*foreach (KeyValuePair<TradeData, int> kvp in trades)
         {
             kvp.Key.CurrentAmount -= kvp.Value;
-        }
+        }*/
 
         return cost;
     }
@@ -70,10 +70,10 @@ public class TradeMarketPlace
             }
         }
 
-        foreach (KeyValuePair<TradeData, int> kvp in trades)
+        /*foreach (KeyValuePair<TradeData, int> kvp in trades)
         {
             kvp.Key.CurrentAmount += kvp.Value;
-        }
+        }*/
 
         return profit;
     }

@@ -1,10 +1,18 @@
-﻿using System;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-public class TradeOracle
+public class TradeOracle : MonoBehaviour
 {
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
+
     public TradeOracle()
     {
 

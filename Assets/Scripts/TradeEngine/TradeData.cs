@@ -20,6 +20,6 @@ public class TradeData
 
     public int CurrentCost()
     {
-        return (DesiredAmount / CurrentAmount) * BaseCost;
+        return BaseCost;
     }
 }
