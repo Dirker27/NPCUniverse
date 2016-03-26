@@ -1,25 +1,18 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-public class TradeData
+public class TradeData : MonoBehaviour
 {
-    public Item Item { get; set; }
-    public int BaseCost { get; set; }
-    public int DesiredAmount { get; set; }
-    public int CurrentAmount { get; set; }
-
-    public TradeData(Item item, int baseCost, int desiredAmount, int currentAmount)
-    {
-        Item = item;
-        BaseCost = baseCost;
-        DesiredAmount = desiredAmount;
-        CurrentAmount = currentAmount;
-    }
+    public TradeItem Item;
+    public int BaseCost;
+    public int DesiredAmount;
+    public int CurrentAmount;
 
     public int CurrentCost()
     {
+        // TODO: Transforms
+
         return BaseCost;
     }
 }

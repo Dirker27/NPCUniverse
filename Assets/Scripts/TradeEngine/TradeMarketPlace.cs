@@ -1,24 +1,18 @@
-﻿using System;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-public class TradeMarketPlace
+public class TradeMarketPlace : MonoBehaviour
 {
-    public List<TradeData> TradeDataManifest { get; set; }
-    public List<TradeRoute> TradeRoutes { get; set; }
-    public TradeMarketPlace(List<TradeData> tradeDataManifest, List<TradeRoute> tradeRoutes)
-    {
-        TradeDataManifest = tradeDataManifest;
-        TradeRoutes = tradeRoutes;
-    }
+    public List<TradeData> TradeDataManifest;
+    public List<TradeRoute> TradeRoutes;
 
-    public int BuyThese(List<Item> manifest)
+    public int BuyThese(List<TradeItem> manifest)
     {
         int cost = 0;
         Dictionary<TradeData, int> trades = new Dictionary<TradeData, int>();
 
-        foreach(Item good in manifest)
+        foreach(TradeItem good in manifest)
         {
             foreach(TradeData data in TradeDataManifest)
             {
@@ -45,13 +39,13 @@ public class TradeMarketPlace
         return cost;
     }
 
-    public int SellThese(List<Item> manifest)
+    public int SellThese(List<TradeItem> manifest)
     {
         int profit = 0;
 
         Dictionary<TradeData, int> trades = new Dictionary<TradeData, int>();
 
-        foreach (Item good in manifest)
+        foreach (TradeItem good in manifest)
         {
             foreach (TradeData data in TradeDataManifest)
             {

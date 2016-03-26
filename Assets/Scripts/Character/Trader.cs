@@ -12,33 +12,33 @@ class Trader : NonPlayableCharacter
 
     void Start()
     {
-        Console.Out.WriteLine("sup?");
+        Debug.Log("sup?");
         this.inventory = GetComponent<Inventory>();
         this.oracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
-        if (this.oracle == null)
-        {
-            Console.Out.WriteLine("FUUUUUUK");
-            throw new Exception("Oh shit.");
-        }
     }
 
     void Update()
     {
-        Console.Out.WriteLine("bro?");
+        Debug.Log("bro?");
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            BuyGoodsAndSetDestination(oracle);
+            Debug.Log("broseph?");
+            BuyGoodsAndSetDestination(this.oracle);
         }
     }
 
     public void BuyGoodsAndSetDestination(TradeOracle oracle)
     {
+        if (oracle == null)
+        {
+            Debug.Log("No Trade Oracle - FUUUUUUK");
+        }
         TradeOrders orders = oracle.WhatShouldIBuy(inventory, currentCity, currentCity.MarketPlace.TradeRoutes);
             
         destinationCity = orders.Destination.CityOne;
         if (currentCity == orders.Destination.CityOne)
         {
-            destinationCity = orders.Destination.CityTwo;
+            destinationCity = orders.Destination.CityToo;
         }
         inventory.currency -= currentCity.MarketPlace.BuyThese(orders.Manifests);
         inventory.items.AddRange(orders.Manifests);
@@ -52,9 +52,9 @@ class Trader : NonPlayableCharacter
         TradeOrders orders = oracle.WhatShouldISell(currentCity, inventory.items);
 
         inventory.currency += currentCity.MarketPlace.SellThese(orders.Manifests);
-        foreach(Item sold in orders.Manifests)
+        foreach(TradeItem sold in orders.Manifests)
         {
-            foreach(Item toRemove in inventory.items)
+            foreach(TradeItem toRemove in inventory.items)
             {
                 if (sold == toRemove)
                 {

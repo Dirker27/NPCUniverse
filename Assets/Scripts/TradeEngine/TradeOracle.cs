@@ -3,25 +3,10 @@ using System.Collections.Generic;
 
 public class TradeOracle : MonoBehaviour
 {
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
-
-    public TradeOracle()
-    {
-
-    }
-
     public TradeOrders WhatShouldIBuy(Inventory traderInventory, TradeCity currentCity, List<TradeRoute> avaliableTradeRoutes)
     {
         int bestProfit = 0;
-        Item bestItem = null; // new Item("Temp");
+        TradeItem bestItem = null; // new Item("Temp");
         int canAffordOfBestItem = 0;
         TradeRoute bestRoute = avaliableTradeRoutes[0];
         int purchasedPrice = 0;
@@ -31,7 +16,7 @@ public class TradeOracle : MonoBehaviour
             TradeCity destination = route.CityOne;
             if (route.CityOne == currentCity)
             {
-                destination = route.CityTwo;
+                destination = route.CityToo;
             }
 
             foreach(TradeData currentTradeData in currentCity.MarketPlace.TradeDataManifest)
@@ -57,8 +42,8 @@ public class TradeOracle : MonoBehaviour
         }
 
             
-        List<Item> manifest = new List<Item>();
-        bestItem.purchasedPrice = purchasedPrice;
+        List<TradeItem> manifest = new List<TradeItem>();
+        bestItem.PurchasedPrice = purchasedPrice;
         for (int i = 0; i < canAffordOfBestItem; i ++)
         {
             manifest.Add(bestItem);
@@ -69,17 +54,17 @@ public class TradeOracle : MonoBehaviour
         return tradeOrder;
     }
 
-    public TradeOrders WhatShouldISell(TradeCity currentCity, List<Item> manifest)
+    public TradeOrders WhatShouldISell(TradeCity currentCity, List<TradeItem> manifest)
     {
-        List<Item> toSell = new List<Item>();
+        List<TradeItem> toSell = new List<TradeItem>();
 
         foreach (TradeData data in currentCity.MarketPlace.TradeDataManifest)
         {
-            foreach (Item item in manifest)
+            foreach (TradeItem item in manifest)
             {
                 if (item == data.Item)
                 {
-                    if (data.CurrentCost() < item.purchasedPrice)
+                    if (data.CurrentCost() < item.PurchasedPrice)
                     {
                         toSell.Add(item);
                     }
