@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 public enum ItemType
 {
-    APPLE,
-    AVACADO,
-    ORANGE,
-    ZUCCINI,
-    BULLET
+    FOOD,
+    RAWGOOD,
+    PROCESSEDGOOD,
 }

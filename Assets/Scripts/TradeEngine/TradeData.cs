@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class TradeData : MonoBehaviour
 {
-    public TradeItem Item;
+    public ItemType Item;
     public int BaseCost;
     public int DesiredAmount;
     public int CurrentAmount;

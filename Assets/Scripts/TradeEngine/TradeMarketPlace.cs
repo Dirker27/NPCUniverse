@@ -16,7 +16,7 @@ public class TradeMarketPlace : MonoBehaviour
         {
             foreach(TradeData data in TradeDataManifest)
             {
-                if (good == data.Item)
+                if (good.Type == data.Item)
                 {
                     cost += data.CurrentCost();
                     if(!trades.ContainsKey(data))
@@ -49,7 +49,7 @@ public class TradeMarketPlace : MonoBehaviour
         {
             foreach (TradeData data in TradeDataManifest)
             {
-                if (good == data.Item)
+                if (good.Type == data.Item)
                 {
                     profit += data.CurrentCost();
                     if (!trades.ContainsKey(data))
