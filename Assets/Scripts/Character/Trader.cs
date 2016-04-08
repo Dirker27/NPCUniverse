@@ -17,7 +17,7 @@ class Trader : NonPlayableCharacter
     {
         if (debug)
         {
-            Debug.Log("Trade log <" +s + ">");
+            Debug.Log("Trader log <" +s + ">");
         }
     }
     void Start()
