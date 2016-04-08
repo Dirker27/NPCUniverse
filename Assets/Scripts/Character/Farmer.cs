@@ -15,7 +15,7 @@ class Farmer : NonPlayableCharacter
 
     private bool debug = true;
 
-    private bool travelingToFarm = false;
+    public bool travelingToFarm = false;
 
     void Log(string s)
     {
@@ -33,9 +33,9 @@ class Farmer : NonPlayableCharacter
 
     void Update()
     {
-        if (!GetComponent<CharacterMovement>().isInTransit())
+        if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (!travelingToFarm)
+            if (! travelingToFarm)
             {
                 SellGoods(this.tradeOracle);
                 FindFarmAndSetDestination(this.farmOracle);
@@ -45,7 +45,7 @@ class Farmer : NonPlayableCharacter
             {
                 FarmAction();
                 travelingToFarm = false;
-            }            
+            }
         }
     }
 
