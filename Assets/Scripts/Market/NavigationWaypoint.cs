@@ -12,15 +12,4 @@ public class NavigationWaypoint : MonoBehaviour {
 	void Update () {
 	
 	}
-
-    public NavigationWaypoint GetRandomDestination ()
-    {
-        GameObject[] marketplaces = GameObject.FindGameObjectsWithTag("Marketplace");
-
-        if (marketplaces.Length > 0)
-        {
-            return marketplaces[Random.Range(0, marketplaces.Length - 1)].GetComponent<NavigationWaypoint>();
-        }
-        return null;
-    }
 }

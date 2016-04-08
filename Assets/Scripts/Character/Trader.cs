@@ -1,41 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using UnityEngine;
+using System;
+using System.Collections;
+
 
 class Trader : NonPlayableCharacter
 {
     private Inventory inventory;
-    public TradeCity CurrentCity;
-    public TradeCity DestinationCity;
+    private TradeOracle oracle;
 
+    public TradeCity currentCity;
+    public TradeCity destinationCity;
+
+    private bool debug = false;
+
+    void Log(string s)
+    {
+        if (debug)
+        {
+            Debug.Log("Trader log <" +s + ">");
+        }
+    }
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
+        this.oracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
+    }
+
+    void Update()
+    {
+        if (! GetComponent<CharacterMovement>().isInTransit())
+        {
+            currentCity = destinationCity;
+            SellGoods(this.oracle);
+            BuyGoodsAndSetDestination(this.oracle);
+        }
     }
 
     public void BuyGoodsAndSetDestination(TradeOracle oracle)
     {
-        TradeOrders orders = oracle.WhatShouldIBuy(inventory, CurrentCity, CurrentCity.MarketPlace.TradeRoutes);
-            
-        DestinationCity = orders.Destination.CityOne;
-        if (CurrentCity == orders.Destination.CityOne)
+        Log("Start BuyGoodsAndSetDestination");
+        TradeOrders orders = oracle.WhatShouldIBuy(inventory, currentCity, currentCity.MarketPlace.TradeRoutes);
+        Log("Current city:" + currentCity);
+        destinationCity = orders.Destination.CityOne;
+        if (currentCity == orders.Destination.CityOne)
         {
-            DestinationCity = orders.Destination.CityTwo;
+            destinationCity = orders.Destination.CityToo;
         }
-        inventory.currency -= CurrentCity.MarketPlace.BuyThese(orders.Manifests);
+        Log("Destination city:" + destinationCity);
+
+        Log("Starting currency:" + inventory.currency);
+        inventory.currency -= currentCity.MarketPlace.BuyThese(orders.Manifests);
+        Log("After trade currency:" + inventory.currency);
+        
+        Log("Items before purchase:" + TradeItem.ListToString(inventory.items));
         inventory.items.AddRange(orders.Manifests);
-            
+        Log("Items after purchase:" + TradeItem.ListToString(inventory.items));
+
+        GetComponent<CharacterMovement>().destination = destinationCity.gameObject.GetComponent<NavigationWaypoint>();
+        Log("End BuyGoodsAndSetDestination");
     }
 
     public void SellGoods(TradeOracle oracle)
     {
-        TradeOrders orders = oracle.WhatShouldISell(CurrentCity, inventory.items);
+        Log("Start SellGoods at " + currentCity);
+        TradeOrders orders = oracle.WhatShouldISell(currentCity, inventory.items);
 
-        inventory.currency += CurrentCity.MarketPlace.SellThese(orders.Manifests);
-        foreach(Item sold in orders.Manifests)
+        Log("Before trade currency:" + inventory.currency);
+        inventory.currency += currentCity.MarketPlace.SellThese(orders.Manifests);
+        Log("After trade currency:" + inventory.currency);
+
+        Log("Items before sale:" + TradeItem.ListToString(inventory.items));
+        Log("Items to sell:" + TradeItem.ListToString(orders.Manifests));
+        foreach(TradeItem sold in orders.Manifests)
         {
-            foreach(Item toRemove in inventory.items)
+            foreach(TradeItem toRemove in inventory.items)
             {
                 if (sold == toRemove)
                 {
@@ -44,5 +82,7 @@ class Trader : NonPlayableCharacter
                 }
             }
         }
+        Log("Items after sale:" + TradeItem.ListToString(inventory.items));
+        Log("End SellGoods");
     }
 }

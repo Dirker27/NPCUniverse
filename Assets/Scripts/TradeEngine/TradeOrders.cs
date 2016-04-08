@@ -1,16 +1,15 @@
-﻿using System;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-public class TradeOrders
+public class TradeOrders : MonoBehaviour
 {
-    public TradeRoute Destination { get; set; }
-    public List<Item> Manifests { get; set; }
+    public TradeRoute Destination;
+    public List<TradeItem> Manifests;
 
-    public TradeOrders(TradeRoute destination, List<Item> manifest)
+    public TradeOrders(TradeRoute Destination, List<TradeItem> Manifests)
     {
-        Destination = destination;
-        Manifests = manifest;
+        this.Destination = Destination;
+        this.Manifests = Manifests;
     }
 }
