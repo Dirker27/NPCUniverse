@@ -63,8 +63,7 @@ public class TradeOracle : MonoBehaviour
                 }
             }
         }
-
-            
+ 
         List<TradeItem> manifest = new List<TradeItem>();
         bestItem.PurchasedPrice = purchasedPrice;
         
@@ -73,8 +72,10 @@ public class TradeOracle : MonoBehaviour
             manifest.Add(bestItem);
         }
        
+        TradeOrders tradeOrder = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeOrders>();
+        tradeOrder.Manifests = manifest;
+        tradeOrder.Destination = bestRoute;
 
-        TradeOrders tradeOrder = new TradeOrders(bestRoute, manifest);
         Log("Decided on " + canAffordOfBestItem + " of " + bestItem.Type + " at " + bestItem.PurchasedPrice + " for a gain of " + bestProfit);
         return tradeOrder;
     }
@@ -102,7 +103,8 @@ public class TradeOracle : MonoBehaviour
             }
         }
 
-        TradeOrders tradeOrder = new TradeOrders(null, toSell);
+        TradeOrders tradeOrder = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeOrders>();
+        tradeOrder.Manifests = toSell;
 
         return tradeOrder;
     }

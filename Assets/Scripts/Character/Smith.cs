@@ -3,62 +3,62 @@ using System;
 using System.Collections;
 
 
-class Farmer : NonPlayableCharacter
+class Smith : NonPlayableCharacter
 {
     private Inventory inventory;
-    private FarmOracle farmOracle;
+    private FoundryOracle foundryOracle;
     private TradeOracle tradeOracle;
 
     public TradeCity baseCity;
 
-    public Farm destinationFarm;
+    public Foundry destinationFoundry;
 
     private bool debug = false;
 
-    public bool travelingToFarm = false;
+    public bool travelingToSmith = false;
 
     void Log(string s)
     {
         if (debug)
         {
-            Debug.Log("Farmer log <" + s + ">");
+            Debug.Log("Smith log <" + s + ">");
         }
     }
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
-        this.farmOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FarmOracle>();
+        this.foundryOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FoundryOracle>();
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (! travelingToFarm)
+            if (!travelingToSmith)
             {
                 SellGoods(this.tradeOracle);
-                FindFarmAndSetDestination(this.farmOracle);
-                travelingToFarm = true;
+                FindSmithAndSetDestination(this.foundryOracle);
+                travelingToSmith = true;
             }
             else
             {
-                FarmAction();
-                travelingToFarm = false;
+                MineAction();
+                travelingToSmith = false;
             }
         }
     }
 
-    public void FindFarmAndSetDestination(FarmOracle oracle)
+    public void FindSmithAndSetDestination(FoundryOracle oracle)
     {
-        Log("Start FindFarmAndSetDestination");
+        Log("Start FindSmithAndSetDestination");
         
-        destinationFarm = oracle.WhereShouldIFarm(baseCity);
+        destinationFoundry = oracle.WhereShouldISmith(baseCity);
 
-        Log("Destination farm:" + destinationFarm);
+        Log("Destination smith:" + destinationFoundry);
 
-        GetComponent<CharacterMovement>().destination = destinationFarm.gameObject.GetComponent<NavigationWaypoint>();
-        Log("End FindFarmAndSetDestination");
+        GetComponent<CharacterMovement>().destination = destinationFoundry.gameObject.GetComponent<NavigationWaypoint>();
+        Log("End FindSmithAndSetDestination");
     }
 
     public void SellGoods(TradeOracle oracle)
@@ -87,9 +87,9 @@ class Farmer : NonPlayableCharacter
         Log("End SellGoods");
     }
 
-    public void FarmAction()
+    public void MineAction()
     {
-        ItemType result = destinationFarm.WorkFarm();
+        ItemType result = destinationFoundry.WorkFoundry();
 
         TradeItem workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
 

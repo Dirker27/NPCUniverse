@@ -3,62 +3,62 @@ using System;
 using System.Collections;
 
 
-class Farmer : NonPlayableCharacter
+class Miner : NonPlayableCharacter
 {
     private Inventory inventory;
-    private FarmOracle farmOracle;
+    private MineOracle mineOracle;
     private TradeOracle tradeOracle;
 
     public TradeCity baseCity;
 
-    public Farm destinationFarm;
+    public Mine destinationMine;
 
     private bool debug = false;
 
-    public bool travelingToFarm = false;
+    public bool travelingToMine = false;
 
     void Log(string s)
     {
         if (debug)
         {
-            Debug.Log("Farmer log <" + s + ">");
+            Debug.Log("Miner log <" + s + ">");
         }
     }
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
-        this.farmOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FarmOracle>();
+        this.mineOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MineOracle>();
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (! travelingToFarm)
+            if (!travelingToMine)
             {
                 SellGoods(this.tradeOracle);
-                FindFarmAndSetDestination(this.farmOracle);
-                travelingToFarm = true;
+                FindMineAndSetDestination(this.mineOracle);
+                travelingToMine = true;
             }
             else
             {
-                FarmAction();
-                travelingToFarm = false;
+                MineAction();
+                travelingToMine = false;
             }
         }
     }
 
-    public void FindFarmAndSetDestination(FarmOracle oracle)
+    public void FindMineAndSetDestination(MineOracle oracle)
     {
-        Log("Start FindFarmAndSetDestination");
+        Log("Start FindMineAndSetDestination");
         
-        destinationFarm = oracle.WhereShouldIFarm(baseCity);
+        destinationMine = oracle.WhereShouldIMine(baseCity);
 
-        Log("Destination farm:" + destinationFarm);
+        Log("Destination mine:" + destinationMine);
 
-        GetComponent<CharacterMovement>().destination = destinationFarm.gameObject.GetComponent<NavigationWaypoint>();
-        Log("End FindFarmAndSetDestination");
+        GetComponent<CharacterMovement>().destination = destinationMine.gameObject.GetComponent<NavigationWaypoint>();
+        Log("End FindMineAndSetDestination");
     }
 
     public void SellGoods(TradeOracle oracle)
@@ -87,9 +87,9 @@ class Farmer : NonPlayableCharacter
         Log("End SellGoods");
     }
 
-    public void FarmAction()
+    public void MineAction()
     {
-        ItemType result = destinationFarm.WorkFarm();
+        ItemType result = destinationMine.WorkMine();
 
         TradeItem workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class FarmOracle : MonoBehaviour
+public class MineOracle : MonoBehaviour
 {
     private bool debug = false;
 
@@ -9,13 +9,13 @@ public class FarmOracle : MonoBehaviour
     {
         if (debug)
         {
-            Debug.Log("FarmOracle log <" + s + ">");
+            Debug.Log("MineOracle log <" + s + ">");
         }
     }
 
-    public Farm WhereShouldIFarm(TradeCity currentCity)
+    public Mine WhereShouldIMine(TradeCity currentCity)
     {
-        return currentCity.Farms[0];
+        return currentCity.Mines[0];
     }
 
     public TradeOrders WhatShouldIBuy(Inventory traderInventory, TradeCity currentCity, List<TradeRoute> avaliableTradeRoutes)
