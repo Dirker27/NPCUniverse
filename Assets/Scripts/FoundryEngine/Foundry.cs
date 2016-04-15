@@ -7,7 +7,7 @@ public class Foundry : MonoBehaviour
     public ItemType produces;
 
 
-    public ItemType WorkFoundry()
+    public ItemType WorkFoundry(TradeItem input)
     {
         return produces;
     }

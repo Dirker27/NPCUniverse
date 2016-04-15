@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 
 class Smith : NonPlayableCharacter
@@ -43,7 +44,7 @@ class Smith : NonPlayableCharacter
             }
             else
             {
-                MineAction();
+                FoundryAction();
                 travelingToSmith = false;
             }
         }
@@ -56,6 +57,21 @@ class Smith : NonPlayableCharacter
         destinationFoundry = oracle.WhereShouldISmith(baseCity);
 
         Log("Destination smith:" + destinationFoundry);
+
+        List<TradeItem> oreToWork = new List<TradeItem>();
+        TradeItem ore = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+        ore.Type = ItemType.RAWGOOD;
+
+        oreToWork.Add(ore);
+
+        Log("Starting currency:" + inventory.currency);
+        inventory.currency -= baseCity.MarketPlace.BuyThese(oreToWork);
+        Log("After trade currency:" + inventory.currency);
+
+        
+        Log("Items before purchase:" + TradeItem.ListToString(inventory.items));
+        inventory.items.AddRange(oreToWork);
+        Log("Items after purchase:" + TradeItem.ListToString(inventory.items));
 
         GetComponent<CharacterMovement>().destination = destinationFoundry.gameObject.GetComponent<NavigationWaypoint>();
         Log("End FindSmithAndSetDestination");
@@ -87,17 +103,27 @@ class Smith : NonPlayableCharacter
         Log("End SellGoods");
     }
 
-    public void MineAction()
+    public void FoundryAction()
     {
-        ItemType result = destinationFoundry.WorkFoundry();
+        Log("Start FoundryAction at " + destinationFoundry);
+        ItemType result = destinationFoundry.WorkFoundry(inventory.items[0]);
+        Log("Item received is :" + result);
+
+        Log("Items before removal:" + TradeItem.ListToString(inventory.items));
+        inventory.items.RemoveAt(0);
+        Log("Items after removal:" + TradeItem.ListToString(inventory.items));
+
 
         TradeItem workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
 
         workedItem.Type = result;
         workedItem.PurchasedPrice = 0;
 
+        Log("Items before add:" + TradeItem.ListToString(inventory.items));
         inventory.items.Add(workedItem);
+        Log("Items after add:" + TradeItem.ListToString(inventory.items));
 
         GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+        Log("End FoundryAction");
     }
 }
