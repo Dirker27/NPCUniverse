@@ -28,6 +28,7 @@ class Smith : NonPlayableCharacter
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
+        this.inventory.items = new Dictionary<TradeItem, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.foundryOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FoundryOracle>();
     }
@@ -58,11 +59,11 @@ class Smith : NonPlayableCharacter
 
         Log("Destination smith:" + destinationFoundry);
 
-        List<TradeItem> oreToWork = new List<TradeItem>();
+        Dictionary<TradeItem, int> oreToWork = new Dictionary<TradeItem,int>();
         TradeItem ore = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
         ore.Type = ItemType.RAWGOOD;
 
-        oreToWork.Add(ore);
+        oreToWork.Add(ore, 1);
 
         Log("Starting currency:" + inventory.currency);
         inventory.currency -= baseCity.MarketPlace.BuyThese(oreToWork);
@@ -70,7 +71,7 @@ class Smith : NonPlayableCharacter
 
         
         Log("Items before purchase:" + TradeItem.ListToString(inventory.items));
-        inventory.items.AddRange(oreToWork);
+        inventory.items.Add(ore, 1);
         Log("Items after purchase:" + TradeItem.ListToString(inventory.items));
 
         GetComponent<CharacterMovement>().destination = destinationFoundry.gameObject.GetComponent<NavigationWaypoint>();
@@ -88,9 +89,9 @@ class Smith : NonPlayableCharacter
 
         Log("Items before sale:" + TradeItem.ListToString(inventory.items));
         Log("Items to sell:" + TradeItem.ListToString(orders.Manifests));
-        foreach (TradeItem sold in orders.Manifests)
+        foreach (TradeItem sold in orders.Manifests.Keys)
         {
-            foreach (TradeItem toRemove in inventory.items)
+            foreach (TradeItem toRemove in inventory.items.Keys)
             {
                 if (sold == toRemove)
                 {
@@ -106,24 +107,36 @@ class Smith : NonPlayableCharacter
     public void FoundryAction()
     {
         Log("Start FoundryAction at " + destinationFoundry);
-        ItemType result = destinationFoundry.WorkFoundry(inventory.items[0]);
-        Log("Item received is :" + result);
+        foreach (TradeItem item in inventory.items.Keys)
+        {
+            if (item.Type == ItemType.RAWGOOD)
+            {
+                
+                TradeItem ore = item;
 
-        Log("Items before removal:" + TradeItem.ListToString(inventory.items));
-        inventory.items.RemoveAt(0);
-        Log("Items after removal:" + TradeItem.ListToString(inventory.items));
+                ItemType result = destinationFoundry.WorkFoundry(ore);
+                Log("Item received is :" + result);
+
+                Log("Items before removal:" + TradeItem.ListToString(inventory.items));
+                inventory.items.Remove(ore);
+                Log("Items after removal:" + TradeItem.ListToString(inventory.items));
 
 
-        TradeItem workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+                TradeItem workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
 
-        workedItem.Type = result;
-        workedItem.PurchasedPrice = 0;
+                workedItem.Type = result;
+                workedItem.PurchasedPrice = 0;
 
-        Log("Items before add:" + TradeItem.ListToString(inventory.items));
-        inventory.items.Add(workedItem);
-        Log("Items after add:" + TradeItem.ListToString(inventory.items));
+                Log("Items before add:" + TradeItem.ListToString(inventory.items));
+                inventory.items.Add(workedItem, 1);
+                Log("Items after add:" + TradeItem.ListToString(inventory.items));
 
-        GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
-        Log("End FoundryAction");
+                GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+                Log("End FoundryAction");
+
+                return;
+            }
+
+        }        
     }
 }

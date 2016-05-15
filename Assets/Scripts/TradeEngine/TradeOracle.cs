@@ -64,13 +64,10 @@ public class TradeOracle : MonoBehaviour
             }
         }
  
-        List<TradeItem> manifest = new List<TradeItem>();
+        Dictionary<TradeItem, int> manifest = new Dictionary<TradeItem, int>();
         bestItem.PurchasedPrice = purchasedPrice;
-        
-        for (int i = 0; i < canAffordOfBestItem; i ++)
-        {
-            manifest.Add(bestItem);
-        }
+
+        manifest.Add(bestItem, canAffordOfBestItem);
        
         TradeOrders tradeOrder = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeOrders>();
         tradeOrder.Manifests = manifest;
@@ -80,24 +77,34 @@ public class TradeOracle : MonoBehaviour
         return tradeOrder;
     }
 
-    public TradeOrders WhatShouldISell(TradeCity currentCity, List<TradeItem> manifest)
+    public TradeOrders WhatShouldISell(TradeCity currentCity, Dictionary<TradeItem,int> manifest)
     {
-        List<TradeItem> toSell = new List<TradeItem>();
+        Dictionary<TradeItem, int> toSell = new Dictionary<TradeItem, int>();
 
         foreach (TradeData data in currentCity.MarketPlace.TradeDataManifest)
         {
-            foreach (TradeItem item in manifest)
+            if (manifest != null)
             {
-                if (item.Type == data.Item)
+                foreach (TradeItem item in manifest.Keys)
                 {
-                    if (data.CurrentCost() > item.PurchasedPrice)
+                    if (item.Type == data.Item)
                     {
-                        toSell.Add(item);
-                        Log("Decided to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a profit of " + (item.PurchasedPrice - data.CurrentCost()));
-                    }
-                    else
-                    {
-                        Log("Decided not to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a loss of " + (data.CurrentCost() - item.PurchasedPrice));
+                        if (data.CurrentCost() > item.PurchasedPrice)
+                        {
+                            if (toSell.ContainsKey(item))
+                            {
+                                toSell[item] += manifest[item];
+                            }
+                            else
+                            {
+                                toSell.Add(item, manifest[item]);
+                            }
+                            Log("Decided to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a profit of " + (item.PurchasedPrice - data.CurrentCost()));
+                        }
+                        else
+                        {
+                            Log("Decided not to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a loss of " + (data.CurrentCost() - item.PurchasedPrice));
+                        }
                     }
                 }
             }

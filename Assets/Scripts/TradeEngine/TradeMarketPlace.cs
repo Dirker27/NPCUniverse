@@ -7,12 +7,12 @@ public class TradeMarketPlace : MonoBehaviour
     public List<TradeData> TradeDataManifest;
     public List<TradeRoute> TradeRoutes;
 
-    public int BuyThese(List<TradeItem> manifest)
+    public int BuyThese(Dictionary<TradeItem, int> manifest)
     {
         int cost = 0;
         Dictionary<TradeData, int> trades = new Dictionary<TradeData, int>();
 
-        foreach(TradeItem good in manifest)
+        foreach(TradeItem good in manifest.Keys)
         {
             foreach(TradeData data in TradeDataManifest)
             {
@@ -39,13 +39,13 @@ public class TradeMarketPlace : MonoBehaviour
         return cost;
     }
 
-    public int SellThese(List<TradeItem> manifest)
+    public int SellThese(Dictionary<TradeItem, int> manifest)
     {
         int profit = 0;
 
         Dictionary<TradeData, int> trades = new Dictionary<TradeData, int>();
 
-        foreach (TradeItem good in manifest)
+        foreach (TradeItem good in manifest.Keys)
         {
             foreach (TradeData data in TradeDataManifest)
             {

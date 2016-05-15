@@ -18,85 +18,27 @@ public class MineOracle : MonoBehaviour
         return currentCity.Mines[0];
     }
 
-    public TradeOrders WhatShouldIBuy(Inventory traderInventory, TradeCity currentCity, List<TradeRoute> avaliableTradeRoutes)
+ 
+    public TradeOrders WhatShouldISell(TradeCity currentCity, Dictionary<TradeItem, int> manifest)
     {
-        int bestProfit = 0;
-
-        TradeItem bestItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
-        int canAffordOfBestItem = 0;
-        TradeRoute bestRoute = avaliableTradeRoutes[0];
-        int purchasedPrice = 0;
-
-        foreach(TradeRoute route in avaliableTradeRoutes)
-        {
-            TradeCity destination = route.CityOne;
-            if (route.CityOne == currentCity)
-            {
-                destination = route.CityToo;
-            }
-
-            Log("Assesing city:" + destination);
-
-            foreach(TradeData currentTradeData in currentCity.MarketPlace.TradeDataManifest)
-            {
-                if (currentTradeData.CurrentCost() < traderInventory.currency)
-                {
-                    Log("Can Afford " + currentTradeData.ToString());
-                    foreach (TradeData destinationTradeData in destination.MarketPlace.TradeDataManifest)
-                    {
-                        if (currentTradeData.Item == destinationTradeData.Item)
-                        {
-                            if (destinationTradeData.CurrentCost() - currentTradeData.CurrentCost() > bestProfit)
-                            {
-                                Log("Can make a new best profit at :" + (destinationTradeData.CurrentCost() - currentTradeData.CurrentCost()) + " better then :" + bestProfit);
-                                bestProfit = destinationTradeData.CurrentCost() - currentTradeData.CurrentCost();
-                                bestItem.Type = currentTradeData.Item;
-                                canAffordOfBestItem = traderInventory.currency / currentTradeData.CurrentCost();
-                                bestRoute = route;
-                                purchasedPrice = currentTradeData.CurrentCost();
-                            }
-                            else
-                            {
-                                Log("Can not make a new best profit at :" + (destinationTradeData.CurrentCost() - currentTradeData.CurrentCost()) + " worse then :" + bestProfit);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    Log("Can Not Afford " + currentTradeData.ToString());
-                }
-            }
-        }
-
-            
-        List<TradeItem> manifest = new List<TradeItem>();
-        bestItem.PurchasedPrice = purchasedPrice;
-        
-        for (int i = 0; i < canAffordOfBestItem; i ++)
-        {
-            manifest.Add(bestItem);
-        }
-       
-
-        TradeOrders tradeOrder = new TradeOrders(bestRoute, manifest);
-        Log("Decided on " + canAffordOfBestItem + " of " + bestItem.Type + " at " + bestItem.PurchasedPrice + " for a gain of " + bestProfit);
-        return tradeOrder;
-    }
-
-    public TradeOrders WhatShouldISell(TradeCity currentCity, List<TradeItem> manifest)
-    {
-        List<TradeItem> toSell = new List<TradeItem>();
+        Dictionary<TradeItem, int> toSell = new Dictionary<TradeItem, int>();
 
         foreach (TradeData data in currentCity.MarketPlace.TradeDataManifest)
         {
-            foreach (TradeItem item in manifest)
+            foreach (TradeItem item in manifest.Keys)
             {
                 if (item.Type == data.Item)
                 {
                     if (data.CurrentCost() > item.PurchasedPrice)
                     {
-                        toSell.Add(item);
+                        if (toSell.ContainsKey(item))
+                        {
+                            toSell[item] += 1;
+                        }
+                        else
+                        {
+                            toSell.Add(item, 1);
+                        }
                         Log("Decided to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a profit of " + (item.PurchasedPrice - data.CurrentCost()));
                     }
                     else

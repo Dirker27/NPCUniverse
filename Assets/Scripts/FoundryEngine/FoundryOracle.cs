@@ -18,19 +18,26 @@ public class FoundryOracle : MonoBehaviour
         return currentCity.Foundries[0];
     }
 
-    public TradeOrders WhatShouldISell(TradeCity currentCity, List<TradeItem> manifest)
+    public TradeOrders WhatShouldISell(TradeCity currentCity, Dictionary<TradeItem, int> manifest)
     {
-        List<TradeItem> toSell = new List<TradeItem>();
+        Dictionary<TradeItem, int> toSell = new Dictionary<TradeItem, int>();
 
         foreach (TradeData data in currentCity.MarketPlace.TradeDataManifest)
         {
-            foreach (TradeItem item in manifest)
+            foreach (TradeItem item in manifest.Keys)
             {
                 if (item.Type == data.Item)
                 {
                     if (data.CurrentCost() > item.PurchasedPrice)
                     {
-                        toSell.Add(item);
+                        if (toSell.ContainsKey(item))
+                        {
+                            toSell[item] += 1;
+                        }
+                        else
+                        {
+                            toSell.Add(item, 1);
+                        }
                         Log("Decided to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a profit of " + (item.PurchasedPrice - data.CurrentCost()));
                     }
                     else

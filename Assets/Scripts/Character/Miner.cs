@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 
 class Miner : NonPlayableCharacter
@@ -27,6 +28,7 @@ class Miner : NonPlayableCharacter
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
+        this.inventory.items = new Dictionary<TradeItem, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.mineOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MineOracle>();
     }
@@ -72,9 +74,9 @@ class Miner : NonPlayableCharacter
 
         Log("Items before sale:" + TradeItem.ListToString(inventory.items));
         Log("Items to sell:" + TradeItem.ListToString(orders.Manifests));
-        foreach (TradeItem sold in orders.Manifests)
+        foreach (TradeItem sold in orders.Manifests.Keys)
         {
-            foreach (TradeItem toRemove in inventory.items)
+            foreach (TradeItem toRemove in inventory.items.Keys)
             {
                 if (sold == toRemove)
                 {
@@ -96,7 +98,7 @@ class Miner : NonPlayableCharacter
         workedItem.Type = result;
         workedItem.PurchasedPrice = 0;
 
-        inventory.items.Add(workedItem);
+        inventory.items.Add(workedItem, 1);
 
         GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
     }

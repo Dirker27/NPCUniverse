@@ -9,13 +9,16 @@ public class TradeItem : MonoBehaviour
     public string Name;
     public int PurchasedPrice;
 
-    public static string ListToString(List<TradeItem> items)
+    public static string ListToString(Dictionary<TradeItem,int> items)
     {
         string output = "(";
 
-        foreach(TradeItem item in items)
+        if (items != null)
         {
-            output += item.ToString() + " ";
+            foreach (TradeItem item in items.Keys)
+            {
+                output += "[" + item.ToString() + " : " + items[item] + " ";
+            }
         }
 
         output += ")";
@@ -27,6 +30,22 @@ public class TradeItem : MonoBehaviour
         string output = "[" + Type + " " + Name + " " + PurchasedPrice + "]";
 
         return output;
+    }
+
+    public override bool Equals(object o)
+    {
+        if (o == null)
+        {
+            return false;
+        }
+
+        TradeItem other = o as TradeItem;
+        if ((object)other == null)
+        {
+            return false;
+        }
+
+        return (this.Type == other.Type) && (this.Name == other.Name) && (this.PurchasedPrice == other.PurchasedPrice);
     }
 }
 

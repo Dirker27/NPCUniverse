@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-
+using System.Collections.Generic;
 
 class Trader : NonPlayableCharacter
 {
@@ -23,6 +23,7 @@ class Trader : NonPlayableCharacter
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
+        this.inventory.items = new Dictionary<TradeItem, int>();
         this.oracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
     }
 
@@ -53,7 +54,7 @@ class Trader : NonPlayableCharacter
         Log("After trade currency:" + inventory.currency);
         
         Log("Items before purchase:" + TradeItem.ListToString(inventory.items));
-        inventory.items.AddRange(orders.Manifests);
+        inventory.AddTo(orders.Manifests);
         Log("Items after purchase:" + TradeItem.ListToString(inventory.items));
 
         GetComponent<CharacterMovement>().destination = destinationCity.gameObject.GetComponent<NavigationWaypoint>();
@@ -71,17 +72,7 @@ class Trader : NonPlayableCharacter
 
         Log("Items before sale:" + TradeItem.ListToString(inventory.items));
         Log("Items to sell:" + TradeItem.ListToString(orders.Manifests));
-        foreach(TradeItem sold in orders.Manifests)
-        {
-            foreach(TradeItem toRemove in inventory.items)
-            {
-                if (sold == toRemove)
-                {
-                    inventory.items.Remove(toRemove);
-                    break;
-                }
-            }
-        }
+        inventory.RemoveFrom(orders.Manifests);
         Log("Items after sale:" + TradeItem.ListToString(inventory.items));
         Log("End SellGoods");
     }
