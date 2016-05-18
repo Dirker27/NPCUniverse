@@ -18,7 +18,11 @@ public class MineOracle : MonoBehaviour
         return currentCity.Mines[0];
     }
 
- 
+    public OreShop WhereShouldIStore(TradeCity currentCity)
+    {
+        return currentCity.OreShops[0];
+    }
+  
     public TradeOrders WhatShouldISell(TradeCity currentCity, Dictionary<TradeItem, int> manifest)
     {
         Dictionary<TradeItem, int> toSell = new Dictionary<TradeItem, int>();

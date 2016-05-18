@@ -6,8 +6,17 @@ public class TradeItem : MonoBehaviour
 {
 
     public ItemType Type;
-    public string Name;
     public int PurchasedPrice;
+
+    private bool debug = true;
+
+    void Log(string s)
+    {
+        if (debug)
+        {
+            Debug.Log("TradeItem log <" + s + ">");
+        }
+    }
 
     public static string ListToString(Dictionary<TradeItem,int> items)
     {
@@ -27,7 +36,7 @@ public class TradeItem : MonoBehaviour
 
     public override string ToString() 
     {
-        string output = "[" + Type + " " + Name + " " + PurchasedPrice + "]";
+        string output = "[" + Type + " " + " " + PurchasedPrice + "]";
 
         return output;
     }
@@ -45,7 +54,15 @@ public class TradeItem : MonoBehaviour
             return false;
         }
 
-        return (this.Type == other.Type) && (this.Name == other.Name) && (this.PurchasedPrice == other.PurchasedPrice);
+        Log("This: " + this.ToString());
+        Log("That: " + other.ToString());
+        Log("Result :" + ((this.Type == other.Type) && (this.PurchasedPrice == other.PurchasedPrice)));
+        return (this.Type == other.Type) && (this.PurchasedPrice == other.PurchasedPrice);
+    }
+
+    public int GetHashCode(TradeItem hash)
+    {
+        return hash.Type.GetHashCode() + hash.PurchasedPrice.GetHashCode();
     }
 }
 

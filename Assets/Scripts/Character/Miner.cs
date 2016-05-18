@@ -13,10 +13,13 @@ class Miner : NonPlayableCharacter
     public TradeCity baseCity;
 
     public Mine destinationMine;
+    public OreShop destinationOreShop;
 
     private bool debug = false;
 
-    public bool travelingToMine = false;
+    public bool destinationIsBaseCity = false;
+    public bool destinationIsMine = false;
+    public bool destinationIsOreShop = false;
 
     void Log(string s)
     {
@@ -31,22 +34,44 @@ class Miner : NonPlayableCharacter
         this.inventory.items = new Dictionary<TradeItem, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.mineOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MineOracle>();
+        destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (!travelingToMine)
+            if (destinationIsBaseCity)
             {
+                destinationIsBaseCity = false;
                 SellGoods(this.tradeOracle);
                 FindMineAndSetDestination(this.mineOracle);
-                travelingToMine = true;
+                destinationIsMine = true;
             }
-            else
+            else if (destinationIsMine)
             {
+                destinationIsMine = false;
                 MineAction();
-                travelingToMine = false;
+                
+                destinationIsOreShop= true;
+                GetComponent<CharacterMovement>().destination = destinationOreShop.gameObject.GetComponent<NavigationWaypoint>();
+            }
+            else if (destinationIsOreShop)
+            {
+                destinationIsOreShop = false;
+
+                Dictionary<TradeItem, int> peek = inventory.SeeContents();
+                foreach (TradeItem key in peek.Keys)
+                {
+                    if (key.Type == ItemType.RAWGOOD)
+                    {
+                        destinationOreShop.Deposit(key);
+                        inventory.Remove(key);
+                    }
+                }
+
+                destinationIsMine = true;
+                GetComponent<CharacterMovement>().destination = destinationMine.gameObject.GetComponent<NavigationWaypoint>();
             }
         }
     }
@@ -56,7 +81,7 @@ class Miner : NonPlayableCharacter
         Log("Start FindMineAndSetDestination");
         
         destinationMine = oracle.WhereShouldIMine(baseCity);
-
+        destinationOreShop = oracle.WhereShouldIStore(baseCity);
         Log("Destination mine:" + destinationMine);
 
         GetComponent<CharacterMovement>().destination = destinationMine.gameObject.GetComponent<NavigationWaypoint>();
@@ -80,7 +105,7 @@ class Miner : NonPlayableCharacter
             {
                 if (sold == toRemove)
                 {
-                    inventory.items.Remove(toRemove);
+                    inventory.Remove(toRemove);
                     break;
                 }
             }
@@ -98,8 +123,6 @@ class Miner : NonPlayableCharacter
         workedItem.Type = result;
         workedItem.PurchasedPrice = 0;
 
-        inventory.items.Add(workedItem, 1);
-
-        GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+        inventory.Add(workedItem);
     }
 }

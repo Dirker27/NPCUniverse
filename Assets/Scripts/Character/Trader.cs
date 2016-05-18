@@ -54,7 +54,7 @@ class Trader : NonPlayableCharacter
         Log("After trade currency:" + inventory.currency);
         
         Log("Items before purchase:" + TradeItem.ListToString(inventory.items));
-        inventory.AddTo(orders.Manifests);
+        inventory.AddCollection(orders.Manifests);
         Log("Items after purchase:" + TradeItem.ListToString(inventory.items));
 
         GetComponent<CharacterMovement>().destination = destinationCity.gameObject.GetComponent<NavigationWaypoint>();
@@ -72,7 +72,7 @@ class Trader : NonPlayableCharacter
 
         Log("Items before sale:" + TradeItem.ListToString(inventory.items));
         Log("Items to sell:" + TradeItem.ListToString(orders.Manifests));
-        inventory.RemoveFrom(orders.Manifests);
+        inventory.RemoveCollection(orders.Manifests);
         Log("Items after sale:" + TradeItem.ListToString(inventory.items));
         Log("End SellGoods");
     }

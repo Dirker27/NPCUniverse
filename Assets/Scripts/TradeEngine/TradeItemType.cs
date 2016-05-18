@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 public enum ItemType
 {
-    FOOD,
+    WHEAT,
+    FLOUR,
+    BREAD,
+    MEAD,
     RAWGOOD,
     PROCESSEDGOOD,
 }

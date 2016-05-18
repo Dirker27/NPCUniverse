@@ -14,9 +14,13 @@ class Farmer : NonPlayableCharacter
 
     public Farm destinationFarm;
 
+    public Barn destinationBarn;
+
     private bool debug = false;
 
-    public bool travelingToFarm = false;
+    public bool destinationIsFarm = false;
+    public bool destinationIsBarn = false;
+    public bool destinationIsCity = false;
 
     void Log(string s)
     {
@@ -31,22 +35,44 @@ class Farmer : NonPlayableCharacter
         this.inventory.items = new Dictionary<TradeItem, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.farmOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FarmOracle>();
+        destinationIsCity = true;
     }
 
     void Update()
     {
-        if (! GetComponent<CharacterMovement>().isInTransit())
+        if (!GetComponent<CharacterMovement>().isInTransit())
         {
-            if (! travelingToFarm)
+            if (destinationIsCity)
             {
+                destinationIsCity = false;
                 SellGoods(this.tradeOracle);
                 FindFarmAndSetDestination(this.farmOracle);
-                travelingToFarm = true;
+                destinationIsFarm = true;
             }
-            else
+            else if (destinationIsFarm)
             {
+                destinationIsFarm = false;
+
                 FarmAction();
-                travelingToFarm = false;
+
+                GetComponent<CharacterMovement>().destination = destinationBarn.gameObject.GetComponent<NavigationWaypoint>();
+                destinationIsBarn = true;
+                return;
+            }
+            else if (destinationIsBarn)
+            {
+                destinationIsBarn = false;
+                Dictionary<TradeItem, int> peek = inventory.SeeContents();
+                foreach(TradeItem key in peek.Keys)
+                {
+                    if (key.Type == ItemType.WHEAT)
+                    {
+                        destinationBarn.Deposit(key);
+                        inventory.Remove(key);
+                    }
+                }
+                destinationIsFarm = true;
+                GetComponent<CharacterMovement>().destination = destinationFarm.gameObject.GetComponent<NavigationWaypoint>();
             }
         }
     }
@@ -56,8 +82,10 @@ class Farmer : NonPlayableCharacter
         Log("Start FindFarmAndSetDestination");
         
         destinationFarm = oracle.WhereShouldIFarm(baseCity);
+        destinationBarn = oracle.WhereShouldIBarn(baseCity);
 
         Log("Destination farm:" + destinationFarm);
+        Log("Destination barn:" + destinationBarn);
 
         GetComponent<CharacterMovement>().destination = destinationFarm.gameObject.GetComponent<NavigationWaypoint>();
         Log("End FindFarmAndSetDestination");
@@ -98,8 +126,6 @@ class Farmer : NonPlayableCharacter
         workedItem.Type = result;
         workedItem.PurchasedPrice = 0;
 
-        inventory.items.Add(workedItem, 1);
-
-        GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+        inventory.Add(workedItem);
     }
 }

@@ -7,6 +7,16 @@ public class TradeMarketPlace : MonoBehaviour
     public List<TradeData> TradeDataManifest;
     public List<TradeRoute> TradeRoutes;
 
+    private bool debug = false;
+
+    void Log(string s)
+    {
+        if (debug)
+        {
+            Debug.Log("TradeMarketPlace log <" + s + ">");
+        }
+    }
+
     public int BuyThese(Dictionary<TradeItem, int> manifest)
     {
         int cost = 0;
@@ -16,6 +26,8 @@ public class TradeMarketPlace : MonoBehaviour
         {
             foreach(TradeData data in TradeDataManifest)
             {
+                Log("data:" + data.Item);
+                Log("good:" + good.Type);
                 if (good.Type == data.Item)
                 {
                     cost += data.CurrentCost();
@@ -30,11 +42,6 @@ public class TradeMarketPlace : MonoBehaviour
                 }
             }
         }
-
-        /*foreach (KeyValuePair<TradeData, int> kvp in trades)
-        {
-            kvp.Key.CurrentAmount -= kvp.Value;
-        }*/
 
         return cost;
     }

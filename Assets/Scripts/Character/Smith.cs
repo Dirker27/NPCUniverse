@@ -13,10 +13,13 @@ class Smith : NonPlayableCharacter
     public TradeCity baseCity;
 
     public Foundry destinationFoundry;
+    public OreShop destinationOreShop;
 
     private bool debug = false;
 
-    public bool travelingToSmith = false;
+    public bool destinationIsBaseCity = false;
+    public bool destinationIsFoundry = false;
+    public bool destinationIsOreShop = false;
 
     void Log(string s)
     {
@@ -31,22 +34,58 @@ class Smith : NonPlayableCharacter
         this.inventory.items = new Dictionary<TradeItem, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.foundryOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FoundryOracle>();
+
+        destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (!travelingToSmith)
+            if (destinationIsBaseCity)
             {
+                destinationIsBaseCity = false;
+
                 SellGoods(this.tradeOracle);
                 FindSmithAndSetDestination(this.foundryOracle);
-                travelingToSmith = true;
+
+                destinationIsFoundry = true;
+                GetComponent<CharacterMovement>().destination = destinationFoundry.gameObject.GetComponent<NavigationWaypoint>();
             }
-            else
+            else if (destinationIsFoundry)
             {
+                destinationIsFoundry = false;
+
                 FoundryAction();
-                travelingToSmith = false;
+
+                destinationIsOreShop = true;
+                GetComponent<CharacterMovement>().destination = destinationOreShop.gameObject.GetComponent<NavigationWaypoint>();
+            }
+            else if (destinationIsOreShop)
+            {
+                destinationIsOreShop = false;
+                Inventory magazine = destinationOreShop.PeekContents();
+                Dictionary<TradeItem, int> contents = magazine.SeeContents();
+
+                TradeItem ore = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+                bool foundOre = false;
+                foreach(TradeItem item in contents.Keys)
+                {
+                    if (item.Type == ItemType.RAWGOOD)
+                    {
+                        ore.Type = item.Type;
+                        ore.PurchasedPrice = item.PurchasedPrice;
+                        foundOre = true;
+                    }
+                }
+                if (foundOre)
+                {
+                    inventory.Add(ore);
+                    destinationOreShop.Withdraw(ore);
+                }
+
+                destinationIsFoundry = true;
+                GetComponent<CharacterMovement>().destination = destinationFoundry.gameObject.GetComponent<NavigationWaypoint>();
             }
         }
     }
@@ -56,25 +95,10 @@ class Smith : NonPlayableCharacter
         Log("Start FindSmithAndSetDestination");
         
         destinationFoundry = oracle.WhereShouldISmith(baseCity);
+        destinationOreShop = oracle.WhereShouldIShop(baseCity);
 
         Log("Destination smith:" + destinationFoundry);
-
-        Dictionary<TradeItem, int> oreToWork = new Dictionary<TradeItem,int>();
-        TradeItem ore = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
-        ore.Type = ItemType.RAWGOOD;
-
-        oreToWork.Add(ore, 1);
-
-        Log("Starting currency:" + inventory.currency);
-        inventory.currency -= baseCity.MarketPlace.BuyThese(oreToWork);
-        Log("After trade currency:" + inventory.currency);
-
         
-        Log("Items before purchase:" + TradeItem.ListToString(inventory.items));
-        inventory.items.Add(ore, 1);
-        Log("Items after purchase:" + TradeItem.ListToString(inventory.items));
-
-        GetComponent<CharacterMovement>().destination = destinationFoundry.gameObject.GetComponent<NavigationWaypoint>();
         Log("End FindSmithAndSetDestination");
     }
 

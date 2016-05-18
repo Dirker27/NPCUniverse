@@ -18,6 +18,11 @@ public class FoundryOracle : MonoBehaviour
         return currentCity.Foundries[0];
     }
 
+    public OreShop WhereShouldIShop(TradeCity currentCity)
+    {
+        return currentCity.OreShops[0];
+    }
+
     public TradeOrders WhatShouldISell(TradeCity currentCity, Dictionary<TradeItem, int> manifest)
     {
         Dictionary<TradeItem, int> toSell = new Dictionary<TradeItem, int>();

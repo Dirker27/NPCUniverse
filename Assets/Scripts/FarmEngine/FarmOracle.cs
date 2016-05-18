@@ -18,6 +18,11 @@ public class FarmOracle : MonoBehaviour
         return currentCity.Farms[0];
     }
 
+    public Barn WhereShouldIBarn(TradeCity currentCity)
+    {
+        return currentCity.Barns[0];
+    }
+
     public TradeOrders WhatShouldISell(TradeCity currentCity, Dictionary<TradeItem, int> manifest)
     {
         Dictionary<TradeItem, int> toSell = new Dictionary<TradeItem,int>();
