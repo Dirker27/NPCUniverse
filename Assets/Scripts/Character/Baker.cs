@@ -4,36 +4,37 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-class Smith : NonPlayableCharacter
+class Baker : NonPlayableCharacter
 {
     private Inventory inventory;
-    private FoundryOracle foundryOracle;
+    private BakerOracle bakerOracle;
     private TradeOracle tradeOracle;
 
     public TradeCity baseCity;
 
-    public Foundry destinationFoundry;
-    public OreShop destinationOreShop;
+    public Bakery destinationBakery;
+    public Mill destinationMill;
 
     private bool debug = false;
 
     public bool destinationIsBaseCity = false;
-    public bool destinationIsFoundry = false;
-    public bool destinationIsOreShop = false;
+    public bool destinationIsBakery = false;
+    public bool destinationIsMill = false;
 
     void Log(string s)
     {
         if (debug)
         {
-            Debug.Log("Smith log <" + s + ">");
+            Debug.Log("Baker log <" + s + ">");
         }
     }
+
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
         this.inventory.items = new Dictionary<TradeItem, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
-        this.foundryOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FoundryOracle>();
+        this.bakerOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<BakerOracle>();
 
         destinationIsBaseCity = true;
     }
@@ -46,60 +47,59 @@ class Smith : NonPlayableCharacter
             {
                 destinationIsBaseCity = false;
 
-                SellGoods(this.tradeOracle);
-                FindSmithAndSetDestination(this.foundryOracle);
+                FindBakeryAndSetDestination(this.bakerOracle);
 
-                destinationIsOreShop = true;
-                GetComponent<CharacterMovement>().destination = destinationOreShop.gameObject.GetComponent<NavigationWaypoint>();
+                destinationIsMill = true;
+                GetComponent<CharacterMovement>().destination = destinationMill.gameObject.GetComponent<NavigationWaypoint>();
             }
-            else if (destinationIsFoundry)
+            else if (destinationIsBakery)
             {
-                destinationIsFoundry = false;
+                destinationIsBakery = false;
 
-                FoundryAction();
+                BakeAction();
 
-                destinationIsOreShop = true;
-                GetComponent<CharacterMovement>().destination = destinationOreShop.gameObject.GetComponent<NavigationWaypoint>();
+                destinationIsMill = true;
+                GetComponent<CharacterMovement>().destination = destinationMill.gameObject.GetComponent<NavigationWaypoint>();
             }
-            else if (destinationIsOreShop)
+            else if (destinationIsMill)
             {
-                destinationIsOreShop = false;
-                Inventory magazine = destinationOreShop.PeekContents();
+                destinationIsMill = false;
+                Inventory magazine = destinationMill.PeekContents();
                 Dictionary<TradeItem, int> contents = magazine.SeeContents();
 
-                TradeItem ore = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
-                bool foundOre = false;
+                TradeItem flour = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+                bool foundFlour = false;
                 foreach(TradeItem item in contents.Keys)
                 {
-                    if (item.Type == ItemType.RAWGOOD)
+                    if (item.Type == ItemType.FLOUR)
                     {
-                        ore.Type = item.Type;
-                        ore.PurchasedPrice = item.PurchasedPrice;
-                        foundOre = true;
+                        flour.Type = item.Type;
+                        flour.PurchasedPrice = item.PurchasedPrice;
+                        foundFlour = true;
                     }
                 }
-                if (foundOre)
+                if (foundFlour)
                 {
-                    inventory.Add(ore);
-                    destinationOreShop.Withdraw(ore);
+                    inventory.Add(flour);
+                    destinationMill.Withdraw(flour);
                 }
 
-                destinationIsFoundry = true;
-                GetComponent<CharacterMovement>().destination = destinationFoundry.gameObject.GetComponent<NavigationWaypoint>();
+                destinationIsBakery = true;
+                GetComponent<CharacterMovement>().destination = destinationBakery.gameObject.GetComponent<NavigationWaypoint>();
             }
         }
     }
 
-    public void FindSmithAndSetDestination(FoundryOracle oracle)
+    public void FindBakeryAndSetDestination(BakerOracle oracle)
     {
-        Log("Start FindSmithAndSetDestination");
+        Log("Start FindBakeryAndSetDestination");
         
-        destinationFoundry = oracle.WhereShouldISmith(baseCity);
-        destinationOreShop = oracle.WhereShouldIShop(baseCity);
+        destinationBakery = oracle.WhereShouldIBake(baseCity);
+        destinationMill = oracle.WhereShouldIMill(baseCity);
 
-        Log("Destination smith:" + destinationFoundry);
+        Log("Destination baker:" + destinationBakery);
         
-        Log("End FindSmithAndSetDestination");
+        Log("End FindBakeryAndSetDestination");
     }
 
     public void SellGoods(TradeOracle oracle)
@@ -128,21 +128,21 @@ class Smith : NonPlayableCharacter
         Log("End SellGoods");
     }
 
-    public void FoundryAction()
+    public void BakeAction()
     {
-        Log("Start FoundryAction at " + destinationFoundry);
+        Log("Start BakeAction at " + destinationMill);
         foreach (TradeItem item in inventory.items.Keys)
         {
-            if (item.Type == ItemType.RAWGOOD)
+            if (item.Type == ItemType.WHEAT)
             {
                 
-                TradeItem ore = item;
+                TradeItem wheat = item;
 
-                ItemType result = destinationFoundry.WorkFoundry(ore);
+                ItemType result = destinationBakery.WorkBakery(wheat);
                 Log("Item received is :" + result);
 
                 Log("Items before removal:" + TradeItem.ListToString(inventory.items));
-                inventory.Remove(ore);
+                inventory.Remove(wheat);
                 Log("Items after removal:" + TradeItem.ListToString(inventory.items));
 
 
@@ -155,8 +155,9 @@ class Smith : NonPlayableCharacter
                 inventory.Add(workedItem);
                 Log("Items after add:" + TradeItem.ListToString(inventory.items));
 
-                destinationFoundry.Deposit(workedItem);
-                GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+                destinationBakery.Deposit(workedItem);
+
+                GetComponent<CharacterMovement>().destination = destinationMill.gameObject.GetComponent<NavigationWaypoint>();
                 Log("End FoundryAction");
 
                 return;

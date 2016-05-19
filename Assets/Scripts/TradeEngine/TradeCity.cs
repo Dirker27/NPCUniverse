@@ -8,6 +8,8 @@ public class TradeCity : MonoBehaviour
     public TradeMarketPlace MarketPlace;
     public List<Farm> Farms;
     public List<Barn> Barns;
+    public List<Mill> Mills;
+    public List<Bakery> Bakeries;
     public List<Mine> Mines;
     public List<OreShop> OreShops;
     public List<Foundry> Foundries;

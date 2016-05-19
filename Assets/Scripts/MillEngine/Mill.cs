@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Barn : MonoBehaviour
+public class Mill : MonoBehaviour
 {
+    public ItemType produces;
+
     private Inventory inventory;
 
     private bool debug = false;
@@ -12,7 +14,7 @@ public class Barn : MonoBehaviour
     {
         if (debug)
         {
-            Debug.Log("Barn log <" + s + ">");
+            Debug.Log("Mill log <" + s + ">");
         }
     }
 
@@ -42,6 +44,11 @@ public class Barn : MonoBehaviour
         Inventory toReturn = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Inventory>();
         toReturn.InventorySet(inventory);
         return toReturn;
+    }
+
+    public ItemType WorkMill(TradeItem input)
+    {
+        return produces;
     }
 }
 

@@ -85,7 +85,7 @@ public class Inventory : MonoBehaviour
         return new Dictionary<TradeItem, int>(items);
     }
 
-    public string ToString()
+    public override string ToString()
     {
         string result = "Inventory [";
 
