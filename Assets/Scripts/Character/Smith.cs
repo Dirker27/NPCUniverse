@@ -119,7 +119,7 @@ class Smith : NonPlayableCharacter
             {
                 if (sold == toRemove)
                 {
-                    inventory.items.Remove(toRemove);
+                    inventory.Remove(toRemove);
                     break;
                 }
             }
@@ -142,7 +142,7 @@ class Smith : NonPlayableCharacter
                 Log("Item received is :" + result);
 
                 Log("Items before removal:" + TradeItem.ListToString(inventory.items));
-                inventory.items.Remove(ore);
+                inventory.Remove(ore);
                 Log("Items after removal:" + TradeItem.ListToString(inventory.items));
 
 
@@ -152,7 +152,7 @@ class Smith : NonPlayableCharacter
                 workedItem.PurchasedPrice = 0;
 
                 Log("Items before add:" + TradeItem.ListToString(inventory.items));
-                inventory.items.Add(workedItem, 1);
+                inventory.Add(workedItem);
                 Log("Items after add:" + TradeItem.ListToString(inventory.items));
 
                 GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();

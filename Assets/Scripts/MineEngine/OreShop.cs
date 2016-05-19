@@ -6,7 +6,7 @@ public class OreShop : MonoBehaviour
 {
     private Inventory inventory;
 
-    private bool debug = true;
+    private bool debug = false;
 
     void Log(string s)
     {

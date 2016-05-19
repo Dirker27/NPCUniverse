@@ -7,7 +7,7 @@ public class Inventory : MonoBehaviour
     public int currency;
     public Dictionary<TradeItem, int> items;
 
-    private bool debug = true;
+    private bool debug = false;
 
     void Log(string s)
     {

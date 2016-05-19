@@ -8,7 +8,7 @@ public class TradeItem : MonoBehaviour
     public ItemType Type;
     public int PurchasedPrice;
 
-    private bool debug = true;
+    private bool debug = false;
 
     void Log(string s)
     {
@@ -60,9 +60,12 @@ public class TradeItem : MonoBehaviour
         return (this.Type == other.Type) && (this.PurchasedPrice == other.PurchasedPrice);
     }
 
-    public int GetHashCode(TradeItem hash)
+    public override int GetHashCode()
     {
-        return hash.Type.GetHashCode() + hash.PurchasedPrice.GetHashCode();
+        int hash = 13;
+        hash = (hash * 7) + this.Type.GetHashCode();
+        hash = (hash * 7) + this.PurchasedPrice.GetHashCode();
+        return hash;
     }
 }
 
