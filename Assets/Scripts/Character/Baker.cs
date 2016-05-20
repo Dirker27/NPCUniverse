@@ -15,22 +15,17 @@ class Baker : NonPlayableCharacter
     public Bakery destinationBakery;
     public Mill destinationMill;
 
-    private bool debug = false;
+    public Logger logger;
+    private bool debug = true;
 
     public bool destinationIsBaseCity = false;
     public bool destinationIsBakery = false;
     public bool destinationIsMill = false;
 
-    void Log(string s)
-    {
-        if (debug)
-        {
-            Debug.Log("Baker log <" + s + ">");
-        }
-    }
-
     void Start()
     {
+        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
+
         this.inventory = GetComponent<Inventory>();
         this.inventory.items = new Dictionary<TradeItem, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
@@ -73,6 +68,7 @@ class Baker : NonPlayableCharacter
                 {
                     if (item.Type == ItemType.FLOUR)
                     {
+                        logger.Log(debug, "Found flour");
                         flour.Type = item.Type;
                         flour.PurchasedPrice = item.PurchasedPrice;
                         foundFlour = true;
@@ -92,27 +88,25 @@ class Baker : NonPlayableCharacter
 
     public void FindBakeryAndSetDestination(BakerOracle oracle)
     {
-        Log("Start FindBakeryAndSetDestination");
+        logger.Log(debug, "Start FindBakeryAndSetDestination");
         
         destinationBakery = oracle.WhereShouldIBake(baseCity);
         destinationMill = oracle.WhereShouldIMill(baseCity);
 
-        Log("Destination baker:" + destinationBakery);
-        
-        Log("End FindBakeryAndSetDestination");
+        logger.Log(debug, "End FindBakeryAndSetDestination");
     }
 
     public void SellGoods(TradeOracle oracle)
     {
-        Log("Start SellGoods at " + baseCity);
+        logger.Log(debug, "Start SellGoods at " + baseCity);
         TradeOrders orders = oracle.WhatShouldISell(baseCity, inventory.items);
 
-        Log("Before trade currency:" + inventory.currency);
+        logger.Log(debug, "Before trade currency:" + inventory.currency);
         inventory.currency += baseCity.MarketPlace.SellThese(orders.Manifests);
-        Log("After trade currency:" + inventory.currency);
+        logger.Log(debug, "After trade currency:" + inventory.currency);
 
-        Log("Items before sale:" + TradeItem.ListToString(inventory.items));
-        Log("Items to sell:" + TradeItem.ListToString(orders.Manifests));
+        logger.Log(debug, "Items before sale:" + TradeItem.ListToString(inventory.items));
+        logger.Log(debug, "Items to sell:" + TradeItem.ListToString(orders.Manifests));
         foreach (TradeItem sold in orders.Manifests.Keys)
         {
             foreach (TradeItem toRemove in inventory.items.Keys)
@@ -124,26 +118,27 @@ class Baker : NonPlayableCharacter
                 }
             }
         }
-        Log("Items after sale:" + TradeItem.ListToString(inventory.items));
-        Log("End SellGoods");
+        logger.Log(debug, "Items after sale:" + TradeItem.ListToString(inventory.items));
+        logger.Log(debug, "End SellGoods");
     }
 
     public void BakeAction()
     {
-        Log("Start BakeAction at " + destinationMill);
+        logger.Log(debug, "Start BakeAction at " + destinationBakery);
         foreach (TradeItem item in inventory.items.Keys)
         {
-            if (item.Type == ItemType.WHEAT)
+            logger.Log(debug, "Item is: " + item.Type);
+            if (item.Type == ItemType.FLOUR)
             {
                 
                 TradeItem wheat = item;
 
                 ItemType result = destinationBakery.WorkBakery(wheat);
-                Log("Item received is :" + result);
+                logger.Log(debug, "Item received is :" + result);
 
-                Log("Items before removal:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items before removal:" + TradeItem.ListToString(inventory.items));
                 inventory.Remove(wheat);
-                Log("Items after removal:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items after removal:" + TradeItem.ListToString(inventory.items));
 
 
                 TradeItem workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
@@ -151,18 +146,18 @@ class Baker : NonPlayableCharacter
                 workedItem.Type = result;
                 workedItem.PurchasedPrice = 0;
 
-                Log("Items before add:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items before add:" + TradeItem.ListToString(inventory.items));
                 inventory.Add(workedItem);
-                Log("Items after add:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items after add:" + TradeItem.ListToString(inventory.items));
 
                 destinationBakery.Deposit(workedItem);
 
                 GetComponent<CharacterMovement>().destination = destinationMill.gameObject.GetComponent<NavigationWaypoint>();
-                Log("End FoundryAction");
+                
 
                 return;
             }
-
+            logger.Log(debug, "End BakeryAction");
         }        
     }
 }

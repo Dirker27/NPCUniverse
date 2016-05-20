@@ -2,39 +2,34 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Barn : MonoBehaviour
+public class BaseBuilding : MonoBehaviour
 {
-    private Inventory inventory;
+    public Inventory inventory;
 
-    private bool debug = false;
+    public Logger logger;
+    public bool debug = false;
 
-    void Log(string s)
+
+    public void Start()
     {
-        if (debug)
-        {
-            Debug.Log("Barn log <" + s + ">");
-        }
-    }
-
-    void Start()
-    {
+        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
         this.inventory = GetComponent<Inventory>();
         this.inventory.items = new Dictionary<TradeItem, int>();
     }
 
     public void Deposit(TradeItem deposit)
     {
-        Log("Deposit before: " + inventory.ToString());
+        logger.Log(debug, "Deposit before: " + inventory.ToString());
         inventory.Add(deposit);
-        Log("Deposit after: " + inventory.ToString());
+        logger.Log(debug, "Deposit after: " + inventory.ToString());
     }
 
     public void Withdraw(TradeItem toWithDraw)
     {
-        Log("To withdraw" + toWithDraw.ToString());
-        Log("Withdraw before: " + inventory.items.Count);
+        logger.Log(debug, "To withdraw" + toWithDraw.ToString());
+        logger.Log(debug, "Withdraw before: " + inventory.ToString());
         inventory.Remove(toWithDraw);
-        Log("Withdraw after: " + inventory.items.Count);
+        logger.Log(debug, "Withdraw after: " + inventory.ToString());
     }
 
     public Inventory PeekContents()

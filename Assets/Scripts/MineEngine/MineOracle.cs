@@ -3,14 +3,12 @@ using System.Collections.Generic;
 
 public class MineOracle : MonoBehaviour
 {
+    public Logger logger;
     private bool debug = false;
 
-    void Log(string s)
+    void Start()
     {
-        if (debug)
-        {
-            Debug.Log("MineOracle log <" + s + ">");
-        }
+        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
     }
 
     public Mine WhereShouldIMine(TradeCity currentCity)
@@ -43,11 +41,11 @@ public class MineOracle : MonoBehaviour
                         {
                             toSell.Add(item, 1);
                         }
-                        Log("Decided to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a profit of " + (item.PurchasedPrice - data.CurrentCost()));
+                        logger.Log(debug, "Decided to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a profit of " + (item.PurchasedPrice - data.CurrentCost()));
                     }
                     else
                     {
-                        Log("Decided not to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a loss of " + (data.CurrentCost() - item.PurchasedPrice));
+                        logger.Log(debug, "Decided not to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a loss of " + (data.CurrentCost() - item.PurchasedPrice));
                     }
                 }
             }
