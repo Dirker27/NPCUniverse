@@ -2,18 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Bakery : BaseBuilding
+public class CharcoalPit : BaseBuilding
 {
     public ItemType produces;
 
     public void Start()
     {
         base.Start();
-        this.produces = ItemType.BREAD;
-        this.debug = false;
+        this.produces = ItemType.CHARCOAL;
+        this.debug = true;
     }
 
-    public ItemType WorkBakery(TradeItem input)
+    public ItemType WorkCharcoalHouse(TradeItem input)
     {
         logger.Log(debug, "Being worked");
         return this.produces;

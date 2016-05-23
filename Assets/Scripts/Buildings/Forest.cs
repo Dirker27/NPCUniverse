@@ -2,18 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Bakery : BaseBuilding
+public class Forest : BaseBuilding
 {
     public ItemType produces;
 
     public void Start()
     {
         base.Start();
-        this.produces = ItemType.BREAD;
+        this.produces = ItemType.LOG;
         this.debug = false;
     }
 
-    public ItemType WorkBakery(TradeItem input)
+    public ItemType WorkForest()
     {
         logger.Log(debug, "Being worked");
         return this.produces;

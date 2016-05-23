@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BakerOracle : MonoBehaviour
+public class ForesterOracle : MonoBehaviour
 {
     private bool debug = false;
 
@@ -13,13 +13,13 @@ public class BakerOracle : MonoBehaviour
         }
     }
 
-    public Bakery WhereShouldIBake(TradeCity currentCity)
+    public Forest WhereShouldICut(TradeCity currentCity)
     {
-        return currentCity.Bakeries[0];
+        return currentCity.Forests[0];
     }
 
-    public Mill WhereShouldIMill(TradeCity currentCity)
+    public LogStore WhereShouldIStore(TradeCity currentCity)
     {
-        return currentCity.Mills[0];
+        return currentCity.LogStores[0];
     }
 }

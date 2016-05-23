@@ -16,7 +16,7 @@ class Baker : NonPlayableCharacter
     public Mill destinationMill;
 
     public Logger logger;
-    private bool debug = true;
+    private bool debug = false;
 
     public bool destinationIsBaseCity = false;
     public bool destinationIsBakery = false;

@@ -9,4 +9,7 @@ public enum ItemType
     MEAD,
     RAWGOOD,
     PROCESSEDGOOD,
+    LOG,
+    FIREWOOD,
+    CHARCOAL,
 }

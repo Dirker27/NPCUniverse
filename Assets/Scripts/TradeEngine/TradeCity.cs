@@ -13,4 +13,8 @@ public class TradeCity : MonoBehaviour
     public List<Mine> Mines;
     public List<OreShop> OreShops;
     public List<Foundry> Foundries;
+    public List<Forest> Forests;
+    public List<WoodCut> WoodCuts;
+    public List<CharcoalPit> CharcoalPits;
+    public List<LogStore> LogStores;
 }
