@@ -13,7 +13,7 @@ public class WoodCut : BaseBuilding
         this.debug = false;
     }
 
-    public ItemType WorkWoodCut(TradeItem input)
+    public ItemType WorkWoodCut(Item input)
     {
         logger.Log(debug, "Being worked");
         return this.produces;

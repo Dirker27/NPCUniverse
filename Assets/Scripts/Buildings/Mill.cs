@@ -13,7 +13,7 @@ public class Mill : BaseBuilding
         this.debug = false;
     }
 
-    public ItemType WorkMill(TradeItem input)
+    public ItemType WorkMill(Item input)
     {
         logger.Log(debug, "Being worked");
         return this.produces;

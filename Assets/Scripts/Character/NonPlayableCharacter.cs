@@ -4,7 +4,6 @@ using System.Collections;
 public class NonPlayableCharacter : MonoBehaviour
 {
     public int health;
-    private NonPlayableCharacter lovedOne;
 
     // Use this for initialization
 	void Start () 

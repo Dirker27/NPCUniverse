@@ -32,7 +32,7 @@ class Forester : NonPlayableCharacter
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<TradeItem, int>();
+        this.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.foresterOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ForesterOracle>();
         destinationIsCity = true;
@@ -61,8 +61,8 @@ class Forester : NonPlayableCharacter
             else if (destinationIsLogStore)
             {
                 destinationIsLogStore = false;
-                Dictionary<TradeItem, int> peek = inventory.SeeContents();
-                foreach(TradeItem key in peek.Keys)
+                Dictionary<Item, int> peek = inventory.SeeContents();
+                foreach(Item key in peek.Keys)
                 {
                     if (key.Type == ItemType.LOG)
                     {
@@ -94,7 +94,7 @@ class Forester : NonPlayableCharacter
     {
         ItemType result = destinationForest.WorkForest();
 
-        TradeItem workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+        Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
 
         workedItem.Type = result;
         workedItem.PurchasedPrice = 0;

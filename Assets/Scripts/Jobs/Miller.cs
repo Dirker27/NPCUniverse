@@ -25,7 +25,7 @@ class Miller : NonPlayableCharacter
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<TradeItem, int>();
+        this.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.millOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MillOracle>();
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
@@ -59,11 +59,11 @@ class Miller : NonPlayableCharacter
             {
                 destinationIsBarn = false;
                 Inventory magazine = destinationBarn.PeekContents();
-                Dictionary<TradeItem, int> contents = magazine.SeeContents();
+                Dictionary<Item, int> contents = magazine.SeeContents();
 
-                TradeItem wheat = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+                Item wheat = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
                 bool foundWheat = false;
-                foreach(TradeItem item in contents.Keys)
+                foreach(Item item in contents.Keys)
                 {
                     if (item.Type == ItemType.WHEAT)
                     {
@@ -100,29 +100,29 @@ class Miller : NonPlayableCharacter
     public void MillAction()
     {
         logger.Log(debug, "Start MillAction at " + destinationMill);
-        foreach (TradeItem item in inventory.items.Keys)
+        foreach (Item item in inventory.items.Keys)
         {
             if (item.Type == ItemType.WHEAT)
             {
                 
-                TradeItem wheat = item;
+                Item wheat = item;
 
                 ItemType result = destinationMill.WorkMill(wheat);
                 logger.Log(debug, "Item received is :" + result);
 
-                logger.Log(debug, "Items before removal:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items before removal:" + Item.ListToString(inventory.items));
                 inventory.Remove(wheat);
-                logger.Log(debug, "Items after removal:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items after removal:" + Item.ListToString(inventory.items));
 
 
-                TradeItem workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+                Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
 
                 workedItem.Type = result;
                 workedItem.PurchasedPrice = 0;
 
-                logger.Log(debug, "Items before add:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items before add:" + Item.ListToString(inventory.items));
                 inventory.Add(workedItem);
-                logger.Log(debug, "Items after add:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items after add:" + Item.ListToString(inventory.items));
 
                 inventory.Remove(workedItem);
                 destinationMill.Deposit(workedItem);

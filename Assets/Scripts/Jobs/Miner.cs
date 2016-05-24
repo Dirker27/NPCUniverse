@@ -31,7 +31,7 @@ class Miner : NonPlayableCharacter
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<TradeItem, int>();
+        this.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.mineOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MineOracle>();
         destinationIsBaseCity = true;
@@ -60,10 +60,10 @@ class Miner : NonPlayableCharacter
             {
                 destinationIsOreShop = false;
 
-                Dictionary<TradeItem, int> peek = inventory.SeeContents();
-                foreach (TradeItem key in peek.Keys)
+                Dictionary<Item, int> peek = inventory.SeeContents();
+                foreach (Item key in peek.Keys)
                 {
-                    if (key.Type == ItemType.RAWGOOD)
+                    if (key.Type == ItemType.ORE)
                     {
                         destinationOreShop.Deposit(key);
                         inventory.Remove(key);
@@ -97,11 +97,11 @@ class Miner : NonPlayableCharacter
         inventory.currency += baseCity.MarketPlace.SellThese(orders.Manifests);
         Log("After trade currency:" + inventory.currency);
 
-        Log("Items before sale:" + TradeItem.ListToString(inventory.items));
-        Log("Items to sell:" + TradeItem.ListToString(orders.Manifests));
-        foreach (TradeItem sold in orders.Manifests.Keys)
+        Log("Items before sale:" + Item.ListToString(inventory.items));
+        Log("Items to sell:" + Item.ListToString(orders.Manifests));
+        foreach (Item sold in orders.Manifests.Keys)
         {
-            foreach (TradeItem toRemove in inventory.items.Keys)
+            foreach (Item toRemove in inventory.items.Keys)
             {
                 if (sold == toRemove)
                 {
@@ -110,7 +110,7 @@ class Miner : NonPlayableCharacter
                 }
             }
         }
-        Log("Items after sale:" + TradeItem.ListToString(inventory.items));
+        Log("Items after sale:" + Item.ListToString(inventory.items));
         Log("End SellGoods");
     }
 
@@ -118,7 +118,7 @@ class Miner : NonPlayableCharacter
     {
         ItemType result = destinationMine.WorkMine();
 
-        TradeItem workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+        Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
 
         workedItem.Type = result;
         workedItem.PurchasedPrice = 0;

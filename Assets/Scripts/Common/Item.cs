@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TradeItem : MonoBehaviour
+public class Item : MonoBehaviour
 {
 
     public ItemType Type;
@@ -18,13 +18,13 @@ public class TradeItem : MonoBehaviour
         }
     }
 
-    public static string ListToString(Dictionary<TradeItem,int> items)
+    public static string ListToString(Dictionary<Item,int> items)
     {
         string output = "(";
 
         if (items != null)
         {
-            foreach (TradeItem item in items.Keys)
+            foreach (Item item in items.Keys)
             {
                 output += "[" + item.ToString() + " : " + items[item] + " ";
             }
@@ -48,7 +48,7 @@ public class TradeItem : MonoBehaviour
             return false;
         }
 
-        TradeItem other = o as TradeItem;
+        Item other = o as Item;
         if ((object)other == null)
         {
             return false;

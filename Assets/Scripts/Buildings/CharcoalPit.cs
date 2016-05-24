@@ -13,7 +13,7 @@ public class CharcoalPit : BaseBuilding
         this.debug = true;
     }
 
-    public ItemType WorkCharcoalHouse(TradeItem input)
+    public ItemType WorkCharcoalHouse(Item input)
     {
         logger.Log(debug, "Being worked");
         return this.produces;

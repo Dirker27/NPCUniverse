@@ -13,7 +13,7 @@ public class Bakery : BaseBuilding
         this.debug = false;
     }
 
-    public ItemType WorkBakery(TradeItem input)
+    public ItemType WorkBakery(Item input)
     {
         logger.Log(debug, "Being worked");
         return this.produces;

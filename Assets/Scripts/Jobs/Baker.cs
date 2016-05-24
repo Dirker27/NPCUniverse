@@ -27,7 +27,7 @@ class Baker : NonPlayableCharacter
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
 
         this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<TradeItem, int>();
+        this.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.bakerOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<BakerOracle>();
 
@@ -60,11 +60,11 @@ class Baker : NonPlayableCharacter
             {
                 destinationIsMill = false;
                 Inventory magazine = destinationMill.PeekContents();
-                Dictionary<TradeItem, int> contents = magazine.SeeContents();
+                Dictionary<Item, int> contents = magazine.SeeContents();
 
-                TradeItem flour = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+                Item flour = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
                 bool foundFlour = false;
-                foreach(TradeItem item in contents.Keys)
+                foreach(Item item in contents.Keys)
                 {
                     if (item.Type == ItemType.FLOUR)
                     {
@@ -105,11 +105,11 @@ class Baker : NonPlayableCharacter
         inventory.currency += baseCity.MarketPlace.SellThese(orders.Manifests);
         logger.Log(debug, "After trade currency:" + inventory.currency);
 
-        logger.Log(debug, "Items before sale:" + TradeItem.ListToString(inventory.items));
-        logger.Log(debug, "Items to sell:" + TradeItem.ListToString(orders.Manifests));
-        foreach (TradeItem sold in orders.Manifests.Keys)
+        logger.Log(debug, "Items before sale:" + Item.ListToString(inventory.items));
+        logger.Log(debug, "Items to sell:" + Item.ListToString(orders.Manifests));
+        foreach (Item sold in orders.Manifests.Keys)
         {
-            foreach (TradeItem toRemove in inventory.items.Keys)
+            foreach (Item toRemove in inventory.items.Keys)
             {
                 if (sold == toRemove)
                 {
@@ -118,37 +118,37 @@ class Baker : NonPlayableCharacter
                 }
             }
         }
-        logger.Log(debug, "Items after sale:" + TradeItem.ListToString(inventory.items));
+        logger.Log(debug, "Items after sale:" + Item.ListToString(inventory.items));
         logger.Log(debug, "End SellGoods");
     }
 
     public void BakeAction()
     {
         logger.Log(debug, "Start BakeAction at " + destinationBakery);
-        foreach (TradeItem item in inventory.items.Keys)
+        foreach (Item item in inventory.items.Keys)
         {
             logger.Log(debug, "Item is: " + item.Type);
             if (item.Type == ItemType.FLOUR)
             {
                 
-                TradeItem wheat = item;
+                Item wheat = item;
 
                 ItemType result = destinationBakery.WorkBakery(wheat);
                 logger.Log(debug, "Item received is :" + result);
 
-                logger.Log(debug, "Items before removal:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items before removal:" + Item.ListToString(inventory.items));
                 inventory.Remove(wheat);
-                logger.Log(debug, "Items after removal:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items after removal:" + Item.ListToString(inventory.items));
 
 
-                TradeItem workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+                Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
 
                 workedItem.Type = result;
                 workedItem.PurchasedPrice = 0;
 
-                logger.Log(debug, "Items before add:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items before add:" + Item.ListToString(inventory.items));
                 inventory.Add(workedItem);
-                logger.Log(debug, "Items after add:" + TradeItem.ListToString(inventory.items));
+                logger.Log(debug, "Items after add:" + Item.ListToString(inventory.items));
 
                 destinationBakery.Deposit(workedItem);
 

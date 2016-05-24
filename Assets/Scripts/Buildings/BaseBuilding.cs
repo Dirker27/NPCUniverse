@@ -14,17 +14,17 @@ public class BaseBuilding : MonoBehaviour
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
         this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<TradeItem, int>();
+        this.inventory.items = new Dictionary<Item, int>();
     }
 
-    public void Deposit(TradeItem deposit)
+    public void Deposit(Item deposit)
     {
         logger.Log(debug, "Deposit before: " + inventory.ToString());
         inventory.Add(deposit);
         logger.Log(debug, "Deposit after: " + inventory.ToString());
     }
 
-    public void Withdraw(TradeItem toWithDraw)
+    public void Withdraw(Item toWithDraw)
     {
         logger.Log(debug, "To withdraw" + toWithDraw.ToString());
         logger.Log(debug, "Withdraw before: " + inventory.ToString());

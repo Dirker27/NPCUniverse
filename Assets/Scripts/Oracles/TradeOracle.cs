@@ -17,7 +17,7 @@ public class TradeOracle : MonoBehaviour
     {
         int bestProfit = 0;
 
-        TradeItem bestItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+        Item bestItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
         int canAffordOfBestItem = 0;
         TradeRoute bestRoute = avaliableTradeRoutes[0];
         int purchasedPrice = 0;
@@ -64,7 +64,7 @@ public class TradeOracle : MonoBehaviour
             }
         }
  
-        Dictionary<TradeItem, int> manifest = new Dictionary<TradeItem, int>();
+        Dictionary<Item, int> manifest = new Dictionary<Item, int>();
         bestItem.PurchasedPrice = purchasedPrice;
 
         manifest.Add(bestItem, canAffordOfBestItem);
@@ -77,15 +77,15 @@ public class TradeOracle : MonoBehaviour
         return tradeOrder;
     }
 
-    public TradeOrders WhatShouldISell(TradeCity currentCity, Dictionary<TradeItem,int> manifest)
+    public TradeOrders WhatShouldISell(TradeCity currentCity, Dictionary<Item,int> manifest)
     {
-        Dictionary<TradeItem, int> toSell = new Dictionary<TradeItem, int>();
+        Dictionary<Item, int> toSell = new Dictionary<Item, int>();
 
         foreach (TradeData data in currentCity.MarketPlace.TradeDataManifest)
         {
             if (manifest != null)
             {
-                foreach (TradeItem item in manifest.Keys)
+                foreach (Item item in manifest.Keys)
                 {
                     if (item.Type == data.Item)
                     {

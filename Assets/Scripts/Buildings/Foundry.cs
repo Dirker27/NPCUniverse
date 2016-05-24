@@ -9,11 +9,11 @@ public class Foundry : BaseBuilding
     public void Start()
     {
         base.Start();
-        this.produces = ItemType.PROCESSEDGOOD;
+        this.produces = ItemType.BAR;
         this.debug = false;
     }
 
-    public ItemType WorkFoundry(TradeItem input)
+    public ItemType WorkFoundry(Item input)
     {
         return produces;
     }

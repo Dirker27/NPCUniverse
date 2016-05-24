@@ -31,7 +31,7 @@ class Smith : NonPlayableCharacter
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<TradeItem, int>();
+        this.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.foundryOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FoundryOracle>();
 
@@ -65,13 +65,13 @@ class Smith : NonPlayableCharacter
             {
                 destinationIsOreShop = false;
                 Inventory magazine = destinationOreShop.PeekContents();
-                Dictionary<TradeItem, int> contents = magazine.SeeContents();
+                Dictionary<Item, int> contents = magazine.SeeContents();
 
-                TradeItem ore = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+                Item ore = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
                 bool foundOre = false;
-                foreach(TradeItem item in contents.Keys)
+                foreach(Item item in contents.Keys)
                 {
-                    if (item.Type == ItemType.RAWGOOD)
+                    if (item.Type == ItemType.ORE)
                     {
                         ore.Type = item.Type;
                         ore.PurchasedPrice = item.PurchasedPrice;
@@ -111,11 +111,11 @@ class Smith : NonPlayableCharacter
         inventory.currency += baseCity.MarketPlace.SellThese(orders.Manifests);
         Log("After trade currency:" + inventory.currency);
 
-        Log("Items before sale:" + TradeItem.ListToString(inventory.items));
-        Log("Items to sell:" + TradeItem.ListToString(orders.Manifests));
-        foreach (TradeItem sold in orders.Manifests.Keys)
+        Log("Items before sale:" + Item.ListToString(inventory.items));
+        Log("Items to sell:" + Item.ListToString(orders.Manifests));
+        foreach (Item sold in orders.Manifests.Keys)
         {
-            foreach (TradeItem toRemove in inventory.items.Keys)
+            foreach (Item toRemove in inventory.items.Keys)
             {
                 if (sold == toRemove)
                 {
@@ -124,36 +124,36 @@ class Smith : NonPlayableCharacter
                 }
             }
         }
-        Log("Items after sale:" + TradeItem.ListToString(inventory.items));
+        Log("Items after sale:" + Item.ListToString(inventory.items));
         Log("End SellGoods");
     }
 
     public void FoundryAction()
     {
         Log("Start FoundryAction at " + destinationFoundry);
-        foreach (TradeItem item in inventory.items.Keys)
+        foreach (Item item in inventory.items.Keys)
         {
-            if (item.Type == ItemType.RAWGOOD)
+            if (item.Type == ItemType.ORE)
             {
                 
-                TradeItem ore = item;
+                Item ore = item;
 
                 ItemType result = destinationFoundry.WorkFoundry(ore);
                 Log("Item received is :" + result);
 
-                Log("Items before removal:" + TradeItem.ListToString(inventory.items));
+                Log("Items before removal:" + Item.ListToString(inventory.items));
                 inventory.Remove(ore);
-                Log("Items after removal:" + TradeItem.ListToString(inventory.items));
+                Log("Items after removal:" + Item.ListToString(inventory.items));
 
 
-                TradeItem workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeItem>();
+                Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
 
                 workedItem.Type = result;
                 workedItem.PurchasedPrice = 0;
 
-                Log("Items before add:" + TradeItem.ListToString(inventory.items));
+                Log("Items before add:" + Item.ListToString(inventory.items));
                 inventory.Add(workedItem);
-                Log("Items after add:" + TradeItem.ListToString(inventory.items));
+                Log("Items after add:" + Item.ListToString(inventory.items));
 
                 destinationFoundry.Deposit(workedItem);
                 GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();

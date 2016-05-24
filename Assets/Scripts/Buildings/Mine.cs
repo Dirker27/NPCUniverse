@@ -9,7 +9,7 @@ public class Mine : BaseBuilding
     public void Start()
     {
         base.Start();
-        this.produces = ItemType.RAWGOOD;
+        this.produces = ItemType.ORE;
         this.debug = false;
     }
 
