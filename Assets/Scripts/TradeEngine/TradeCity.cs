@@ -17,4 +17,6 @@ public class TradeCity : MonoBehaviour
     public List<WoodCut> WoodCuts;
     public List<CharcoalPit> CharcoalPits;
     public List<LogStore> LogStores;
+    public List<Smithy> Smithies;
+    public List<GuildHall> GuildHalls;
 }
