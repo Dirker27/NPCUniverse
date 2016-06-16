@@ -15,6 +15,16 @@ public class FarmOracle : MonoBehaviour
         }
     }
 
+    /**
+     * Nathaniel Hates context and happiness
+     * 
+     * The Wheat farm is at [0] in Fort Kickass' Farm pool.
+     * The Barley farm is at [1] in Fort Kickass' Farm pool.
+     * 
+     * APPARENTLY this is our system.
+     * 
+     * ...wtf?
+     */
     public Farm WhereShouldIFarm(TradeCity currentCity)
     {
         if (ToWheat)
