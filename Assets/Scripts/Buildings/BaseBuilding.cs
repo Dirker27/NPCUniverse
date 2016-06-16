@@ -24,11 +24,11 @@ public class BaseBuilding : MonoBehaviour
         logger.Log(debug, "Deposit after: " + inventory.ToString());
     }
 
-    public void Withdraw(Item toWithDraw)
+    public void Withdraw(Item toWithdraw)
     {
-        logger.Log(debug, "To withdraw" + toWithDraw.ToString());
+        logger.Log(debug, "To withdraw" + toWithdraw.ToString());
         logger.Log(debug, "Withdraw before: " + inventory.ToString());
-        inventory.Remove(toWithDraw);
+        inventory.Remove(toWithdraw);
         logger.Log(debug, "Withdraw after: " + inventory.ToString());
     }
 
