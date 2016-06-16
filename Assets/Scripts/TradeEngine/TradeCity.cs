@@ -19,4 +19,5 @@ public class TradeCity : MonoBehaviour
     public List<LogStore> LogStores;
     public List<Smithy> Smithies;
     public List<GuildHall> GuildHalls;
+    public List<Brewhouse> Brewhouses;
 }

@@ -25,9 +25,10 @@ class ArmorSmith : NonPlayableCharacter
     {
         if (debug)
         {
-            Debug.Log("WeaponSmith log <" + s + ">");
+            Debug.Log("ArmorSmith log <" + s + ">");
         }
     }
+
     void Start()
     {
         this.inventory = GetComponent<Inventory>();
