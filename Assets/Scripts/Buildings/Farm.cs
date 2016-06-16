@@ -9,7 +9,6 @@ public class Farm : BaseBuilding
     public void Start()
     {
         base.Start();
-        this.produces = ItemType.WHEAT;
         this.debug = false;
     }
 
