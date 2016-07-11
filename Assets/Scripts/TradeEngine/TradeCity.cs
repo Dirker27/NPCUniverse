@@ -20,4 +20,6 @@ public class TradeCity : MonoBehaviour
     public List<Smithy> Smithies;
     public List<GuildHall> GuildHalls;
     public List<Brewhouse> Brewhouses;
+    public List<Pond> Ponds;
+    public List<Tavern> Taverns;
 }

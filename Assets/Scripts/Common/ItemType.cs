@@ -25,4 +25,5 @@ public enum ItemType
     FISH,
     BARLEY,
     BEER,
+    MEAL,
 }
