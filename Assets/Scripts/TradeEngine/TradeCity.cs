@@ -22,4 +22,7 @@ public class TradeCity : MonoBehaviour
     public List<Brewhouse> Brewhouses;
     public List<Pond> Ponds;
     public List<Tavern> Taverns;
+    public List<Masonry> Masonries;
+    public List<SawHouse> SawHouses;
+    public List<BowShop> BowShops;
 }
