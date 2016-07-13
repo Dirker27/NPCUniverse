@@ -25,4 +25,5 @@ public class TradeCity : MonoBehaviour
     public List<Masonry> Masonries;
     public List<SawHouse> SawHouses;
     public List<BowShop> BowShops;
+    public List<HuntingLodge> HuntingLodges;
 }
