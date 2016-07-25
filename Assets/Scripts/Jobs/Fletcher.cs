@@ -108,7 +108,7 @@ class Fletcher : NonPlayableCharacter
                 Item log = item;
 
                 ItemType result1 = destinationBowShop.CraftArrow(log);
-                ItemType result2 = destinationBowShop.CraftArrow(log);
+                ItemType result2 = destinationBowShop.CraftBow(log);
                 logger.Log(debug, "Item received is :" + result1);
                 logger.Log(debug, "Item received is :" + result2);
 
@@ -128,8 +128,8 @@ class Fletcher : NonPlayableCharacter
 
                 Item workedItem2 = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
 
-                workedItem.Type = result2;
-                workedItem.PurchasedPrice = 0;
+                workedItem2.Type = result2;
+                workedItem2.PurchasedPrice = 0;
 
                 logger.Log(debug, "Items before add:" + Item.ListToString(inventory.items));
                 inventory.Add(workedItem2);

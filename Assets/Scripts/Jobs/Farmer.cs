@@ -22,6 +22,8 @@ class Farmer : NonPlayableCharacter
     public bool destinationIsBarn = false;
     public bool destinationIsCity = false;
 
+    ItemType crop = ItemType.INVALID;
+
     void Log(string s)
     {
         if (debug)
@@ -83,6 +85,7 @@ class Farmer : NonPlayableCharacter
         
         destinationFarm = oracle.WhereShouldIFarm(baseCity);
         destinationBarn = oracle.WhereShouldIBarn(baseCity);
+        crop = oracle.WhatShouldIFarm();
 
         Log("Destination farm:" + destinationFarm);
         Log("Destination barn:" + destinationBarn);
@@ -119,7 +122,7 @@ class Farmer : NonPlayableCharacter
 
     public void FarmAction()
     {
-        ItemType result = destinationFarm.WorkFarm();
+        ItemType result = destinationFarm.WorkFarm(crop);
 
         Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
 

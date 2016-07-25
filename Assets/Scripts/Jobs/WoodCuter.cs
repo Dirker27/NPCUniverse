@@ -107,7 +107,7 @@ class WoodCuter : NonPlayableCharacter
                 
                 Item log = item;
 
-                ItemType result = destinationWoodCut.WorkWoodCut(log);
+                ItemType result = destinationWoodCut.MakeFireWood(log);
                 logger.Log(debug, "Item received is :" + result);
 
                 logger.Log(debug, "Items before removal:" + Item.ListToString(inventory.items));

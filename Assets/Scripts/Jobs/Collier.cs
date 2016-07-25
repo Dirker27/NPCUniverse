@@ -107,7 +107,7 @@ class Collier : NonPlayableCharacter
                 
                 Item log = item;
 
-                ItemType result = destinationCharcoalPit.WorkCharcoalHouse(log);
+                ItemType result = destinationCharcoalPit.MakeCharcoal(log);
                 logger.Log(debug, "Item received is :" + result);
 
                 logger.Log(debug, "Items before removal:" + Item.ListToString(inventory.items));

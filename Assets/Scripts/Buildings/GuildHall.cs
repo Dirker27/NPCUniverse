@@ -1,4 +1,15 @@
-﻿using UnityEngine;
+﻿/**
+ * Class:GuildHall
+ * Purpose:Provides the functionality of a GuildHall for a Quatermaster.
+ * 
+ * public fields:
+ *  
+ * public methods:
+ *  void Start(): 
+ * 
+ * @author: NvS 
+ */
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 

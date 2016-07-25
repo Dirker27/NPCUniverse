@@ -26,4 +26,5 @@ public enum ItemType
     BARLEY,
     BEER,
     MEAL,
+    INVALID,
 }

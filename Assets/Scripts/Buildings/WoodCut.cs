@@ -1,22 +1,35 @@
-﻿using UnityEngine;
+﻿/**
+ * Class:WoodCut
+ * Purpose:Provides the functionality of a WoodCut for a WoodCuter
+ * 
+ * public fields:
+ *  
+ * public methods:
+ *  void Start(): 
+ *  ItemType MakeFireWood(Log): Takes one log and returns one firewood;
+ * 
+ * @author: NvS 
+ */
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class WoodCut : BaseBuilding
 {
-    public ItemType produces;
-
     public void Start()
     {
         base.Start();
-        this.produces = ItemType.FIREWOOD;
         this.debug = false;
     }
 
-    public ItemType WorkWoodCut(Item input)
+    public ItemType MakeFireWood(Item input)
     {
-        logger.Log(debug, "Being worked");
-        return this.produces;
+        ItemType produces = ItemType.INVALID;
+        if (input.Type == ItemType.LOG)
+        {
+            produces = ItemType.FIREWOOD;
+        }
+        return produces;
     }
 }
 

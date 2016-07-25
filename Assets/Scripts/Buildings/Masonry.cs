@@ -1,22 +1,35 @@
-﻿using UnityEngine;
+﻿/**
+ * Class:Masonry
+ * Purpose:Provides the functionality of a Masonry for a Mason
+ * 
+ * public fields:
+ *  
+ * public methods:
+ *  void Start(): 
+ *  ItemType CutStone(Item): Takes one stone and returns one stoneblock
+ * 
+ * @author: NvS 
+ */
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Masonry : BaseBuilding
 {
-    public ItemType produces;
-
     public void Start()
     {
         base.Start();
-        this.produces = ItemType.STONEBLOCK;
         this.debug = false;
     }
 
     public ItemType CutStone(Item input)
     {
-        logger.Log(debug, "Being worked");
-        return this.produces;
+        ItemType produces = ItemType.INVALID;
+        if (input.Type == ItemType.STONE)
+        {
+            produces = ItemType.STONEBLOCK;
+        }
+        return produces;
     }
 }
 

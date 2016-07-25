@@ -6,32 +6,37 @@ public class MineOracle : MonoBehaviour
     public Logger logger;
     private bool debug = false;
 
-    private bool ToOre = true;
+    private bool Ore = true;
+    private bool Stone = false;
     void Start()
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
     }
 
-    /**
-     * Nathaniel Hates context and happiness part two. For solution see FarmOracle.
-     * 
-     * The Ore mine is at [0] in Fort Kickass' Mine pool.
-     * The Stone mine is at [1] in Fort Kickass' Mine pool. 
-     * 
-     */
     public Mine WhereShouldIMine(TradeCity currentCity)
     {
-        if (ToOre)
-        {
-            ToOre = false;
-            return currentCity.Mines[0];
-        }
-        ToOre = true;
-        return currentCity.Mines[1];
+        return currentCity.Mines[0];
     }
 
     public OreShop WhereShouldIStore(TradeCity currentCity)
     {
         return currentCity.OreShops[0];
+    }
+
+    public ItemType WhatShouldIMine()
+    {
+        if (Ore)
+        {
+            Ore = false;
+            Stone = true;
+            return ItemType.ORE;
+        }
+        else if (Stone)
+        {
+            Stone = false;
+            Ore = true;
+            return ItemType.STONE;
+        }
+        return ItemType.INVALID;
     }
 }

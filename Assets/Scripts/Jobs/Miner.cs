@@ -21,6 +21,8 @@ class Miner : NonPlayableCharacter
     public bool destinationIsMine = false;
     public bool destinationIsOreShop = false;
 
+    private ItemType desiredOre = ItemType.INVALID;
+
     void Log(string s)
     {
         if (debug)
@@ -82,6 +84,7 @@ class Miner : NonPlayableCharacter
         
         destinationMine = oracle.WhereShouldIMine(baseCity);
         destinationOreShop = oracle.WhereShouldIStore(baseCity);
+        desiredOre = oracle.WhatShouldIMine();
         Log("Destination mine:" + destinationMine);
 
         GetComponent<CharacterMovement>().destination = destinationMine.gameObject.GetComponent<NavigationWaypoint>();
@@ -116,7 +119,7 @@ class Miner : NonPlayableCharacter
 
     public void MineAction()
     {
-        ItemType result = destinationMine.WorkMine();
+        ItemType result = destinationMine.WorkMine(desiredOre);
 
         Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
 

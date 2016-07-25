@@ -112,7 +112,7 @@ class BrewMaster : NonPlayableCharacter
                 
                 Item barley = item;
 
-                ItemType result = destinationBrewHouse.WorkBrewhouse(barley);
+                ItemType result = destinationBrewHouse.CraftBeer(barley);
                 Log("Item received is :" + result);
 
                 Log("Items before removal:" + Item.ListToString(inventory.items));

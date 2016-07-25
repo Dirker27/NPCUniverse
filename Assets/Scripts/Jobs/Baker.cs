@@ -133,7 +133,7 @@ class Baker : NonPlayableCharacter
                 
                 Item wheat = item;
 
-                ItemType result = destinationBakery.WorkBakery(wheat);
+                ItemType result = destinationBakery.BakeBread(wheat);
                 logger.Log(debug, "Item received is :" + result);
 
                 logger.Log(debug, "Items before removal:" + Item.ListToString(inventory.items));

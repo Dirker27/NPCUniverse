@@ -107,7 +107,7 @@ class Miller : NonPlayableCharacter
                 
                 Item wheat = item;
 
-                ItemType result = destinationMill.WorkMill(wheat);
+                ItemType result = destinationMill.MakeFlour(wheat);
                 logger.Log(debug, "Item received is :" + result);
 
                 logger.Log(debug, "Items before removal:" + Item.ListToString(inventory.items));

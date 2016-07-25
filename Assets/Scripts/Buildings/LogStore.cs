@@ -1,4 +1,15 @@
-﻿using UnityEngine;
+﻿/**
+ * Class:LogStore
+ * Purpose:Provides the functionality of a LogStore for a forester.
+ * 
+ * public fields:
+ *  
+ * public methods:
+ *  void Start(): 
+ * 
+ * @author: NvS 
+ */
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 

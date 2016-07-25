@@ -1,22 +1,35 @@
-﻿using UnityEngine;
+﻿/**
+ * Class:SawHouse
+ * Purpose:Provides the functionality of a SawHouse for a SawWorker
+ * 
+ * public fields:
+ *  
+ * public methods:
+ *  void Start(): 
+ *  ItemType MakePlanks(Item): Takes one log and makes one lumberplank.
+ * 
+ * @author: NvS 
+ */
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class SawHouse : BaseBuilding
 {
-    public ItemType produces;
-
     public void Start()
     {
         base.Start();
-        this.produces = ItemType.LUMBERPLANK;
         this.debug = false;
     }
 
     public ItemType MakePlanks(Item input)
     {
-        logger.Log(debug, "Being worked");
-        return this.produces;
+        ItemType produces = ItemType.INVALID;
+        if (input.Type == ItemType.LOG)
+        {
+            produces = ItemType.LUMBERPLANK;
+        }
+        return produces;
     }
 }
 
