@@ -29,7 +29,7 @@ public class BaseBuilding : MonoBehaviour
     public bool debug = false;
 
 
-    public void Start()
+    public virtual void Start()
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
         this.inventory = GetComponent<Inventory>();
@@ -57,6 +57,12 @@ public class BaseBuilding : MonoBehaviour
         Inventory toReturn = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Inventory>();
         toReturn.InventorySet(inventory);
         return toReturn;
+    }
+
+    public virtual bool DoAction(Instruction instruction, CharacterSheet sheet)
+    {
+        logger.Log(debug, "Base do action called this is wrong");
+        return true;
     }
 }
 

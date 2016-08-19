@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CharacterMovement : MonoBehaviour {
-
+public class CharacterMovement : MonoBehaviour 
+{
+    public NavigationWaypoint location;
     public NavigationWaypoint destination;
     public float travelRate = 1; // [m/s]
     public bool twoDimensionalMovement = true;
@@ -20,6 +21,7 @@ public class CharacterMovement : MonoBehaviour {
 
             if (Vector3.Distance(destination.transform.position, transform.position) < 3f)
             {
+                location = destination;
                 destination = null;
             }
         }

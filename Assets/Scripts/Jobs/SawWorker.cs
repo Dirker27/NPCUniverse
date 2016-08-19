@@ -6,40 +6,32 @@ using System.Collections.Generic;
 
 class SawWorker : NonPlayableCharacter
 {
-    private Inventory inventory;
     private SawWorkerOracle sawWorkerOracle;
-    private TradeOracle tradeOracle;
-
-    public TradeCity baseCity;
 
     public SawHouse destinationSawHouse;
     public LogStore destinationLogStore;
 
-    public Logger logger;
-    private bool debug = false;
-
-    public bool destinationIsBaseCity = false;
     public bool destinationIsSawHouse = false;
     public bool destinationIsLogStore = false;
 
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
-        this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
+        base.Start();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
         this.sawWorkerOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<SawWorkerOracle>();
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
 
-        destinationIsBaseCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsBaseCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsBaseCity = false;
+                sheet.destinationIsBaseCity = false;
 
                 FindSawHouseAndSetDestination(this.sawWorkerOracle);
 
@@ -74,9 +66,9 @@ class SawWorker : NonPlayableCharacter
                 }
                 if (foundLog)
                 {
-                    inventory.Add(log);
+                    sheet.inventory.Add(log);
                     destinationLogStore.Withdraw(log);
-                    logger.Log(debug, "Added wheat to inventory" + inventory.items.Keys.Count);
+                    logger.Log(debug, "Added wheat to inventory" + sheet.inventory.items.Keys.Count);
                 }
 
                 destinationIsSawHouse = true;
@@ -88,9 +80,9 @@ class SawWorker : NonPlayableCharacter
     public void FindSawHouseAndSetDestination(SawWorkerOracle oracle)
     {
         logger.Log(debug, "Start FindSawHouseAndSetDestination");
-        
-        destinationSawHouse = oracle.WhereShouldISaw(baseCity);
-        destinationLogStore = oracle.WhereShouldIGather(baseCity);
+
+        destinationSawHouse = oracle.WhereShouldISaw(sheet.baseCity);
+        destinationLogStore = oracle.WhereShouldIGather(sheet.baseCity);
 
         logger.Log(debug, "Destination sawhouse:" + destinationSawHouse);
 
@@ -100,7 +92,7 @@ class SawWorker : NonPlayableCharacter
     public void SawAction()
     {
         logger.Log(debug, "Start SawAction at " + destinationSawHouse);
-        foreach (Item item in inventory.items.Keys)
+        foreach (Item item in sheet.inventory.items.Keys)
         {
             if (item.Type == ItemType.LOG)
             {
@@ -110,9 +102,9 @@ class SawWorker : NonPlayableCharacter
                 ItemType result = destinationSawHouse.MakePlanks(log);
                 logger.Log(debug, "Item received is :" + result);
 
-                logger.Log(debug, "Items before removal:" + Item.ListToString(inventory.items));
-                inventory.Remove(log);
-                logger.Log(debug, "Items after removal:" + Item.ListToString(inventory.items));
+                logger.Log(debug, "Items before removal:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Remove(log);
+                logger.Log(debug, "Items after removal:" + Item.ListToString(sheet.inventory.items));
 
 
                 Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
@@ -120,13 +112,13 @@ class SawWorker : NonPlayableCharacter
                 workedItem.Type = result;
                 workedItem.PurchasedPrice = 0;
 
-                logger.Log(debug, "Items before add:" + Item.ListToString(inventory.items));
-                inventory.Add(workedItem);
-                logger.Log(debug, "Items after add:" + Item.ListToString(inventory.items));
+                logger.Log(debug, "Items before add:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Add(workedItem);
+                logger.Log(debug, "Items after add:" + Item.ListToString(sheet.inventory.items));
 
-                inventory.Remove(workedItem);
+                sheet.inventory.Remove(workedItem);
                 destinationSawHouse.Deposit(workedItem);
-                GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+                GetComponent<CharacterMovement>().destination = sheet.baseCity.gameObject.GetComponent<NavigationWaypoint>();
                 
                 return;
             }

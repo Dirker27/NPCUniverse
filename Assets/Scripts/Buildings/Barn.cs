@@ -17,7 +17,7 @@ using System.Collections.Generic;
 public class Barn : BaseBuilding
 {
 
-    public void Start()
+    public override void Start()
     {
         base.Start();
         this.debug = false;

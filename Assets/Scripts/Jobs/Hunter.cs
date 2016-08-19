@@ -6,45 +6,42 @@ using System.Collections.Generic;
 
 class Hunter : NonPlayableCharacter
 {
-    private Inventory inventory;
     private HunterOracle hunterOracle;
     private TradeOracle tradeOracle;
-
-    public TradeCity baseCity;
 
     public HuntingLodge destinationHuntingLodge;
     public BowShop destinationBowShop;
 
-    private bool debug = false;
-
-    public bool destinationIsBaseCity = false;
     public bool destinationIsHuntingLodge = false;
     public bool destinationIsBowShop = false;
 
     void Log(string s)
     {
-        if (debug)
+        if (true)
         {
             Debug.Log("Hunter log <" + s + ">");
         }
     }
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
+        Log("Calling base start");
+        base.Start();
+        Log("after base start");
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.hunterOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HunterOracle>();
 
-        destinationIsBaseCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsBaseCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsBaseCity = false;
+                sheet.destinationIsBaseCity = false;
 
                 FindHuntingLodgeAndSetDestination(this.hunterOracle);
 
@@ -79,7 +76,7 @@ class Hunter : NonPlayableCharacter
                 }
                 if (foundBar)
                 {
-                    inventory.Add(bar);
+                    sheet.inventory.Add(bar);
                     destinationBowShop.Withdraw(bar);
                 }
 
@@ -92,9 +89,9 @@ class Hunter : NonPlayableCharacter
     public void FindHuntingLodgeAndSetDestination(HunterOracle oracle)
     {
         Log("Start FindHuntingLodgeAndSetDestination");
-        
-        destinationHuntingLodge = oracle.WhereShouldIHunt(baseCity);
-        destinationBowShop = oracle.WhereShouldIShop(baseCity);
+
+        destinationHuntingLodge = oracle.WhereShouldIHunt(sheet.baseCity);
+        destinationBowShop = oracle.WhereShouldIShop(sheet.baseCity);
 
         Log("Destination lodge:" + destinationHuntingLodge);
 
@@ -108,7 +105,7 @@ class Hunter : NonPlayableCharacter
         Item bow = null;
         Item arrow = null;
 
-        foreach (Item item in inventory.items.Keys)
+        foreach (Item item in sheet.inventory.items.Keys)
         {
             if (item.Type == ItemType.BOW)
             {
@@ -132,9 +129,9 @@ class Hunter : NonPlayableCharacter
             workedItem.Type = meat;
             workedItem.PurchasedPrice = 0;
 
-            Log("Items before add:" + Item.ListToString(inventory.items));
-            inventory.Add(workedItem);
-            Log("Items after add:" + Item.ListToString(inventory.items));
+            Log("Items before add:" + Item.ListToString(sheet.inventory.items));
+            sheet.inventory.Add(workedItem);
+            Log("Items after add:" + Item.ListToString(sheet.inventory.items));
 
             destinationHuntingLodge.Deposit(workedItem);
 
@@ -142,10 +139,10 @@ class Hunter : NonPlayableCharacter
 
             Log("Item received is :" + leather);
 
-            Log("Items before removal:" + Item.ListToString(inventory.items));
-            inventory.Remove(bow);
-            inventory.Remove(arrow);
-            Log("Items after removal:" + Item.ListToString(inventory.items));
+            Log("Items before removal:" + Item.ListToString(sheet.inventory.items));
+            sheet.inventory.Remove(bow);
+            sheet.inventory.Remove(arrow);
+            Log("Items after removal:" + Item.ListToString(sheet.inventory.items));
 
 
             Item workedItem2 = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
@@ -153,13 +150,13 @@ class Hunter : NonPlayableCharacter
             workedItem2.Type = leather;
             workedItem2.PurchasedPrice = 0;
 
-            Log("Items before add:" + Item.ListToString(inventory.items));
-            inventory.Add(workedItem2);
-            Log("Items after add:" + Item.ListToString(inventory.items));
+            Log("Items before add:" + Item.ListToString(sheet.inventory.items));
+            sheet.inventory.Add(workedItem2);
+            Log("Items after add:" + Item.ListToString(sheet.inventory.items));
 
             destinationHuntingLodge.Deposit(workedItem2);
 
-            GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+            GetComponent<CharacterMovement>().destination = sheet.baseCity.gameObject.GetComponent<NavigationWaypoint>();
             Log("End HuntAction");
 
             return;

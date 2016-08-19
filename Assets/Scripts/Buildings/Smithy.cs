@@ -18,7 +18,7 @@ using System.Collections.Generic;
 
 public class Smithy : BaseBuilding
 {
-    public void Start()
+    public override void Start()
     {
         base.Start();
         this.debug = false;
@@ -52,6 +52,45 @@ public class Smithy : BaseBuilding
             produces = ItemType.TOOL;
         }
         return produces;
+    }
+
+    public bool MakeArmor(Instruction instruction)
+    {
+        if (instruction.give[0] == ItemType.BAR && instruction.gather[0] == ItemType.ARMOR)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool StoreArmor(Instruction instruction)
+    {
+        if (instruction.give[0] == ItemType.ARMOR && instruction.gather.Length == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public override bool DoAction(Instruction instruction, CharacterSheet sheet)
+    {
+        bool toReturn = false;
+        switch (instruction.Action)
+        {            
+            case "MakeArmor":
+                toReturn = MakeArmor(instruction);
+                break;
+            
+            case "StoreArmor":
+                toReturn = StoreArmor(instruction);
+                break;
+
+            default:
+                // log that a miss match instruction has arrived
+                toReturn = false;
+                break;
+        }
+        return toReturn;
     }
 }
 

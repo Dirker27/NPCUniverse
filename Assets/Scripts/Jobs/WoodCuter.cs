@@ -6,40 +6,34 @@ using System.Collections.Generic;
 
 class WoodCuter : NonPlayableCharacter
 {
-    private Inventory inventory;
     private WoodCuterOracle woodCuterOracle;
     private TradeOracle tradeOracle;
-
-    public TradeCity baseCity;
 
     public WoodCut destinationWoodCut;
     public LogStore destinationLogStore;
 
-    public Logger logger;
-    private bool debug = false;
-
-    public bool destinationIsBaseCity = false;
     public bool destinationIsWoodCut = false;
     public bool destinationIsLogStore = false;
 
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
+        base.Start();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.woodCuterOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<WoodCuterOracle>();
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
 
-        destinationIsBaseCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsBaseCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsBaseCity = false;
+                sheet.destinationIsBaseCity = false;
 
                 FindWoodCutAndSetDestination(this.woodCuterOracle);
 
@@ -74,9 +68,9 @@ class WoodCuter : NonPlayableCharacter
                 }
                 if (foundLog)
                 {
-                    inventory.Add(log);
+                    sheet.inventory.Add(log);
                     destinationLogStore.Withdraw(log);
-                    logger.Log(debug, "Added wheat to inventory" + inventory.items.Keys.Count);
+                    logger.Log(debug, "Added wheat to inventory" + sheet.inventory.items.Keys.Count);
                 }
 
                 destinationIsWoodCut = true;
@@ -88,9 +82,9 @@ class WoodCuter : NonPlayableCharacter
     public void FindWoodCutAndSetDestination(WoodCuterOracle oracle)
     {
         logger.Log(debug, "Start FindWoodCutAndSetDestination");
-        
-        destinationWoodCut = oracle.WhereShouldICut(baseCity);
-        destinationLogStore = oracle.WhereShouldIGather(baseCity);
+
+        destinationWoodCut = oracle.WhereShouldICut(sheet.baseCity);
+        destinationLogStore = oracle.WhereShouldIGather(sheet.baseCity);
 
         logger.Log(debug, "Destination mill:" + destinationWoodCut);
 
@@ -100,7 +94,7 @@ class WoodCuter : NonPlayableCharacter
     public void WoodCutAction()
     {
         logger.Log(debug, "Start WoodCutAction at " + destinationWoodCut);
-        foreach (Item item in inventory.items.Keys)
+        foreach (Item item in sheet.inventory.items.Keys)
         {
             if (item.Type == ItemType.LOG)
             {
@@ -110,9 +104,9 @@ class WoodCuter : NonPlayableCharacter
                 ItemType result = destinationWoodCut.MakeFireWood(log);
                 logger.Log(debug, "Item received is :" + result);
 
-                logger.Log(debug, "Items before removal:" + Item.ListToString(inventory.items));
-                inventory.Remove(log);
-                logger.Log(debug, "Items after removal:" + Item.ListToString(inventory.items));
+                logger.Log(debug, "Items before removal:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Remove(log);
+                logger.Log(debug, "Items after removal:" + Item.ListToString(sheet.inventory.items));
 
 
                 Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
@@ -120,13 +114,13 @@ class WoodCuter : NonPlayableCharacter
                 workedItem.Type = result;
                 workedItem.PurchasedPrice = 0;
 
-                logger.Log(debug, "Items before add:" + Item.ListToString(inventory.items));
-                inventory.Add(workedItem);
-                logger.Log(debug, "Items after add:" + Item.ListToString(inventory.items));
+                logger.Log(debug, "Items before add:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Add(workedItem);
+                logger.Log(debug, "Items after add:" + Item.ListToString(sheet.inventory.items));
 
-                inventory.Remove(workedItem);
+                sheet.inventory.Remove(workedItem);
                 destinationWoodCut.Deposit(workedItem);
-                GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+                GetComponent<CharacterMovement>().destination = sheet.baseCity.gameObject.GetComponent<NavigationWaypoint>();
                 
                 return;
             }

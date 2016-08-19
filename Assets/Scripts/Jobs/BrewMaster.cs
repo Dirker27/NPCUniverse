@@ -6,18 +6,11 @@ using System.Collections.Generic;
 
 class BrewMaster : NonPlayableCharacter
 {
-    private Inventory inventory;
     private BrewMasterOracle brewMasterOracle;
-    private TradeOracle tradeOracle;
-
-    public TradeCity baseCity;
 
     public Brewhouse destinationBrewHouse;
     public Barn destinationBarn;
 
-    private bool debug = false;
-
-    public bool destinationIsBaseCity = false;
     public bool destinationIsBrewHouse = false;
     public bool destinationIsBarn = false;
 
@@ -31,21 +24,22 @@ class BrewMaster : NonPlayableCharacter
 
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
-        this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
-        this.brewMasterOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<BrewMasterOracle>();
+        base.Start();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
+        sheet.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
+        brewMasterOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<BrewMasterOracle>();
 
-        destinationIsBaseCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (!GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsBaseCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsBaseCity = false;
+                sheet.destinationIsBaseCity = false;
 
                 FindBrewMasterAndSetDestination(this.brewMasterOracle);
 
@@ -80,7 +74,7 @@ class BrewMaster : NonPlayableCharacter
                 }
                 if (foundBarley)
                 {
-                    inventory.Add(barley);
+                    sheet.inventory.Add(barley);
                     destinationBarn.Withdraw(barley);
                 }
 
@@ -93,9 +87,9 @@ class BrewMaster : NonPlayableCharacter
     public void FindBrewMasterAndSetDestination(BrewMasterOracle oracle)
     {
         Log("Start FindBrewMasterAndSetDestination");
-        
-        destinationBrewHouse = oracle.WhereShouldIBrew(baseCity);
-        destinationBarn = oracle.WhereShouldIGather(baseCity);
+
+        destinationBrewHouse = oracle.WhereShouldIBrew(sheet.baseCity);
+        destinationBarn = oracle.WhereShouldIGather(sheet.baseCity);
 
         Log("Destination brewhouse:" + destinationBrewHouse);
 
@@ -105,7 +99,7 @@ class BrewMaster : NonPlayableCharacter
     public void BrewMasterAction()
     {
         Log("Start BrewMasterAction at " + destinationBrewHouse);
-        foreach (Item item in inventory.items.Keys)
+        foreach (Item item in sheet.inventory.items.Keys)
         {
             if (item.Type == ItemType.BARLEY)
             {
@@ -115,9 +109,9 @@ class BrewMaster : NonPlayableCharacter
                 ItemType result = destinationBrewHouse.CraftBeer(barley);
                 Log("Item received is :" + result);
 
-                Log("Items before removal:" + Item.ListToString(inventory.items));
-                inventory.Remove(barley);
-                Log("Items after removal:" + Item.ListToString(inventory.items));
+                Log("Items before removal:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Remove(barley);
+                Log("Items after removal:" + Item.ListToString(sheet.inventory.items));
 
 
                 Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
@@ -125,12 +119,12 @@ class BrewMaster : NonPlayableCharacter
                 workedItem.Type = result;
                 workedItem.PurchasedPrice = 0;
 
-                Log("Items before add:" + Item.ListToString(inventory.items));
-                inventory.Add(workedItem);
-                Log("Items after add:" + Item.ListToString(inventory.items));
+                Log("Items before add:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Add(workedItem);
+                Log("Items after add:" + Item.ListToString(sheet.inventory.items));
 
                 destinationBrewHouse.Deposit(workedItem);
-                GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+                GetComponent<CharacterMovement>().destination = sheet.baseCity.gameObject.GetComponent<NavigationWaypoint>();
                 Log("End BrewMasterAction");
 
                 return;

@@ -6,18 +6,12 @@ using System.Collections.Generic;
 
 class QuaterMaster : NonPlayableCharacter
 {
-    private Inventory inventory;
     private QuaterMasterOracle quaterMasterOracle;
     private TradeOracle tradeOracle;
-
-    public TradeCity baseCity;
 
     public GuildHall destinationHall;
     public Smithy destinationSmithy;
 
-    private bool debug = false;
-
-    public bool destinationIsBaseCity = false;
     public bool destinationIsHall = false;
     public bool destinationIsSmithy = false;
 
@@ -30,21 +24,22 @@ class QuaterMaster : NonPlayableCharacter
     }
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
+        base.Start();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.quaterMasterOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<QuaterMasterOracle>();
 
-        destinationIsBaseCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsBaseCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsBaseCity = false;
+                sheet.destinationIsBaseCity = false;
 
                 FindHallAndSetDestination(this.quaterMasterOracle);
 
@@ -88,13 +83,13 @@ class QuaterMaster : NonPlayableCharacter
                 }
                 if (foundWeapon)
                 {
-                    inventory.Add(weapon);
+                    sheet.inventory.Add(weapon);
                     destinationSmithy.Withdraw(weapon);
                 }
 
                 if (foundArmor)
                 {
-                    inventory.Add(armor);
+                    sheet.inventory.Add(armor);
                     destinationSmithy.Withdraw(armor);
                 }
 
@@ -107,9 +102,9 @@ class QuaterMaster : NonPlayableCharacter
     public void FindHallAndSetDestination(QuaterMasterOracle oracle)
     {
         Log("Start FindSmithAndSetDestination");
-        
-        destinationHall = oracle.WhereShouldIStore(baseCity);
-        destinationSmithy = oracle.WhereShouldIShop(baseCity);
+
+        destinationHall = oracle.WhereShouldIStore(sheet.baseCity);
+        destinationSmithy = oracle.WhereShouldIShop(sheet.baseCity);
 
         Log("Destination smith:" + destinationHall);
         
@@ -120,27 +115,27 @@ class QuaterMaster : NonPlayableCharacter
     {
         Log("Start ArmorSmithAction at " + destinationHall);
 
-        Dictionary<Item, int> myItems = inventory.SeeContents();
+        Dictionary<Item, int> myItems = sheet.inventory.SeeContents();
 
         foreach (Item item in myItems.Keys)
         {
             if (item.Type == ItemType.WEAPON)
             {
-                inventory.Remove(item);
+                sheet.inventory.Remove(item);
 
                 destinationHall.Deposit(item);
             }
 
             if (item.Type == ItemType.ARMOR)
             {
-                inventory.Remove(item);
+                sheet.inventory.Remove(item);
 
                 destinationHall.Deposit(item);
             }
         }
 
 
-        GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+        GetComponent<CharacterMovement>().destination = sheet.baseCity.gameObject.GetComponent<NavigationWaypoint>();
         Log("End WeaponSmithAction");
 
     }

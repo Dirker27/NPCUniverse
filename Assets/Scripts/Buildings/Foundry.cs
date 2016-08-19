@@ -17,7 +17,7 @@ using System.Collections.Generic;
 public class Foundry : BaseBuilding
 {
 
-    public void Start()
+    public override void Start()
     {
         base.Start();
         this.debug = false;
@@ -32,6 +32,32 @@ public class Foundry : BaseBuilding
             produces = ItemType.BAR;
         }
         return produces;
+    }
+
+    public bool GetBar(Instruction instruction)
+    {
+        if (instruction.give.Length ==0 && instruction.gather[0] == ItemType.BAR)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public override bool DoAction(Instruction instruction, CharacterSheet sheet)
+    {
+        bool toReturn = false;
+        switch (instruction.Action)
+        {
+            case "GetBar":
+                toReturn = GetBar(instruction);
+                break;
+
+            default:
+                // log that a miss match instruction has arrived
+                toReturn = false;
+                break;
+        }
+        return toReturn;
     }
         
 }

@@ -6,21 +6,14 @@ using System.Collections.Generic;
 
 class Forester : NonPlayableCharacter
 {
-    private Inventory inventory;
     private ForesterOracle foresterOracle;
-    private TradeOracle tradeOracle;
-
-    public TradeCity baseCity;
 
     public Forest destinationForest;
 
     public LogStore destinationLogStore;
 
-    private bool debug = false;
-
     public bool destinationIsForest = false;
     public bool destinationIsLogStore = false;
-    public bool destinationIsCity = false;
 
     void Log(string s)
     {
@@ -31,20 +24,20 @@ class Forester : NonPlayableCharacter
     }
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
-        this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
+        base.Start();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
         this.foresterOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ForesterOracle>();
-        destinationIsCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (!GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsCity = false;
+                sheet.destinationIsBaseCity = false;
                 FindForestAndSetDestination(this.foresterOracle);
                 destinationIsForest = true;
             }
@@ -61,13 +54,13 @@ class Forester : NonPlayableCharacter
             else if (destinationIsLogStore)
             {
                 destinationIsLogStore = false;
-                Dictionary<Item, int> peek = inventory.SeeContents();
+                Dictionary<Item, int> peek = sheet.inventory.SeeContents();
                 foreach(Item key in peek.Keys)
                 {
                     if (key.Type == ItemType.LOG)
                     {
                         destinationLogStore.Deposit(key);
-                        inventory.Remove(key);
+                        sheet.inventory.Remove(key);
                     }
                 }
                 destinationIsForest = true;
@@ -79,9 +72,9 @@ class Forester : NonPlayableCharacter
     public void FindForestAndSetDestination(ForesterOracle oracle)
     {
         Log("Start FindForestAndSetDestination");
-        
-        destinationForest = oracle.WhereShouldICut(baseCity);
-        destinationLogStore = oracle.WhereShouldIStore(baseCity);
+
+        destinationForest = oracle.WhereShouldICut(sheet.baseCity);
+        destinationLogStore = oracle.WhereShouldIStore(sheet.baseCity);
 
         Log("Destination farm:" + destinationForest);
         Log("Destination barn:" + destinationLogStore);
@@ -99,6 +92,6 @@ class Forester : NonPlayableCharacter
         workedItem.Type = result;
         workedItem.PurchasedPrice = 0;
 
-        inventory.Add(workedItem);
+        sheet.inventory.Add(workedItem);
     }
 }

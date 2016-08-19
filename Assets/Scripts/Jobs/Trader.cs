@@ -5,13 +5,10 @@ using System.Collections.Generic;
 
 class Trader : NonPlayableCharacter
 {
-    private Inventory inventory;
     private TradeOracle oracle;
 
     public TradeCity currentCity;
     public TradeCity destinationCity;
-
-    private bool debug = false;
 
     void Log(string s)
     {
@@ -22,8 +19,8 @@ class Trader : NonPlayableCharacter
     }
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
         this.oracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
     }
 
@@ -40,7 +37,7 @@ class Trader : NonPlayableCharacter
     public void BuyGoodsAndSetDestination(TradeOracle oracle)
     {
         Log("Start BuyGoodsAndSetDestination");
-        TradeOrders orders = oracle.WhatShouldIBuy(inventory, currentCity, currentCity.MarketPlace.TradeRoutes);
+        TradeOrders orders = oracle.WhatShouldIBuy(sheet.inventory, currentCity, currentCity.MarketPlace.TradeRoutes);
         Log("Current city:" + currentCity);
         destinationCity = orders.Destination.CityOne;
         if (currentCity == orders.Destination.CityOne)
@@ -49,13 +46,13 @@ class Trader : NonPlayableCharacter
         }
         Log("Destination city:" + destinationCity);
 
-        Log("Starting currency:" + inventory.currency);
-        inventory.currency -= currentCity.MarketPlace.BuyThese(orders.Manifests);
-        Log("After trade currency:" + inventory.currency);
-        
-        Log("Items before purchase:" + Item.ListToString(inventory.items));
-        inventory.AddCollection(orders.Manifests);
-        Log("Items after purchase:" + Item.ListToString(inventory.items));
+        Log("Starting currency:" + sheet.inventory.currency);
+        sheet.inventory.currency -= currentCity.MarketPlace.BuyThese(orders.Manifests);
+        Log("After trade currency:" + sheet.inventory.currency);
+
+        Log("Items before purchase:" + Item.ListToString(sheet.inventory.items));
+        sheet.inventory.AddCollection(orders.Manifests);
+        Log("Items after purchase:" + Item.ListToString(sheet.inventory.items));
 
         GetComponent<CharacterMovement>().destination = destinationCity.gameObject.GetComponent<NavigationWaypoint>();
         Log("End BuyGoodsAndSetDestination");
@@ -64,16 +61,16 @@ class Trader : NonPlayableCharacter
     public void SellGoods(TradeOracle oracle)
     {
         Log("Start SellGoods at " + currentCity);
-        TradeOrders orders = oracle.WhatShouldISell(currentCity, inventory.items);
+        TradeOrders orders = oracle.WhatShouldISell(currentCity, sheet.inventory.items);
 
-        Log("Before trade currency:" + inventory.currency);
-        inventory.currency += currentCity.MarketPlace.SellThese(orders.Manifests);
-        Log("After trade currency:" + inventory.currency);
+        Log("Before trade currency:" + sheet.inventory.currency);
+        sheet.inventory.currency += currentCity.MarketPlace.SellThese(orders.Manifests);
+        Log("After trade currency:" + sheet.inventory.currency);
 
-        Log("Items before sale:" + Item.ListToString(inventory.items));
+        Log("Items before sale:" + Item.ListToString(sheet.inventory.items));
         Log("Items to sell:" + Item.ListToString(orders.Manifests));
-        inventory.RemoveCollection(orders.Manifests);
-        Log("Items after sale:" + Item.ListToString(inventory.items));
+        sheet.inventory.RemoveCollection(orders.Manifests);
+        Log("Items after sale:" + Item.ListToString(sheet.inventory.items));
         Log("End SellGoods");
     }
 }

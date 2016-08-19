@@ -6,18 +6,12 @@ using System.Collections.Generic;
 
 class WeaponSmith : NonPlayableCharacter
 {
-    private Inventory inventory;
     private WeaponSmithOracle weaponSmithOracle;
     private TradeOracle tradeOracle;
-
-    public TradeCity baseCity;
 
     public Smithy destinationSmithy;
     public Foundry destinationFoundry;
 
-    private bool debug = false;
-
-    public bool destinationIsBaseCity = false;
     public bool destinationIsSmithy = false;
     public bool destinationIsFoundry = false;
 
@@ -30,21 +24,22 @@ class WeaponSmith : NonPlayableCharacter
     }
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
+        base.Start();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.weaponSmithOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<WeaponSmithOracle>();
 
-        destinationIsBaseCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsBaseCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsBaseCity = false;
+                sheet.destinationIsBaseCity = false;
 
                 FindWeaponSmithAndSetDestination(this.weaponSmithOracle);
 
@@ -79,7 +74,7 @@ class WeaponSmith : NonPlayableCharacter
                 }
                 if (foundBar)
                 {
-                    inventory.Add(bar);
+                    sheet.inventory.Add(bar);
                     destinationFoundry.Withdraw(bar);
                 }
 
@@ -92,9 +87,9 @@ class WeaponSmith : NonPlayableCharacter
     public void FindWeaponSmithAndSetDestination(WeaponSmithOracle oracle)
     {
         Log("Start FindSmithAndSetDestination");
-        
-        destinationSmithy = oracle.WhereShouldISmith(baseCity);
-        destinationFoundry = oracle.WhereShouldIShop(baseCity);
+
+        destinationSmithy = oracle.WhereShouldISmith(sheet.baseCity);
+        destinationFoundry = oracle.WhereShouldIShop(sheet.baseCity);
 
         Log("Destination smith:" + destinationSmithy);
         
@@ -104,7 +99,7 @@ class WeaponSmith : NonPlayableCharacter
     public void WeaponSmithAction()
     {
         Log("Start WeaponSmithAction at " + destinationSmithy);
-        foreach (Item item in inventory.items.Keys)
+        foreach (Item item in sheet.inventory.items.Keys)
         {
             if (item.Type == ItemType.BAR)
             {
@@ -114,9 +109,9 @@ class WeaponSmith : NonPlayableCharacter
                 ItemType result = destinationSmithy.WorkSmithyWeapon(bar);
                 Log("Item received is :" + result);
 
-                Log("Items before removal:" + Item.ListToString(inventory.items));
-                inventory.Remove(bar);
-                Log("Items after removal:" + Item.ListToString(inventory.items));
+                Log("Items before removal:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Remove(bar);
+                Log("Items after removal:" + Item.ListToString(sheet.inventory.items));
 
 
                 Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
@@ -124,12 +119,12 @@ class WeaponSmith : NonPlayableCharacter
                 workedItem.Type = result;
                 workedItem.PurchasedPrice = 0;
 
-                Log("Items before add:" + Item.ListToString(inventory.items));
-                inventory.Add(workedItem);
-                Log("Items after add:" + Item.ListToString(inventory.items));
+                Log("Items before add:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Add(workedItem);
+                Log("Items after add:" + Item.ListToString(sheet.inventory.items));
 
                 destinationSmithy.Deposit(workedItem);
-                GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+                GetComponent<CharacterMovement>().destination = sheet.baseCity.gameObject.GetComponent<NavigationWaypoint>();
                 Log("End WeaponSmithAction");
 
                 return;

@@ -6,42 +6,37 @@ using System.Collections.Generic;
 
 class InnKeeper : NonPlayableCharacter
 {
-    private Inventory inventory;
     private InnKeeperOracle innKeeperOracle;
     private TradeOracle tradeOracle;
 
-    public TradeCity baseCity;
 
     public Tavern destinationTavern;
     public Barn destinationBarn;
     public Bakery destinationBakery;
 
-    public Logger logger;
-    private bool debug = false;
-
-    public bool destinationIsBaseCity = false;
     public bool destinationIsTavern = false;
     public bool destinationIsBarn = false;
     public bool destinationIsBakery = false;
 
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
+        base.Start();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.innKeeperOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InnKeeperOracle>();
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
 
-        destinationIsBaseCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsBaseCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsBaseCity = false;
+                sheet.destinationIsBaseCity = false;
 
                 FindTavernAndSetDestination(this.innKeeperOracle);
 
@@ -84,15 +79,15 @@ class InnKeeper : NonPlayableCharacter
                 }
                 if (foundFish)
                 {
-                    inventory.Add(fish);
+                    sheet.inventory.Add(fish);
                     destinationBarn.Withdraw(fish);
-                    logger.Log(debug, "Added fish to inventory" + inventory.items.Keys.Count);
+                    logger.Log(debug, "Added fish to inventory" + sheet.inventory.items.Keys.Count);
                 }
                 else if (foundBeer)
                 {
-                    inventory.Add(beer);
+                    sheet.inventory.Add(beer);
                     destinationBarn.Withdraw(beer);
-                    logger.Log(debug, "Added beer to inventory" + inventory.items.Keys.Count);
+                    logger.Log(debug, "Added beer to inventory" + sheet.inventory.items.Keys.Count);
                 }
 
                 destinationIsBakery = true;
@@ -117,9 +112,9 @@ class InnKeeper : NonPlayableCharacter
                 }
                 if (foundBread)
                 {
-                    inventory.Add(bread);
+                    sheet.inventory.Add(bread);
                     destinationBarn.Withdraw(bread);
-                    logger.Log(debug, "Added bread to inventory" + inventory.items.Keys.Count);
+                    logger.Log(debug, "Added bread to inventory" + sheet.inventory.items.Keys.Count);
                 }
 
                 destinationIsTavern = true;
@@ -132,9 +127,9 @@ class InnKeeper : NonPlayableCharacter
     {
         logger.Log(debug, "Start FindTavernAndSetDestination");
 
-        destinationTavern = oracle.WhereShouldIWork(baseCity);
-        destinationBarn = oracle.WhereShouldIGetBeerAndFish(baseCity);
-        destinationBakery = oracle.WhereShouldIGetBread(baseCity);
+        destinationTavern = oracle.WhereShouldIWork(sheet.baseCity);
+        destinationBarn = oracle.WhereShouldIGetBeerAndFish(sheet.baseCity);
+        destinationBakery = oracle.WhereShouldIGetBread(sheet.baseCity);
 
         logger.Log(debug, "Destination Tavern:" + destinationTavern);
 
@@ -148,7 +143,7 @@ class InnKeeper : NonPlayableCharacter
         Item bread = null;
         Item beer = null;
 
-        foreach (Item item in inventory.items.Keys)
+        foreach (Item item in sheet.inventory.items.Keys)
         {
             if (item.Type == ItemType.FISH)
             {
@@ -166,19 +161,19 @@ class InnKeeper : NonPlayableCharacter
         if (fish && bread && beer)
         {
             ItemType result = destinationTavern.MakeMeal(bread, fish, beer);
-            inventory.Remove(fish);
-            inventory.Remove(bread);
-            inventory.Remove(beer);
+            sheet.inventory.Remove(fish);
+            sheet.inventory.Remove(bread);
+            sheet.inventory.Remove(beer);
 
             Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
 
             workedItem.Type = result;
             workedItem.PurchasedPrice = 0;
 
-            inventory.Add(workedItem);
+            sheet.inventory.Add(workedItem);
 
-            
-            inventory.Remove(workedItem);
+
+            sheet.inventory.Remove(workedItem);
             destinationTavern.Deposit(workedItem);
         }
 

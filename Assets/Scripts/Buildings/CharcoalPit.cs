@@ -17,10 +17,10 @@ using System.Collections.Generic;
 public class CharcoalPit : BaseBuilding
 {
 
-    public void Start()
+    public override void Start()
     {
         base.Start();
-        this.debug = true;
+        this.debug = false;
     }
 
     public ItemType MakeCharcoal(Item input)

@@ -6,40 +6,34 @@ using System.Collections.Generic;
 
 class Fletcher : NonPlayableCharacter
 {
-    private Inventory inventory;
     private FletcherOracle fletcherOracle;
     private TradeOracle tradeOracle;
-
-    public TradeCity baseCity;
 
     public BowShop destinationBowShop;
     public LogStore destinationLogStore;
 
-    public Logger logger;
-    private bool debug = false;
-
-    public bool destinationIsBaseCity = false;
     public bool destinationIsBowShop = false;
     public bool destinationIsLogStore = false;
 
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
-        this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
+        base.Start();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
+        sheet.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.fletcherOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FletcherOracle>();
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
 
-        destinationIsBaseCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsBaseCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsBaseCity = false;
+                sheet.destinationIsBaseCity = false;
 
                 FindBowShopAndSetDestination(this.fletcherOracle);
 
@@ -74,9 +68,9 @@ class Fletcher : NonPlayableCharacter
                 }
                 if (foundLog)
                 {
-                    inventory.Add(log);
+                    sheet.inventory.Add(log);
                     destinationLogStore.Withdraw(log);
-                    logger.Log(debug, "Added wheat to inventory" + inventory.items.Keys.Count);
+                    logger.Log(debug, "Added wheat to inventory" + sheet.inventory.items.Keys.Count);
                 }
 
                 destinationIsBowShop = true;
@@ -88,9 +82,9 @@ class Fletcher : NonPlayableCharacter
     public void FindBowShopAndSetDestination(FletcherOracle oracle)
     {
         logger.Log(debug, "Start FindBowShopAndSetDestination");
-        
-        destinationBowShop = oracle.WhereShouldIWork(baseCity);
-        destinationLogStore = oracle.WhereShouldIGather(baseCity);
+
+        destinationBowShop = oracle.WhereShouldIWork(sheet.baseCity);
+        destinationLogStore = oracle.WhereShouldIGather(sheet.baseCity);
 
         logger.Log(debug, "Destination bowshop:" + destinationBowShop);
 
@@ -100,7 +94,7 @@ class Fletcher : NonPlayableCharacter
     public void CraftAction()
     {
         logger.Log(debug, "Start CraftAction at " + destinationBowShop);
-        foreach (Item item in inventory.items.Keys)
+        foreach (Item item in sheet.inventory.items.Keys)
         {
             if (item.Type == ItemType.LOG)
             {
@@ -112,9 +106,9 @@ class Fletcher : NonPlayableCharacter
                 logger.Log(debug, "Item received is :" + result1);
                 logger.Log(debug, "Item received is :" + result2);
 
-                logger.Log(debug, "Items before removal:" + Item.ListToString(inventory.items));
-                inventory.Remove(log);
-                logger.Log(debug, "Items after removal:" + Item.ListToString(inventory.items));
+                logger.Log(debug, "Items before removal:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Remove(log);
+                logger.Log(debug, "Items after removal:" + Item.ListToString(sheet.inventory.items));
 
 
                 Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
@@ -122,24 +116,24 @@ class Fletcher : NonPlayableCharacter
                 workedItem.Type = result1;
                 workedItem.PurchasedPrice = 0;
 
-                logger.Log(debug, "Items before add:" + Item.ListToString(inventory.items));
-                inventory.Add(workedItem);
-                logger.Log(debug, "Items after add:" + Item.ListToString(inventory.items));
+                logger.Log(debug, "Items before add:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Add(workedItem);
+                logger.Log(debug, "Items after add:" + Item.ListToString(sheet.inventory.items));
 
                 Item workedItem2 = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
 
                 workedItem2.Type = result2;
                 workedItem2.PurchasedPrice = 0;
 
-                logger.Log(debug, "Items before add:" + Item.ListToString(inventory.items));
-                inventory.Add(workedItem2);
-                logger.Log(debug, "Items after add:" + Item.ListToString(inventory.items));
+                logger.Log(debug, "Items before add:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Add(workedItem2);
+                logger.Log(debug, "Items after add:" + Item.ListToString(sheet.inventory.items));
 
-                inventory.Remove(workedItem);
-                inventory.Remove(workedItem2);
+                sheet.inventory.Remove(workedItem);
+                sheet.inventory.Remove(workedItem2);
                 destinationBowShop.Deposit(workedItem);
                 destinationBowShop.Deposit(workedItem2);
-                GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+                GetComponent<CharacterMovement>().destination = sheet.baseCity.gameObject.GetComponent<NavigationWaypoint>();
                 
                 return;
             }

@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 public class Logger : MonoBehaviour
 {
-    bool debug = false;
+    bool debug = true;
     public void Log(bool toLog, string message)
     {
         //Refrence of methods https://msdn.microsoft.com/en-us/library/system.diagnostics.stackframe_members(v=vs.90).aspx

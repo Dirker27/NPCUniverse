@@ -6,21 +6,16 @@ using System.Collections.Generic;
 
 class Farmer : NonPlayableCharacter
 {
-    private Inventory inventory;
     private FarmOracle farmOracle;
     private TradeOracle tradeOracle;
 
-    public TradeCity baseCity;
 
     public Farm destinationFarm;
 
     public Barn destinationBarn;
 
-    private bool debug = false;
-
     public bool destinationIsFarm = false;
     public bool destinationIsBarn = false;
-    public bool destinationIsCity = false;
 
     ItemType crop = ItemType.INVALID;
 
@@ -33,21 +28,21 @@ class Farmer : NonPlayableCharacter
     }
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
-        this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
+        base.Start();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
+        sheet.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.farmOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FarmOracle>();
-        destinationIsCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (!GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsCity = false;
-                SellGoods(this.tradeOracle);
+                sheet.destinationIsBaseCity = false;
                 FindFarmAndSetDestination(this.farmOracle);
                 destinationIsFarm = true;
             }
@@ -64,13 +59,13 @@ class Farmer : NonPlayableCharacter
             else if (destinationIsBarn)
             {
                 destinationIsBarn = false;
-                Dictionary<Item, int> peek = inventory.SeeContents();
+                Dictionary<Item, int> peek = sheet.inventory.SeeContents();
                 foreach(Item key in peek.Keys)
                 {
                     if (key.Type == ItemType.WHEAT)
                     {
                         destinationBarn.Deposit(key);
-                        inventory.Remove(key);
+                        sheet.inventory.Remove(key);
                     }
                 }
                 destinationIsFarm = true;
@@ -82,9 +77,9 @@ class Farmer : NonPlayableCharacter
     public void FindFarmAndSetDestination(FarmOracle oracle)
     {
         Log("Start FindFarmAndSetDestination");
-        
-        destinationFarm = oracle.WhereShouldIFarm(baseCity);
-        destinationBarn = oracle.WhereShouldIBarn(baseCity);
+
+        destinationFarm = oracle.WhereShouldIFarm(sheet.baseCity);
+        destinationBarn = oracle.WhereShouldIBarn(sheet.baseCity);
         crop = oracle.WhatShouldIFarm();
 
         Log("Destination farm:" + destinationFarm);
@@ -96,27 +91,27 @@ class Farmer : NonPlayableCharacter
 
     public void SellGoods(TradeOracle oracle)
     {
-        Log("Start SellGoods at " + baseCity);
-        TradeOrders orders = oracle.WhatShouldISell(baseCity, inventory.items);
+        Log("Start SellGoods at " + sheet.baseCity);
+        TradeOrders orders = oracle.WhatShouldISell(sheet.baseCity, sheet.inventory.items);
 
-        Log("Before trade currency:" + inventory.currency);
-        inventory.currency += baseCity.MarketPlace.SellThese(orders.Manifests);
-        Log("After trade currency:" + inventory.currency);
+        Log("Before trade currency:" + sheet.inventory.currency);
+        sheet.inventory.currency += sheet.baseCity.MarketPlace.SellThese(orders.Manifests);
+        Log("After trade currency:" + sheet.inventory.currency);
 
-        Log("Items before sale:" + Item.ListToString(inventory.items));
+        Log("Items before sale:" + Item.ListToString(sheet.inventory.items));
         Log("Items to sell:" + Item.ListToString(orders.Manifests));
         foreach(Item sold in orders.Manifests.Keys)
         {
-            foreach(Item toRemove in inventory.items.Keys)
+            foreach (Item toRemove in sheet.inventory.items.Keys)
             {
                 if (sold == toRemove)
                 {
-                    inventory.items.Remove(toRemove);
+                    sheet.inventory.items.Remove(toRemove);
                     break;
                 }
             }
         }
-        Log("Items after sale:" + Item.ListToString(inventory.items));
+        Log("Items after sale:" + Item.ListToString(sheet.inventory.items));
         Log("End SellGoods");
     }
 
@@ -129,6 +124,6 @@ class Farmer : NonPlayableCharacter
         workedItem.Type = result;
         workedItem.PurchasedPrice = 0;
 
-        inventory.Add(workedItem);
+        sheet.inventory.Add(workedItem);
     }
 }

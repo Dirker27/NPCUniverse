@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 public class WoodCut : BaseBuilding
 {
-    public void Start()
+    public override void Start()
     {
         base.Start();
         this.debug = false;

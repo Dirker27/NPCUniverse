@@ -18,7 +18,7 @@ public class Mine : BaseBuilding
 {
     public ItemType produces;
 
-    public void Start()
+    public override void Start()
     {
         base.Start();
         this.debug = false;

@@ -6,40 +6,34 @@ using System.Collections.Generic;
 
 class StoneCutter : NonPlayableCharacter
 {
-    private Inventory inventory;
     private StoneCutterOracle stoneCutterOracle;
     private TradeOracle tradeOracle;
-
-    public TradeCity baseCity;
 
     public Masonry destinationMasonry;
     public OreShop destinationOreShop;
 
-    public Logger logger;
-    private bool debug = false;
-
-    public bool destinationIsBaseCity = false;
     public bool destinationIsMasonry = false;
     public bool destinationIsOreShop = false;
 
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
+        base.Start();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.stoneCutterOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StoneCutterOracle>();
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
 
-        destinationIsBaseCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsBaseCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsBaseCity = false;
+                sheet.destinationIsBaseCity = false;
 
                 FindMasonryAndSetDestination(this.stoneCutterOracle);
 
@@ -74,9 +68,9 @@ class StoneCutter : NonPlayableCharacter
                 }
                 if (foundStone)
                 {
-                    inventory.Add(stone);
+                    sheet.inventory.Add(stone);
                     destinationOreShop.Withdraw(stone);
-                    logger.Log(debug, "Added wheat to inventory" + inventory.items.Keys.Count);
+                    logger.Log(debug, "Added wheat to inventory" + sheet.inventory.items.Keys.Count);
                 }
 
                 destinationIsMasonry = true;
@@ -88,9 +82,9 @@ class StoneCutter : NonPlayableCharacter
     public void FindMasonryAndSetDestination(StoneCutterOracle oracle)
     {
         logger.Log(debug, "Start FindMasonryAndSetDestination");
-        
-        destinationMasonry = oracle.WhereShouldICut(baseCity);
-        destinationOreShop = oracle.WhereShouldIShop(baseCity);
+
+        destinationMasonry = oracle.WhereShouldICut(sheet.baseCity);
+        destinationOreShop = oracle.WhereShouldIShop(sheet.baseCity);
 
         logger.Log(debug, "Destination mill:" + destinationMasonry);
 
@@ -100,7 +94,7 @@ class StoneCutter : NonPlayableCharacter
     public void MasonryAction()
     {
         logger.Log(debug, "Start MasonryAction at " + destinationMasonry);
-        foreach (Item item in inventory.items.Keys)
+        foreach (Item item in sheet.inventory.items.Keys)
         {
             if (item.Type == ItemType.STONE)
             {
@@ -110,9 +104,9 @@ class StoneCutter : NonPlayableCharacter
                 ItemType result = destinationMasonry.CutStone(stone);
                 logger.Log(debug, "Item received is :" + result);
 
-                logger.Log(debug, "Items before removal:" + Item.ListToString(inventory.items));
-                inventory.Remove(stone);
-                logger.Log(debug, "Items after removal:" + Item.ListToString(inventory.items));
+                logger.Log(debug, "Items before removal:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Remove(stone);
+                logger.Log(debug, "Items after removal:" + Item.ListToString(sheet.inventory.items));
 
 
                 Item workedItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
@@ -120,13 +114,13 @@ class StoneCutter : NonPlayableCharacter
                 workedItem.Type = result;
                 workedItem.PurchasedPrice = 0;
 
-                logger.Log(debug, "Items before add:" + Item.ListToString(inventory.items));
-                inventory.Add(workedItem);
-                logger.Log(debug, "Items after add:" + Item.ListToString(inventory.items));
+                logger.Log(debug, "Items before add:" + Item.ListToString(sheet.inventory.items));
+                sheet.inventory.Add(workedItem);
+                logger.Log(debug, "Items after add:" + Item.ListToString(sheet.inventory.items));
 
-                inventory.Remove(workedItem);
+                sheet.inventory.Remove(workedItem);
                 destinationMasonry.Deposit(workedItem);
-                GetComponent<CharacterMovement>().destination = baseCity.gameObject.GetComponent<NavigationWaypoint>();
+                GetComponent<CharacterMovement>().destination = sheet.baseCity.gameObject.GetComponent<NavigationWaypoint>();
                 
                 return;
             }

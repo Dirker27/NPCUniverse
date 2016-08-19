@@ -6,18 +6,12 @@ using System.Collections.Generic;
 
 class Miner : NonPlayableCharacter
 {
-    private Inventory inventory;
     private MineOracle mineOracle;
     private TradeOracle tradeOracle;
-
-    public TradeCity baseCity;
 
     public Mine destinationMine;
     public OreShop destinationOreShop;
 
-    private bool debug = false;
-
-    public bool destinationIsBaseCity = false;
     public bool destinationIsMine = false;
     public bool destinationIsOreShop = false;
 
@@ -32,20 +26,21 @@ class Miner : NonPlayableCharacter
     }
     void Start()
     {
-        this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
+        base.Start();
+        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory.items = new Dictionary<Item, int>();
         this.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         this.mineOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MineOracle>();
-        destinationIsBaseCity = true;
+        sheet.destinationIsBaseCity = true;
     }
 
     void Update()
     {
         if (! GetComponent<CharacterMovement>().isInTransit())
         {
-            if (destinationIsBaseCity)
+            if (sheet.destinationIsBaseCity)
             {
-                destinationIsBaseCity = false;
+                sheet.destinationIsBaseCity = false;
                 SellGoods(this.tradeOracle);
                 FindMineAndSetDestination(this.mineOracle);
                 destinationIsMine = true;
@@ -62,13 +57,13 @@ class Miner : NonPlayableCharacter
             {
                 destinationIsOreShop = false;
 
-                Dictionary<Item, int> peek = inventory.SeeContents();
+                Dictionary<Item, int> peek = sheet.inventory.SeeContents();
                 foreach (Item key in peek.Keys)
                 {
                     if (key.Type == ItemType.ORE)
                     {
                         destinationOreShop.Deposit(key);
-                        inventory.Remove(key);
+                        sheet.inventory.Remove(key);
                     }
                 }
 
@@ -81,9 +76,9 @@ class Miner : NonPlayableCharacter
     public void FindMineAndSetDestination(MineOracle oracle)
     {
         Log("Start FindMineAndSetDestination");
-        
-        destinationMine = oracle.WhereShouldIMine(baseCity);
-        destinationOreShop = oracle.WhereShouldIStore(baseCity);
+
+        destinationMine = oracle.WhereShouldIMine(sheet.baseCity);
+        destinationOreShop = oracle.WhereShouldIStore(sheet.baseCity);
         desiredOre = oracle.WhatShouldIMine();
         Log("Destination mine:" + destinationMine);
 
@@ -93,27 +88,27 @@ class Miner : NonPlayableCharacter
 
     public void SellGoods(TradeOracle oracle)
     {
-        Log("Start SellGoods at " + baseCity);
-        TradeOrders orders = oracle.WhatShouldISell(baseCity, inventory.items);
+        Log("Start SellGoods at " + sheet.baseCity);
+        TradeOrders orders = oracle.WhatShouldISell(sheet.baseCity, sheet.inventory.items);
 
-        Log("Before trade currency:" + inventory.currency);
-        inventory.currency += baseCity.MarketPlace.SellThese(orders.Manifests);
-        Log("After trade currency:" + inventory.currency);
+        Log("Before trade currency:" + sheet.inventory.currency);
+        sheet.inventory.currency += sheet.baseCity.MarketPlace.SellThese(orders.Manifests);
+        Log("After trade currency:" + sheet.inventory.currency);
 
-        Log("Items before sale:" + Item.ListToString(inventory.items));
+        Log("Items before sale:" + Item.ListToString(sheet.inventory.items));
         Log("Items to sell:" + Item.ListToString(orders.Manifests));
         foreach (Item sold in orders.Manifests.Keys)
         {
-            foreach (Item toRemove in inventory.items.Keys)
+            foreach (Item toRemove in sheet.inventory.items.Keys)
             {
                 if (sold == toRemove)
                 {
-                    inventory.Remove(toRemove);
+                    sheet.inventory.Remove(toRemove);
                     break;
                 }
             }
         }
-        Log("Items after sale:" + Item.ListToString(inventory.items));
+        Log("Items after sale:" + Item.ListToString(sheet.inventory.items));
         Log("End SellGoods");
     }
 
@@ -126,6 +121,6 @@ class Miner : NonPlayableCharacter
         workedItem.Type = result;
         workedItem.PurchasedPrice = 0;
 
-        inventory.Add(workedItem);
+        sheet.inventory.Add(workedItem);
     }
 }
