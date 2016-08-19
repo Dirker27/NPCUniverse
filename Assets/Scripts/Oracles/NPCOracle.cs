@@ -8,9 +8,13 @@ public class NPCOracle : MonoBehaviour
     public Logger logger;
     private bool debug = true;
 
+    //Figure out why job count logic won't work
+    public int jobCount = 1;
+
     void Start()
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
+        jobCount = 1;
     }
     
     public NPCStates WhatShouldIDo(int hunger, int energy)
@@ -50,9 +54,24 @@ public class NPCOracle : MonoBehaviour
     {
         return city.Taverns[0];
     }
+
+    private int GetAndIncrementJobCount()
+    {
+        logger.Log(debug, "job count:" + jobCount);
+        int toReturn = jobCount;
+        jobCount++;
+        if (Enum.GetName(typeof(Jobs),jobCount) == null)
+        {
+            jobCount = 1;
+        }
+        logger.Log(debug, "Returning for job:" + toReturn);
+        return toReturn;
+    }
     public void FindAndSetJob(CharacterSheet sheet)
     {
-        sheet.job = Jobs.ARMORSMITH;
+        Jobs job = (Jobs)GetAndIncrementJobCount();
+        job = (Jobs)1;
+        sheet.job = job;
     }
 
     public List<Instruction> GetInstruction(CharacterSheet sheet)

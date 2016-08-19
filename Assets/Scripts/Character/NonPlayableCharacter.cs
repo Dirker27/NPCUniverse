@@ -13,7 +13,7 @@ public class NonPlayableCharacter : MonoBehaviour
 	public virtual void Start () 
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
-        logger.Log(true, " Non player character start");
+        logger.Log(debug, " Non player character start");
         sheet = GameObject.FindGameObjectWithTag("GameManager").AddComponent<CharacterSheet>();
 
         sheet.inventory = GetComponent<Inventory>();
@@ -22,10 +22,10 @@ public class NonPlayableCharacter : MonoBehaviour
         sheet.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         sheet.npcOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<NPCOracle>();
 
-        logger.Log(true, " calling where base city should be");
+        logger.Log(debug, " calling where base city should be");
         sheet.baseCity = sheet.npcOracle.WhereShouldBaseCityBe();
 
-        logger.Log(true, "city:" + sheet.baseCity);
+        logger.Log(debug, "city:" + sheet.baseCity);
 
         sheet.destinationTaverrn = sheet.npcOracle.WhereShouldISleepAndEat(sheet.baseCity);
         sheet.tavern = sheet.destinationTaverrn.gameObject.GetComponent<NavigationWaypoint>();
