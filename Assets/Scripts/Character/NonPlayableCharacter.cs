@@ -10,7 +10,7 @@ public class NonPlayableCharacter : MonoBehaviour
     public CharacterSheet sheet;
     
     // Use this for initialization
-	public virtual void Start () 
+    public virtual void Start() 
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
         logger.Log(debug, " Non player character start");

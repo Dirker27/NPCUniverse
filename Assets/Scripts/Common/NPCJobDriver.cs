@@ -10,16 +10,20 @@ public class NPCJobDriver : NonPlayableCharacter
     List<Instruction> instructions;
     int currentIntruction;
 
-    void Start()
+    public override void Start()
     {
+        UnityEngine.Debug.Log("NPCJob Driver start");
         base.Start();
+
+        debug = true;
+        logger.Log(debug, "sheet is:" + (sheet != null));
         instructions = new List<Instruction>();
         currentIntruction = 0;
-        debug = false;
     }
 
     void Update()
     {
+
         sheet.currentState = sheet.npcOracle.WhatShouldIDo(sheet);
         
         if (sheet.currentState != NPCStates.WORK && sheet.previousState == NPCStates.WORK)

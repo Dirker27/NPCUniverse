@@ -7,16 +7,19 @@ public class NPCOracle : MonoBehaviour
 
     public Logger logger;
     private bool debug = true;
-
-    //Figure out why job count logic won't work
-    public int jobCount = 1;
+    public JobOracle jobOracle;
 
     void Start()
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
-        jobCount = 1;
+
+        logger.Log(debug, "jobOracle is:" + (jobOracle != null));
     }
     
+    void Update()
+    {
+        logger.Log(debug, "jobOracle is:" + (jobOracle != null));
+    }
     public NPCStates WhatShouldIDo(int hunger, int energy)
     {
         logger.Log(debug, "Hunger is:" + hunger + " energy is:" + energy);
@@ -55,23 +58,11 @@ public class NPCOracle : MonoBehaviour
         return city.Taverns[0];
     }
 
-    private int GetAndIncrementJobCount()
-    {
-        logger.Log(debug, "job count:" + jobCount);
-        int toReturn = jobCount;
-        jobCount++;
-        if (Enum.GetName(typeof(Jobs),jobCount) == null)
-        {
-            jobCount = 1;
-        }
-        logger.Log(debug, "Returning for job:" + toReturn);
-        return toReturn;
-    }
     public void FindAndSetJob(CharacterSheet sheet)
     {
-        Jobs job = (Jobs)GetAndIncrementJobCount();
-        job = (Jobs)1;
-        sheet.job = job;
+        logger.Log(debug, "sheet is:" + (sheet != null));
+        logger.Log(debug, "jobOracle is:" + (jobOracle != null));
+        sheet.job = jobOracle.GetJob(sheet);
     }
 
     public List<Instruction> GetInstruction(CharacterSheet sheet)
@@ -100,13 +91,11 @@ public class NPCOracle : MonoBehaviour
 
     public TradeCity WhereShouldBaseCityBe()
     {
-        Debug.Log("Finding city");
         GameObject[] cities = new GameObject[] {};
         while (cities.Length == 0)
         {
             cities = GameObject.FindGameObjectsWithTag("TradeCity");
         }
-        Debug.Log("Found city:" + cities.Length);
         return cities[0].GetComponent<TradeCity>();
 
     }

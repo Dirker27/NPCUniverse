@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     //List of all oracles
 
     public ArmorSmithOracle armorSmithOracle;
-
+    public JobOracle jobOracle;
 
 	// Use this for initialization
 	void Start () 
@@ -24,4 +24,9 @@ public class GameManager : MonoBehaviour
     {
 	
 	}
+
+    public JobOracle GetJobOracle()
+    {
+        return jobOracle;
+    }
 }

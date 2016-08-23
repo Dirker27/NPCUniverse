@@ -17,7 +17,7 @@ class Hunter : NonPlayableCharacter
 
     void Log(string s)
     {
-        if (true)
+        if (false)
         {
             Debug.Log("Hunter log <" + s + ">");
         }
