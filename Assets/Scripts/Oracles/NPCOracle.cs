@@ -15,11 +15,8 @@ public class NPCOracle : MonoBehaviour
 
         logger.Log(debug, "jobOracle is:" + (jobOracle != null));
     }
-    
-    void Update()
-    {
-        logger.Log(debug, "jobOracle is:" + (jobOracle != null));
-    }
+   
+
     public NPCStates WhatShouldIDo(int hunger, int energy)
     {
         logger.Log(debug, "Hunger is:" + hunger + " energy is:" + energy);
@@ -80,9 +77,13 @@ public class NPCOracle : MonoBehaviour
                 i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ArmorSmithOracle>().GetInstructions(sheet.baseCity);
                 break;
             
+            case Jobs.BAKER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<BakerOracle>().GetInstructions(sheet.baseCity);
+                break;
+
             default:
                 //throw some error
-                logger.Log(debug, "No job figure out why");
+                logger.Log(debug, "No job figure out why:" + sheet.job);
                 break;
         }
          

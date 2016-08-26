@@ -54,22 +54,36 @@ public class Smithy : BaseBuilding
         return produces;
     }
 
-    public bool MakeArmor(Instruction instruction)
+    public bool MakeArmor(Instruction instruction, CharacterSheet sheet)
     {
         if (instruction.give[0] == ItemType.BAR && instruction.gather[0] == ItemType.ARMOR)
         {
+            Item armor = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
+            armor.Type = ItemType.ARMOR;
+            armor.PurchasedPrice = 0;
+            sheet.inventory.Add(armor);
             return true;
         }
         return false;
     }
 
-    public bool StoreArmor(Instruction instruction)
+    public bool StoreArmor(Instruction instruction, CharacterSheet sheet)
     {
+        bool result = false;
         if (instruction.give[0] == ItemType.ARMOR && instruction.gather.Length == 0)
         {
-            return true;
+            foreach (Item item in sheet.inventory.items.Keys)
+            {
+                if (item.Type == ItemType.ARMOR)
+                {
+                    inventory.Add(item);
+                    sheet.inventory.Remove(item);
+                    result = true;
+                    break;
+                }
+            }
         }
-        return false;
+        return result;
     }
 
     public override bool DoAction(Instruction instruction, CharacterSheet sheet)
@@ -78,11 +92,11 @@ public class Smithy : BaseBuilding
         switch (instruction.Action)
         {            
             case "MakeArmor":
-                toReturn = MakeArmor(instruction);
+                toReturn = MakeArmor(instruction, sheet);
                 break;
             
             case "StoreArmor":
-                toReturn = StoreArmor(instruction);
+                toReturn = StoreArmor(instruction, sheet);
                 break;
 
             default:

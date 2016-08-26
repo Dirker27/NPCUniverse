@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ArmorSmithOracle : NPCOracle
+public class ArmorSmithOracle : MonoBehaviour
 {
+    public Logger logger;
+    private bool debug = true;
+
     void Start()
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
@@ -40,14 +43,14 @@ public class ArmorSmithOracle : NPCOracle
 
         instructions.Add(getArmor);
 
-        Instruction giveArmor = new Instruction();
-        giveArmor.destination = currentCity.Smithies[0].gameObject.GetComponent<NavigationWaypoint>();
-        giveArmor.building = currentCity.Smithies[0];
-        giveArmor.gather = new ItemType[] { };
-        giveArmor.give = new ItemType[] { ItemType.ARMOR };
-        giveArmor.Action = "StoreArmor";
+        Instruction storeArmor = new Instruction();
+        storeArmor.destination = currentCity.Smithies[0].gameObject.GetComponent<NavigationWaypoint>();
+        storeArmor.building = currentCity.Smithies[0];
+        storeArmor.gather = new ItemType[] { };
+        storeArmor.give = new ItemType[] { ItemType.ARMOR };
+        storeArmor.Action = "StoreArmor";
 
-        instructions.Add(giveArmor);
+        instructions.Add(storeArmor);
 
         return instructions;
     }

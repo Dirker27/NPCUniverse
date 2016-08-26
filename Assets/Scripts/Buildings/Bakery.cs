@@ -32,5 +32,58 @@ public class Bakery : BaseBuilding
         }
         return produced;
     }
+
+    public bool MakeBread(Instruction instruction, CharacterSheet sheet)
+    {
+        if (instruction.give[0] == ItemType.FLOUR && instruction.gather[0] == ItemType.BREAD)
+        {
+            Item bread = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
+            bread.Type = ItemType.BREAD;
+            bread.PurchasedPrice = 0;
+            sheet.inventory.Add(bread);
+            return true;
+        }
+        return false;
+    }
+
+    public bool StoreBread(Instruction instruction, CharacterSheet sheet)
+    {
+        bool result = false;
+        if (instruction.give[0] == ItemType.BREAD && instruction.gather.Length == 0)
+        {
+            foreach (Item item in sheet.inventory.items.Keys)
+            {
+                if (item.Type == ItemType.BREAD)
+                {
+                    inventory.Add(item);
+                    sheet.inventory.Remove(item);
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public override bool DoAction(Instruction instruction, CharacterSheet sheet)
+    {
+        bool toReturn = false;
+        switch (instruction.Action)
+        {
+            case "MakeBread":
+                toReturn = MakeBread(instruction, sheet);
+                break;
+
+            case "StoreBread":
+                toReturn = StoreBread(instruction, sheet);
+                break;
+
+            default:
+                // log that a miss match instruction has arrived
+                toReturn = false;
+                break;
+        }
+        return toReturn;
+    }
 }
 

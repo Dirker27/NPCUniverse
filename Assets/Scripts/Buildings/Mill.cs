@@ -31,5 +31,41 @@ public class Mill : BaseBuilding
         }
         return produces;
     }
+
+    public bool GetFlour(Instruction instruction, CharacterSheet sheet)
+    {
+        bool result = false;
+        if (instruction.give.Length == 0 && instruction.gather[0] == ItemType.FLOUR)
+        {
+            foreach (Item item in inventory.items.Keys)
+            {
+                if (item.Type == ItemType.FLOUR)
+                {
+                    sheet.inventory.Add(item);
+                    inventory.Remove(item);
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public override bool DoAction(Instruction instruction, CharacterSheet sheet)
+    {
+        bool toReturn = false;
+        switch (instruction.Action)
+        {
+            case "GetFlour":
+                toReturn = GetFlour(instruction, sheet);
+                break;
+
+            default:
+                // log that a miss match instruction has arrived
+                toReturn = false;
+                break;
+        }
+        return toReturn;
+    }
 }
 

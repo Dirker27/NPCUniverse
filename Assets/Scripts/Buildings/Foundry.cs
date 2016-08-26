@@ -34,13 +34,23 @@ public class Foundry : BaseBuilding
         return produces;
     }
 
-    public bool GetBar(Instruction instruction)
+    public bool GetBar(Instruction instruction, CharacterSheet sheet)
     {
+        bool result = false;
         if (instruction.give.Length ==0 && instruction.gather[0] == ItemType.BAR)
         {
-            return true;
+            foreach (Item item in inventory.items.Keys)
+            {
+                if (item.Type == ItemType.BAR)
+                {
+                    sheet.inventory.Add(item);
+                    inventory.Remove(item);
+                    result = true;
+                    break;
+                }
+            }
         }
-        return false;
+        return result;
     }
 
     public override bool DoAction(Instruction instruction, CharacterSheet sheet)
@@ -49,7 +59,7 @@ public class Foundry : BaseBuilding
         switch (instruction.Action)
         {
             case "GetBar":
-                toReturn = GetBar(instruction);
+                toReturn = GetBar(instruction, sheet);
                 break;
 
             default:
