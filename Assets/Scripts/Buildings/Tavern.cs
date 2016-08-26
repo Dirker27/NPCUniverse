@@ -76,26 +76,5 @@ public class Tavern : BaseBuilding
         }
         return false;
     }
-
-    public override bool DoAction(Instruction instruction, CharacterSheet sheet)
-    {
-        bool toReturn = false;
-        switch (instruction.Action)
-        {
-            case "Eat":
-                toReturn = Eat(instruction, sheet);
-                break;
-
-            case "Sleep":
-                toReturn = Sleep(instruction, sheet);
-                break;
-
-            default:
-                // log that a miss match instruction has arrived
-                toReturn = false;
-                break;
-        }
-        return toReturn;
-    }
 }
 

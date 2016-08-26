@@ -64,26 +64,5 @@ public class Bakery : BaseBuilding
         }
         return result;
     }
-
-    public override bool DoAction(Instruction instruction, CharacterSheet sheet)
-    {
-        bool toReturn = false;
-        switch (instruction.Action)
-        {
-            case "MakeBread":
-                toReturn = MakeBread(instruction, sheet);
-                break;
-
-            case "StoreBread":
-                toReturn = StoreBread(instruction, sheet);
-                break;
-
-            default:
-                // log that a miss match instruction has arrived
-                toReturn = false;
-                break;
-        }
-        return toReturn;
-    }
 }
 

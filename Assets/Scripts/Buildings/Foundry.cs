@@ -52,23 +52,6 @@ public class Foundry : BaseBuilding
         }
         return result;
     }
-
-    public override bool DoAction(Instruction instruction, CharacterSheet sheet)
-    {
-        bool toReturn = false;
-        switch (instruction.Action)
-        {
-            case "GetBar":
-                toReturn = GetBar(instruction, sheet);
-                break;
-
-            default:
-                // log that a miss match instruction has arrived
-                toReturn = false;
-                break;
-        }
-        return toReturn;
-    }
         
 }
 

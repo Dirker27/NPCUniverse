@@ -85,26 +85,5 @@ public class Smithy : BaseBuilding
         }
         return result;
     }
-
-    public override bool DoAction(Instruction instruction, CharacterSheet sheet)
-    {
-        bool toReturn = false;
-        switch (instruction.Action)
-        {            
-            case "MakeArmor":
-                toReturn = MakeArmor(instruction, sheet);
-                break;
-            
-            case "StoreArmor":
-                toReturn = StoreArmor(instruction, sheet);
-                break;
-
-            default:
-                // log that a miss match instruction has arrived
-                toReturn = false;
-                break;
-        }
-        return toReturn;
-    }
 }
 

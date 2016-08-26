@@ -47,7 +47,7 @@ public class NPCJobDriver : NonPlayableCharacter
             if (GetComponent<CharacterMovement>().location == instructions[currentIntruction].destination)
             {
                 logger.Log(debug, "doing action");
-                instructions[currentIntruction].building.DoAction(instructions[currentIntruction], sheet);
+                instructions[currentIntruction].fun1(instructions[currentIntruction], sheet);
                 currentIntruction++;
                 logger.Log(debug, "CurrentInstruction is now:" + currentIntruction + " total instructions:" + instructions.Count);
                 if (currentIntruction == instructions.Count)

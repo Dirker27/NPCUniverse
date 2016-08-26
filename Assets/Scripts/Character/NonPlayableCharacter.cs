@@ -89,7 +89,7 @@ public class NonPlayableCharacter : MonoBehaviour
             eat.building = sheet.baseCity.Taverns[0];
             eat.gather = new ItemType[] { ItemType.MEAL };
             eat.give = new ItemType[] { };
-            eat.Action = "Eat";
+            eat.fun1 = new instructionFunction(((Tavern)eat.building).Eat);
 
             instructions.Add(eat);
         }
@@ -100,7 +100,7 @@ public class NonPlayableCharacter : MonoBehaviour
             sleep.building = sheet.baseCity.Taverns[0];
             sleep.gather = new ItemType[] { };
             sleep.give = new ItemType[] { };
-            sleep.Action = "Sleep";
+            sleep.fun1 = new instructionFunction(((Tavern)sleep.building).Sleep);
 
             instructions.Add(sleep);
         }

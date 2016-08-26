@@ -58,11 +58,5 @@ public class BaseBuilding : MonoBehaviour
         toReturn.InventorySet(inventory);
         return toReturn;
     }
-
-    public virtual bool DoAction(Instruction instruction, CharacterSheet sheet)
-    {
-        logger.Log(debug, "Base do action called this is wrong");
-        return true;
-    }
 }
 

@@ -30,7 +30,7 @@ public class ArmorSmithOracle : MonoBehaviour
         getBar.building = currentCity.Foundries[0];
         getBar.gather = new ItemType[] {ItemType.BAR};
         getBar.give = new ItemType[] {};
-        getBar.Action = "GetBar";
+        getBar.fun1 = new instructionFunction(((Foundry)getBar.building).GetBar);
 
         instructions.Add(getBar);
 
@@ -39,7 +39,7 @@ public class ArmorSmithOracle : MonoBehaviour
         getArmor.building = currentCity.Smithies[0];
         getArmor.gather = new ItemType[] { ItemType.ARMOR };
         getArmor.give = new ItemType[] { ItemType.BAR };
-        getArmor.Action = "MakeArmor";
+        getArmor.fun1 = new instructionFunction(((Smithy)getArmor.building).MakeArmor);
 
         instructions.Add(getArmor);
 
@@ -48,7 +48,7 @@ public class ArmorSmithOracle : MonoBehaviour
         storeArmor.building = currentCity.Smithies[0];
         storeArmor.gather = new ItemType[] { };
         storeArmor.give = new ItemType[] { ItemType.ARMOR };
-        storeArmor.Action = "StoreArmor";
+        storeArmor.fun1 = new instructionFunction(((Smithy)storeArmor.building).StoreArmor);
 
         instructions.Add(storeArmor);
 

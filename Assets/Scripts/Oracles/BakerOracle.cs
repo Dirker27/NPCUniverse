@@ -32,7 +32,7 @@ public class BakerOracle : MonoBehaviour
         getFlour.building = currentCity.Mills[0];
         getFlour.gather = new ItemType[] { ItemType.FLOUR };
         getFlour.give = new ItemType[] { };
-        getFlour.Action = "GetFlour";
+        getFlour.fun1 = new instructionFunction(((Mill)getFlour.building).GetFlour);
 
         instructions.Add(getFlour);
 
@@ -41,7 +41,7 @@ public class BakerOracle : MonoBehaviour
         makeBread.building = currentCity.Bakeries[0];
         makeBread.gather = new ItemType[] { ItemType.BREAD };
         makeBread.give = new ItemType[] { ItemType.FLOUR };
-        makeBread.Action = "MakeBread";
+        makeBread.fun1 = new instructionFunction(((Bakery)makeBread.building).MakeBread);
 
         instructions.Add(makeBread);
 
@@ -50,7 +50,7 @@ public class BakerOracle : MonoBehaviour
         storeBread.building = currentCity.Bakeries[0];
         storeBread.gather = new ItemType[] { };
         storeBread.give = new ItemType[] { ItemType.BREAD };
-        storeBread.Action = "StoreBread";
+        storeBread.fun1 = new instructionFunction(((Bakery)storeBread.building).StoreBread);
 
         instructions.Add(storeBread);
 
