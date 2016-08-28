@@ -81,6 +81,22 @@ public class NPCOracle : MonoBehaviour
                 i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<BakerOracle>().GetInstructions(sheet.baseCity);
                 break;
 
+            case Jobs.BREWMASTER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<BrewMasterOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.COLLIER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<CollierOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.FARMER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FarmOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.FISHERMAN:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FishermanOracle>().GetInstructions(sheet.baseCity);
+                break;
+
             default:
                 //throw some error
                 logger.Log(debug, "No job figure out why:" + sheet.job);

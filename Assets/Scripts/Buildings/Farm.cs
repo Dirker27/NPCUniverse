@@ -34,5 +34,21 @@ public class Farm : BaseBuilding
         }
         return produces;
     }
+
+    public bool GetCrop(Instruction instruction, CharacterSheet sheet)
+    {
+        bool result = false;
+        if (instruction.give.Length == 0 && 
+            (instruction.gather[0] == ItemType.WHEAT || instruction.gather[0] == ItemType.BARLEY))
+        {
+            Item crop = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
+            crop.Type = instruction.gather[0];
+            crop.PurchasedPrice = 0;
+            sheet.inventory.Add(crop);
+            return true;
+        }
+        return result;
+    }
+
 }
 

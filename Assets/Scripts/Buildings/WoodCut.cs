@@ -31,5 +31,24 @@ public class WoodCut : BaseBuilding
         }
         return produces;
     }
+
+    public bool GetFirewood(Instruction instruction, CharacterSheet sheet)
+    {
+        bool result = false;
+        if (instruction.give.Length == 0 && instruction.gather[0] == ItemType.FIREWOOD)
+        {
+            foreach (Item item in inventory.items.Keys)
+            {
+                if (item.Type == ItemType.FIREWOOD)
+                {
+                    sheet.inventory.Add(item);
+                    inventory.Remove(item);
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
 }
 
