@@ -15,24 +15,7 @@ public class NPCOracle : MonoBehaviour
 
         logger.Log(debug, "jobOracle is:" + (jobOracle != null));
     }
-   
-
-    public NPCStates WhatShouldIDo(int hunger, int energy)
-    {
-        logger.Log(debug, "Hunger is:" + hunger + " energy is:" + energy);
-        if (hunger == 0)
-        {
-            logger.Log(debug, "Returning eat");
-            return NPCStates.EAT;
-        }
-        if (energy == 0)
-        {
-            logger.Log(debug, "Returning sleep");
-            return NPCStates.SLEEP;
-        }
-        logger.Log(debug, "Returning work");
-        return NPCStates.WORK;
-    }
+  
     public NPCStates WhatShouldIDo(CharacterSheet sheet)
     {
         logger.Log(debug, "Hunger is:" + sheet.hunger + " energy is:" + sheet.energy);
@@ -48,11 +31,6 @@ public class NPCOracle : MonoBehaviour
         }
         logger.Log(debug, "Returning work");
         return NPCStates.WORK;
-    }
-
-    public Tavern WhereShouldISleepAndEat(TradeCity city)
-    {
-        return city.Taverns[0];
     }
 
     public void FindAndSetJob(CharacterSheet sheet)
@@ -95,6 +73,58 @@ public class NPCOracle : MonoBehaviour
 
             case Jobs.FISHERMAN:
                 i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FishermanOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.FLETCHER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FletcherOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.FORESTER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ForesterOracle>().GetInstructions(sheet.baseCity);
+                break;
+            
+            case Jobs.SMITH:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FoundryOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.HUNTER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HunterOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.INNKEEPER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InnKeeperOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.MILLER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MillOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.MINER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MineOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.QUATERMASTER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<QuaterMasterOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.SAWWORKER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<SawWorkerOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.STONECUTTER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StoneCutterOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.TOOLSMITH:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ToolSmithOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.WEAPONSMITH:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<WeaponSmithOracle>().GetInstructions(sheet.baseCity);
+                break;
+
+            case Jobs.WOODCUTER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<WoodCuterOracle>().GetInstructions(sheet.baseCity);
                 break;
 
             default:

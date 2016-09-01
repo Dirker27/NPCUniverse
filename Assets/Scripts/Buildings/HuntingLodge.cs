@@ -21,28 +21,11 @@ public class HuntingLodge : BaseBuilding
     {
         base.Start();
         this.debug = false;
-    }
 
-    public ItemType GatherMeat(Item input1, Item input2)
-    {
-        ItemType produces = ItemType.INVALID;
-        if (input1.Type == ItemType.BOW &&
-            input2.Type == ItemType.ARROW)
-        {
-            produces = ItemType.MEAT;
-        }
-        return produces;
-    }
+        canHold = new List<ItemType> { ItemType.MEAT, ItemType.LEATHER };
 
-    public ItemType GatherLeather(Item input1, Item input2)
-    {
-        ItemType produces = ItemType.INVALID;
-        if (input1.Type == ItemType.BOW &&
-            input2.Type == ItemType.ARROW)
-        {
-            produces = ItemType.LEATHER;
-        }
-        return produces;
+        supportedRecipes.Add(MasterRecipe.Instance.Meat);
+        supportedRecipes.Add(MasterRecipe.Instance.Leather);
     }
 }
 

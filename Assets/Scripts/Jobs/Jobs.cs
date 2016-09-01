@@ -21,7 +21,7 @@ public enum Jobs
     SMITH,
     STONECUTTER,
     TOOLSMITH,
-    TRADER,
+    //TRADER,
     WEAPONSMITH,
     WOODCUTER,
 }

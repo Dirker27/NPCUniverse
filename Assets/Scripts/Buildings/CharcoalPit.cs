@@ -21,48 +21,11 @@ public class CharcoalPit : BaseBuilding
     {
         base.Start();
         this.debug = false;
+
+        canHold = new List<ItemType> { ItemType.CHARCOAL };
+
+        supportedRecipes.Add(MasterRecipe.Instance.Charcoal);
     }
 
-    public ItemType MakeCharcoal(Item input)
-    {
-        ItemType produces = ItemType.INVALID;
-        if (input.Type == ItemType.LOG)
-        {
-            produces = ItemType.CHARCOAL;
-        }
-        return produces;
-    }
-
-    public bool MakeCharcoal(Instruction instruction, CharacterSheet sheet)
-    {
-        if (instruction.give[0] == ItemType.FIREWOOD && instruction.gather[0] == ItemType.CHARCOAL)
-        {
-            Item charcoal = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
-            charcoal.Type = ItemType.CHARCOAL;
-            charcoal.PurchasedPrice = 0;
-            sheet.inventory.Add(charcoal);
-            return true;
-        }
-        return false;
-    }
-
-    public bool StoreCharcoal(Instruction instruction, CharacterSheet sheet)
-    {
-        bool result = false;
-        if (instruction.give[0] == ItemType.CHARCOAL && instruction.gather.Length == 0)
-        {
-            foreach (Item item in sheet.inventory.items.Keys)
-            {
-                if (item.Type == ItemType.CHARCOAL)
-                {
-                    inventory.Add(item);
-                    sheet.inventory.Remove(item);
-                    result = true;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
 }
 

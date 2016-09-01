@@ -24,8 +24,11 @@ public class JobOracle : MonoBehaviour
         }
         OpenPositions.Remove(Jobs.NONE);
         AvaliableSpots.Remove(Jobs.NONE);
+        OpenPositions[Jobs.FARMER] = 2;
+        AvaliableSpots[Jobs.FARMER] = 2;
+        OpenPositions[Jobs.MINER] = 2;
+        AvaliableSpots[Jobs.MINER] = 2;
 
-        logger.Log(debug, "I am alive");
     }
 
     public Jobs GetJob(CharacterSheet sheet)

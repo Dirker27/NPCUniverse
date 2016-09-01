@@ -12,7 +12,6 @@ public class NPCJobDriver : NonPlayableCharacter
 
     public override void Start()
     {
-        UnityEngine.Debug.Log("NPCJob Driver start");
         base.Start();
 
         debug = true;

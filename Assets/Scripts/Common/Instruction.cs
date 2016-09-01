@@ -12,6 +12,7 @@ public class Instruction
     public BaseBuilding building;
     public ItemType[] gather;
     public ItemType[] give;
+    public Recipe recipe;
     public instructionFunction fun1;
 
 }

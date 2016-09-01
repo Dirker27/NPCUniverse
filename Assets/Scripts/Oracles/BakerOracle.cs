@@ -3,26 +3,6 @@ using System.Collections.Generic;
 
 public class BakerOracle : MonoBehaviour
 {
-    private bool debug = false;
-
-    void Log(string s)
-    {
-        if (debug)
-        {
-            Debug.Log("BakerOracle log <" + s + ">");
-        }
-    }
-
-    public Bakery WhereShouldIBake(TradeCity currentCity)
-    {
-        return currentCity.Bakeries[0];
-    }
-
-    public Mill WhereShouldIMill(TradeCity currentCity)
-    {
-        return currentCity.Mills[0];
-    }
-
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {
         List<Instruction> instructions = new List<Instruction>();
@@ -32,7 +12,7 @@ public class BakerOracle : MonoBehaviour
         getFlour.building = currentCity.Mills[0];
         getFlour.gather = new ItemType[] { ItemType.FLOUR };
         getFlour.give = new ItemType[] { };
-        getFlour.fun1 = new instructionFunction(((Mill)getFlour.building).GetFlour);
+        getFlour.fun1 = new instructionFunction((getFlour.building).GetItem);
 
         instructions.Add(getFlour);
 
@@ -41,7 +21,8 @@ public class BakerOracle : MonoBehaviour
         makeBread.building = currentCity.Bakeries[0];
         makeBread.gather = new ItemType[] { ItemType.BREAD };
         makeBread.give = new ItemType[] { ItemType.FLOUR };
-        makeBread.fun1 = new instructionFunction(((Bakery)makeBread.building).MakeBread);
+        makeBread.recipe = MasterRecipe.Instance.Bread;
+        makeBread.fun1 = new instructionFunction((makeBread.building).MakeRecipe);
 
         instructions.Add(makeBread);
 
@@ -50,7 +31,7 @@ public class BakerOracle : MonoBehaviour
         storeBread.building = currentCity.Bakeries[0];
         storeBread.gather = new ItemType[] { };
         storeBread.give = new ItemType[] { ItemType.BREAD };
-        storeBread.fun1 = new instructionFunction(((Bakery)storeBread.building).StoreBread);
+        storeBread.fun1 = new instructionFunction((storeBread.building).StoreItem);
 
         instructions.Add(storeBread);
 

@@ -20,35 +20,11 @@ public class Mill : BaseBuilding
     {
         base.Start();
         this.debug = false;
+
+        canHold = new List<ItemType> { ItemType.FLOUR};
+
+        supportedRecipes.Add(MasterRecipe.Instance.Flour);
     }
 
-    public ItemType MakeFlour(Item input)
-    {
-        ItemType produces = ItemType.INVALID;
-        if (input.Type == ItemType.WHEAT)
-        {
-            produces = ItemType.FLOUR;
-        }
-        return produces;
-    }
-
-    public bool GetFlour(Instruction instruction, CharacterSheet sheet)
-    {
-        bool result = false;
-        if (instruction.give.Length == 0 && instruction.gather[0] == ItemType.FLOUR)
-        {
-            foreach (Item item in inventory.items.Keys)
-            {
-                if (item.Type == ItemType.FLOUR)
-                {
-                    sheet.inventory.Add(item);
-                    inventory.Remove(item);
-                    result = true;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
 }
 

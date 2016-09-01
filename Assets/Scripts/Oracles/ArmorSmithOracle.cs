@@ -3,24 +3,6 @@ using System.Collections.Generic;
 
 public class ArmorSmithOracle : MonoBehaviour
 {
-    public Logger logger;
-    private bool debug = true;
-
-    void Start()
-    {
-        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
-    }
-
-    public Smithy WhereShouldISmith(TradeCity currentCity)
-    {
-        return currentCity.Smithies[0];
-    }
-
-    public Foundry WhereShouldIShop(TradeCity currentCity)
-    {
-        return currentCity.Foundries[0];
-    }
-
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {
         List<Instruction> instructions = new List<Instruction>();
@@ -30,25 +12,26 @@ public class ArmorSmithOracle : MonoBehaviour
         getBar.building = currentCity.Foundries[0];
         getBar.gather = new ItemType[] {ItemType.BAR};
         getBar.give = new ItemType[] {};
-        getBar.fun1 = new instructionFunction(((Foundry)getBar.building).GetBar);
+        getBar.fun1 = new instructionFunction((getBar.building).GetItem);
 
         instructions.Add(getBar);
 
-        Instruction getArmor = new Instruction();
-        getArmor.destination = currentCity.Smithies[0].gameObject.GetComponent<NavigationWaypoint>();
-        getArmor.building = currentCity.Smithies[0];
-        getArmor.gather = new ItemType[] { ItemType.ARMOR };
-        getArmor.give = new ItemType[] { ItemType.BAR };
-        getArmor.fun1 = new instructionFunction(((Smithy)getArmor.building).MakeArmor);
+        Instruction makeArmor = new Instruction();
+        makeArmor.destination = currentCity.Smithies[0].gameObject.GetComponent<NavigationWaypoint>();
+        makeArmor.building = currentCity.Smithies[0];
+        makeArmor.gather = new ItemType[] { ItemType.ARMOR };
+        makeArmor.give = new ItemType[] { ItemType.BAR };
+        makeArmor.recipe = MasterRecipe.Instance.Armor;
+        makeArmor.fun1 = new instructionFunction((makeArmor.building).MakeRecipe);
 
-        instructions.Add(getArmor);
+        instructions.Add(makeArmor);
 
         Instruction storeArmor = new Instruction();
         storeArmor.destination = currentCity.Smithies[0].gameObject.GetComponent<NavigationWaypoint>();
         storeArmor.building = currentCity.Smithies[0];
         storeArmor.gather = new ItemType[] { };
         storeArmor.give = new ItemType[] { ItemType.ARMOR };
-        storeArmor.fun1 = new instructionFunction(((Smithy)storeArmor.building).StoreArmor);
+        storeArmor.fun1 = new instructionFunction((storeArmor.building).StoreItem);
 
         instructions.Add(storeArmor);
 

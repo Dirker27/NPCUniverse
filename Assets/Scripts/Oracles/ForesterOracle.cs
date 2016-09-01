@@ -3,23 +3,27 @@ using System.Collections.Generic;
 
 public class ForesterOracle : MonoBehaviour
 {
-    private bool debug = false;
-
-    void Log(string s)
+    public List<Instruction> GetInstructions(TradeCity currentCity)
     {
-        if (debug)
-        {
-            Debug.Log("BakerOracle log <" + s + ">");
-        }
-    }
+        List<Instruction> instructions = new List<Instruction>();
 
-    public Forest WhereShouldICut(TradeCity currentCity)
-    {
-        return currentCity.Forests[0];
-    }
+        Instruction getLog = new Instruction();
+        getLog.destination = currentCity.Forests[0].gameObject.GetComponent<NavigationWaypoint>();
+        getLog.building = currentCity.Forests[0];
+        getLog.gather = new ItemType[] { ItemType.LOG };
+        getLog.give = new ItemType[] { };
+        getLog.recipe = MasterRecipe.Instance.Log;
+        getLog.fun1 = new instructionFunction((getLog.building).MakeRecipe);
 
-    public LogStore WhereShouldIStore(TradeCity currentCity)
-    {
-        return currentCity.LogStores[0];
+        Instruction storeLog = new Instruction();
+        storeLog.destination = currentCity.LogStores[0].gameObject.GetComponent<NavigationWaypoint>();
+        storeLog.building = currentCity.LogStores[0];
+        storeLog.gather = new ItemType[] { };
+        storeLog.give = new ItemType[] { ItemType.LOG };
+        storeLog.fun1 = new instructionFunction((storeLog.building).StoreItem);
+
+        instructions.Add(storeLog);
+
+        return instructions;
     }
 }

@@ -3,27 +3,8 @@ using System.Collections.Generic;
 
 public class FarmOracle : MonoBehaviour
 {
-    private bool debug = false;
-
     private bool Wheat = true;
     private bool Barley = false;
-
-    void Log(string s)
-    {
-        if (debug)
-        {
-            Debug.Log("FarmOracle log <" + s + ">");
-        }
-    }
-    public Farm WhereShouldIFarm(TradeCity currentCity)
-    {
-        return currentCity.Farms[0];
-    }
-
-    public Barn WhereShouldIBarn(TradeCity currentCity)
-    {
-        return currentCity.Barns[0];
-    }
 
     public ItemType WhatShouldIFarm()
     {
@@ -50,26 +31,32 @@ public class FarmOracle : MonoBehaviour
         getCrop.destination = currentCity.Farms[0].gameObject.GetComponent<NavigationWaypoint>();
         getCrop.building = currentCity.Farms[0];
         getCrop.give = new ItemType[] { };
-        getCrop.fun1 = new instructionFunction(((Farm)getCrop.building).GetCrop);
+        getCrop.fun1 = new instructionFunction((getCrop.building).MakeRecipe);
 
 
         Instruction storeCrop = new Instruction();
         storeCrop.destination = currentCity.Barns[0].gameObject.GetComponent<NavigationWaypoint>();
         storeCrop.building = currentCity.Barns[0];
         storeCrop.gather = new ItemType[] { };
-        storeCrop.fun1 = new instructionFunction(((Barn)storeCrop.building).StoreCrop);
+        storeCrop.fun1 = new instructionFunction((storeCrop.building).StoreItem);
 
         if (Wheat)
         {
 
             getCrop.gather = new ItemType[] { ItemType.WHEAT };
             storeCrop.give = new ItemType[] { ItemType.WHEAT };
+            getCrop.recipe = MasterRecipe.Instance.Wheat;
+            Wheat = false;
+            Barley = true;
         }
         else if (Barley)
         {
 
             getCrop.gather = new ItemType[] { ItemType.BARLEY };
             storeCrop.give = new ItemType[] { ItemType.BARLEY };
+            getCrop.recipe = MasterRecipe.Instance.Barley;
+            Barley = false;
+            Wheat = true;
         }
 
         instructions.Add(getCrop);

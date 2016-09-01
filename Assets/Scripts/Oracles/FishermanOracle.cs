@@ -3,26 +3,6 @@ using System.Collections.Generic;
 
 public class FishermanOracle : MonoBehaviour
 {
-    private bool debug = false;
-
-    void Log(string s)
-    {
-        if (debug)
-        {
-            Debug.Log("FishermanOracle log <" + s + ">");
-        }
-    }
-
-    public Pond WhereShouldIFish(TradeCity currentCity)
-    {
-        return currentCity.Ponds[0];
-    }
-
-    public Barn WhereShouldIStore(TradeCity currentCity)
-    {
-        return currentCity.Barns[0];
-    }
-
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {
         List<Instruction> instructions = new List<Instruction>();
@@ -32,7 +12,8 @@ public class FishermanOracle : MonoBehaviour
         getFish.building = currentCity.Ponds[0];
         getFish.gather = new ItemType[] { ItemType.FISH };
         getFish.give = new ItemType[] { };
-        getFish.fun1 = new instructionFunction(((Pond)getFish.building).GetFish);
+        getFish.recipe = MasterRecipe.Instance.Fish;
+        getFish.fun1 = new instructionFunction((getFish.building).MakeRecipe);
 
         instructions.Add(getFish);
 
@@ -41,7 +22,7 @@ public class FishermanOracle : MonoBehaviour
         storeFish.building = currentCity.Barns[0];
         storeFish.gather = new ItemType[] { };
         storeFish.give = new ItemType[] { ItemType.FISH };
-        storeFish.fun1 = new instructionFunction(((Barn)storeFish.building).StoreFish);
+        storeFish.fun1 = new instructionFunction((storeFish.building).StoreItem);
 
         instructions.Add(storeFish);
 

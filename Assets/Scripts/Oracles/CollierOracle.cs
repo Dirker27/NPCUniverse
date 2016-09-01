@@ -3,26 +3,6 @@ using System.Collections.Generic;
 
 public class CollierOracle : MonoBehaviour
 {
-    private bool debug = false;
-
-    void Log(string s)
-    {
-        if (debug)
-        {
-            Debug.Log("BakerOracle log <" + s + ">");
-        }
-    }
-
-    public WoodCut WhereShouldIGather(TradeCity currentCity)
-    {
-        return currentCity.WoodCuts[0];
-    }
-
-    public CharcoalPit WhereShouldICook(TradeCity currentCity)
-    {
-        return currentCity.CharcoalPits[0];
-    }
-
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {
         List<Instruction> instructions = new List<Instruction>();
@@ -32,7 +12,7 @@ public class CollierOracle : MonoBehaviour
         getFirewood.building = currentCity.WoodCuts[0];
         getFirewood.gather = new ItemType[] { ItemType.FIREWOOD };
         getFirewood.give = new ItemType[] { };
-        getFirewood.fun1 = new instructionFunction(((WoodCut)getFirewood.building).GetFirewood);
+        getFirewood.fun1 = new instructionFunction((getFirewood.building).GetItem);
 
         instructions.Add(getFirewood);
 
@@ -41,7 +21,7 @@ public class CollierOracle : MonoBehaviour
         getCharcoal.building = currentCity.CharcoalPits[0];
         getCharcoal.gather = new ItemType[] { ItemType.CHARCOAL };
         getCharcoal.give = new ItemType[] { ItemType.FIREWOOD };
-        getCharcoal.fun1 = new instructionFunction(((CharcoalPit)getCharcoal.building).MakeCharcoal);
+        getCharcoal.fun1 = new instructionFunction((getCharcoal.building).MakeRecipe);
 
         instructions.Add(getCharcoal);
 
@@ -50,7 +30,7 @@ public class CollierOracle : MonoBehaviour
         storeCharcoal.building = currentCity.CharcoalPits[0];
         storeCharcoal.gather = new ItemType[] { };
         storeCharcoal.give = new ItemType[] { ItemType.CHARCOAL };
-        storeCharcoal.fun1 = new instructionFunction(((CharcoalPit)storeCharcoal.building).StoreCharcoal);
+        storeCharcoal.fun1 = new instructionFunction((storeCharcoal.building).StoreItem);
 
         instructions.Add(storeCharcoal);
 

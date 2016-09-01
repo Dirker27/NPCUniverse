@@ -19,6 +19,8 @@ public class GuildHall : BaseBuilding
     {
         base.Start();
         this.debug = false;
+
+        canHold = new List<ItemType> { ItemType.ARMOR, ItemType.WEAPON };
     }
 
 }

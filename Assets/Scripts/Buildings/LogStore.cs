@@ -20,6 +20,8 @@ public class LogStore : BaseBuilding
     {
         base.Start();
         this.debug = false;
+
+        canHold = new List<ItemType> { ItemType.LOG };
     }
 }
 

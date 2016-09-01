@@ -21,37 +21,10 @@ public class Foundry : BaseBuilding
     {
         base.Start();
         this.debug = false;
-    }
-
-    public ItemType WorkFoundry(Item input)
-    {
-
-        ItemType produces = ItemType.INVALID;
-        if (input.Type == ItemType.ORE)
-        {
-            produces = ItemType.BAR;
-        }
-        return produces;
-    }
-
-    public bool GetBar(Instruction instruction, CharacterSheet sheet)
-    {
-        bool result = false;
-        if (instruction.give.Length ==0 && instruction.gather[0] == ItemType.BAR)
-        {
-            foreach (Item item in inventory.items.Keys)
-            {
-                if (item.Type == ItemType.BAR)
-                {
-                    sheet.inventory.Add(item);
-                    inventory.Remove(item);
-                    result = true;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
         
+        canHold = new List<ItemType> { ItemType.BAR };
+       
+        supportedRecipes.Add(MasterRecipe.Instance.Bar);
+    }        
 }
 

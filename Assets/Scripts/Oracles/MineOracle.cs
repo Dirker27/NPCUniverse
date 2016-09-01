@@ -13,30 +13,46 @@ public class MineOracle : MonoBehaviour
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
     }
 
-    public Mine WhereShouldIMine(TradeCity currentCity)
+    public List<Instruction> GetInstructions(TradeCity currentCity)
     {
-        return currentCity.Mines[0];
-    }
+        List<Instruction> instructions = new List<Instruction>();
 
-    public OreShop WhereShouldIStore(TradeCity currentCity)
-    {
-        return currentCity.OreShops[0];
-    }
+        Instruction getRock = new Instruction();
+        getRock.destination = currentCity.Mines[0].gameObject.GetComponent<NavigationWaypoint>();
+        getRock.building = currentCity.Mines[0];
+        getRock.give = new ItemType[] { };
+        getRock.fun1 = new instructionFunction((getRock.building).MakeRecipe);
 
-    public ItemType WhatShouldIMine()
-    {
-        if (Ore)
+
+        Instruction storeRock = new Instruction();
+        storeRock.destination = currentCity.OreShops[0].gameObject.GetComponent<NavigationWaypoint>();
+        storeRock.building = currentCity.OreShops[0];
+        storeRock.gather = new ItemType[] { };
+        storeRock.fun1 = new instructionFunction((storeRock.building).StoreItem);
+
+        if (Stone)
         {
-            Ore = false;
-            Stone = true;
-            return ItemType.ORE;
-        }
-        else if (Stone)
-        {
+
+            getRock.gather = new ItemType[] { ItemType.STONE };
+            storeRock.give = new ItemType[] { ItemType.STONE };
+            getRock.recipe = MasterRecipe.Instance.Stone;
             Stone = false;
             Ore = true;
-            return ItemType.STONE;
         }
-        return ItemType.INVALID;
+        else if (Ore)
+        {
+
+            getRock.gather = new ItemType[] { ItemType.ORE };
+            storeRock.give = new ItemType[] { ItemType.ORE };
+            getRock.recipe = MasterRecipe.Instance.Ore;
+            Ore = false;
+            Stone = true;
+        }
+
+        instructions.Add(getRock);
+
+        instructions.Add(storeRock);
+
+        return instructions;
     }
 }

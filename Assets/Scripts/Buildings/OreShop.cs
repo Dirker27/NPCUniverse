@@ -21,6 +21,8 @@ public class OreShop : BaseBuilding
     {
         base.Start();
         this.debug = false;
+
+        canHold = new List<ItemType> { ItemType.ORE, ItemType.STONE };
     }
 
 }

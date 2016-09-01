@@ -20,35 +20,11 @@ public class WoodCut : BaseBuilding
     {
         base.Start();
         this.debug = false;
+
+        canHold = new List<ItemType> { ItemType.FIREWOOD };
+
+        supportedRecipes.Add(MasterRecipe.Instance.FireWood);
     }
 
-    public ItemType MakeFireWood(Item input)
-    {
-        ItemType produces = ItemType.INVALID;
-        if (input.Type == ItemType.LOG)
-        {
-            produces = ItemType.FIREWOOD;
-        }
-        return produces;
-    }
-
-    public bool GetFirewood(Instruction instruction, CharacterSheet sheet)
-    {
-        bool result = false;
-        if (instruction.give.Length == 0 && instruction.gather[0] == ItemType.FIREWOOD)
-        {
-            foreach (Item item in inventory.items.Keys)
-            {
-                if (item.Type == ItemType.FIREWOOD)
-                {
-                    sheet.inventory.Add(item);
-                    inventory.Remove(item);
-                    result = true;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
 }
 

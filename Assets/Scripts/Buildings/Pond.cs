@@ -21,24 +21,8 @@ public class Pond : BaseBuilding
     {
         base.Start();
         this.debug = false;
-    }
-
-    public ItemType FishPond()
-    {
-        return ItemType.FISH;
-    }
-
-    public bool GetFish(Instruction instruction, CharacterSheet sheet)
-    {
-        if (instruction.give.Length == 0 && instruction.gather[0] == ItemType.FISH)
-        {
-            Item fish = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
-            fish.Type = ItemType.FISH;
-            fish.PurchasedPrice = 0;
-            sheet.inventory.Add(fish);
-            return true;
-        }
-        return false;
+        
+        supportedRecipes.Add(MasterRecipe.Instance.Fish);
     }
 }
 

@@ -44,9 +44,6 @@ public class CharacterSheet : MonoBehaviour
 
         baseCity = npcOracle.WhereShouldBaseCityBe();
 
-        destinationTaverrn = npcOracle.WhereShouldISleepAndEat(baseCity);
-        tavern = destinationTaverrn.gameObject.GetComponent<NavigationWaypoint>();
-
         health = 100;
         hunger = 100;
         energy = 100;
@@ -67,31 +64,6 @@ public class CharacterSheet : MonoBehaviour
         if (energy > 0)
         {
             energy -= 5;
-        }
-    }
-
-    public void NPCUpdate(NPCStates state)
-    {
-        logger.Log(debug, "State was:" + previousState + " State will be:" + state);
-        if (state == NPCStates.SLEEP)
-        {
-            if (previousState != NPCStates.SLEEP)
-            {
-                previousState = NPCStates.SLEEP;
-                GetComponent<CharacterMovement>().destination = tavern;
-                GetComponent<CharacterMovement>().location = null;
-            }
-            GoingToSleep();
-        }
-        else if (state == NPCStates.EAT)
-        {
-            if (previousState != NPCStates.EAT)
-            {
-                previousState = NPCStates.EAT;
-                GetComponent<CharacterMovement>().destination = tavern;
-                GetComponent<CharacterMovement>().location = null;
-            }
-            FindingFood();
         }
     }
 
@@ -123,38 +95,6 @@ public class CharacterSheet : MonoBehaviour
         }
 
         return instructions;
-    }
-
-    void FindingFood()
-    {
-        logger.Log(debug, "Finding food");
-        if (!GetComponent<CharacterMovement>().isInTransit())
-        {
-            logger.Log(debug, "Not traveling");
-            if (GetComponent<CharacterMovement>().location == tavern)
-            {
-                logger.Log(debug, "At tavern");
-                Item meal = destinationTaverrn.GetMeal();
-                Destroy(meal);
-                hunger = 100;
-                GetComponent<CharacterMovement>().destination = workDestination;
-                GetComponent<CharacterMovement>().location = null;
-            }
-        }
-    }
-
-    void GoingToSleep()
-    {
-        if (!GetComponent<CharacterMovement>().isInTransit())
-        {
-            if (GetComponent<CharacterMovement>().location == tavern)
-            {
-                Sleep(5);
-                energy = 100;
-                GetComponent<CharacterMovement>().destination = workDestination;
-                GetComponent<CharacterMovement>().location = null;
-            }
-        }
     }
 
     IEnumerator Sleep(int seconds)

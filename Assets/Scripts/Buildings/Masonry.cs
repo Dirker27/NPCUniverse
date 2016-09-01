@@ -20,16 +20,11 @@ public class Masonry : BaseBuilding
     {
         base.Start();
         this.debug = false;
-    }
 
-    public ItemType CutStone(Item input)
-    {
-        ItemType produces = ItemType.INVALID;
-        if (input.Type == ItemType.STONE)
-        {
-            produces = ItemType.STONEBLOCK;
-        }
-        return produces;
+
+        canHold = new List<ItemType> { ItemType.STONEBLOCK };
+
+        supportedRecipes.Add(MasterRecipe.Instance.StoneBlock);
     }
 }
 

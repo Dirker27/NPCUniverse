@@ -21,11 +21,9 @@ public class Forest : BaseBuilding
     {
         base.Start();
         this.debug = false;
+
+        supportedRecipes.Add(MasterRecipe.Instance.Log);
     }
 
-    public ItemType WorkForest()
-    {
-        return ItemType.LOG;
-    }
 }
 

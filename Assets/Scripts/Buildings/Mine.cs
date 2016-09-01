@@ -22,17 +22,8 @@ public class Mine : BaseBuilding
     {
         base.Start();
         this.debug = false;
-    }
-
-    public ItemType WorkMine(ItemType item)
-    {
-        ItemType produced = ItemType.INVALID;
-        if(item == ItemType.ORE ||
-            item == ItemType.STONE)
-        {
-            produced = item;
-        }
-        return produced;
+        
+        supportedRecipes.Add(MasterRecipe.Instance.Ore);
     }
 }
 

@@ -28,12 +28,16 @@ public class BaseBuilding : MonoBehaviour
     public Logger logger;
     public bool debug = false;
 
+    public List<Recipe> supportedRecipes;
+    public List<ItemType> canHold;
 
     public virtual void Start()
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
         this.inventory = GetComponent<Inventory>();
         this.inventory.items = new Dictionary<Item, int>();
+        supportedRecipes = new List<Recipe>();
+        canHold = new List<ItemType>();
     }
 
     public void Deposit(Item deposit)
@@ -57,6 +61,53 @@ public class BaseBuilding : MonoBehaviour
         Inventory toReturn = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Inventory>();
         toReturn.InventorySet(inventory);
         return toReturn;
+    }
+
+    public bool StoreItem(Instruction instruction, CharacterSheet sheet)
+    {
+        bool result = false;
+        if (canHold.Contains(instruction.give[0]))
+        {
+            foreach (Item item in sheet.inventory.items.Keys)
+            {
+                if (item.Type == instruction.give[0])
+                {
+                    inventory.Add(item);
+                    sheet.inventory.Remove(item);
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public bool GetItem(Instruction instruction, CharacterSheet sheet)
+    {
+        bool result = false;
+        if (canHold.Contains(instruction.gather[0]))
+        {
+            foreach (Item item in sheet.inventory.items.Keys)
+            {
+                if (item.Type == instruction.gather[0])
+                {
+                    sheet.inventory.Add(item);
+                    inventory.Remove(item);
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public bool MakeRecipe(Instruction instruction, CharacterSheet sheet)
+    {
+        if (supportedRecipes.Contains(instruction.recipe) && instruction.recipe.CanFufill(sheet))
+        {
+            instruction.recipe.CompleteRecipe(sheet);   
+        }
+        return false;
     }
 }
 

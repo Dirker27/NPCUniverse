@@ -23,26 +23,11 @@ public class BowShop : BaseBuilding
     {
         base.Start();
         this.debug = false;
-    }
 
-    public ItemType CraftBow(Item input)
-    {
-        ItemType produced = ItemType.INVALID;
-        if (input.Type == ItemType.LOG)
-        {
-            produced = ItemType.BOW;
-        }
-        return produced;
-    }
+        canHold = new List<ItemType> { ItemType.BOW, ItemType.ARROW};
 
-    public ItemType CraftArrow(Item input)
-    {
-        ItemType produced = ItemType.INVALID;
-        if (input.Type == ItemType.LOG)
-        {
-            produced = ItemType.ARROW;
-        }
-        return produced;
+        supportedRecipes.Add(MasterRecipe.Instance.Bow);
+        supportedRecipes.Add(MasterRecipe.Instance.Arrow);
     }
 }
 
