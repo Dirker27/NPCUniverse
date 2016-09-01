@@ -26,10 +26,7 @@ public class NonPlayableCharacter : MonoBehaviour
         sheet.baseCity = sheet.npcOracle.WhereShouldBaseCityBe();
 
         logger.Log(debug, "city:" + sheet.baseCity);
-
-        sheet.destinationTaverrn = sheet.npcOracle.WhereShouldISleepAndEat(sheet.baseCity);
-        sheet.tavern = sheet.destinationTaverrn.gameObject.GetComponent<NavigationWaypoint>();
-
+        
         sheet.health = 100;
         sheet.hunger = 100;
         sheet.energy = 100;
@@ -50,31 +47,6 @@ public class NonPlayableCharacter : MonoBehaviour
         if (sheet.energy > 0)
         {
             sheet.energy -= 5;   
-        }
-    }
-
-    public void NPCUpdate(NPCStates state)
-    {
-        logger.Log(debug, "State was:" + sheet.previousState + " State will be:" + state);
-        if (state == NPCStates.SLEEP)
-        {
-            if (sheet.previousState != NPCStates.SLEEP)
-            {
-                sheet.previousState = NPCStates.SLEEP;
-                GetComponent<CharacterMovement>().destination = sheet.tavern;
-                GetComponent<CharacterMovement>().location = null;
-            }
-            GoingToSleep();
-        }
-        else if (state == NPCStates.EAT)
-        {
-            if (sheet.previousState != NPCStates.EAT)
-            {
-                sheet.previousState = NPCStates.EAT;
-                GetComponent<CharacterMovement>().destination = sheet.tavern;
-                GetComponent<CharacterMovement>().location = null;
-            }
-            FindingFood();
         }
     }
 
@@ -108,46 +80,7 @@ public class NonPlayableCharacter : MonoBehaviour
         return instructions;
     }
 
-    void FindingFood()
-    {
-        logger.Log(debug, "Finding food");
-        if (!GetComponent<CharacterMovement>().isInTransit())
-        {
-            logger.Log(debug, "Not traveling");
-            if (GetComponent<CharacterMovement>().location == sheet.tavern)
-           {
-               logger.Log(debug, "At tavern");
-               Item meal = sheet.destinationTaverrn.GetMeal();
-               Destroy(meal);
-               sheet.hunger = 100;
-               GetComponent<CharacterMovement>().destination = sheet.workDestination;
-               GetComponent<CharacterMovement>().location = null;
-           }
-        }
-    }
-
-    void GoingToSleep()
-    {
-        if (!GetComponent<CharacterMovement>().isInTransit())
-        {
-            if (GetComponent<CharacterMovement>().location == sheet.tavern)
-            {
-                Sleep(5);
-                sheet.energy = 100;
-                GetComponent<CharacterMovement>().destination = sheet.workDestination;
-                GetComponent<CharacterMovement>().location = null;
-            }
-        }
-    }
-
     IEnumerator Sleep(int seconds) {
         yield return new WaitForSeconds(seconds);
-    }
-
-    public void SetDestinationForWork(NavigationWaypoint destination)
-    {
-        GetComponent<CharacterMovement>().destination = destination;
-        sheet.workDestination = destination;
-        GetComponent<CharacterMovement>().location = null;
     }
 }

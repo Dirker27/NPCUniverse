@@ -20,41 +20,10 @@ public class Tavern : BaseBuilding
     {
         base.Start();
         this.debug = false;
-    }
 
-    public ItemType MakeMeal(Item inputbread, Item inputfish, Item inputbeer)
-    {
-        ItemType produces = ItemType.INVALID;
-        if (inputbread.Type == ItemType.BREAD &&
-            inputfish.Type == ItemType.FISH &&
-            inputbeer.Type == ItemType.BEER)
-        {
-            produces = ItemType.MEAL;
-        }
-        return produces;
-    }
+        canHold = new List<ItemType> { ItemType.MEAL };
 
-    public Item GetMeal()
-    {
-        Inventory fridge = PeekContents();
-        Dictionary<Item, int> contents = fridge.SeeContents();
-
-        Item meal = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
-        bool foundMeal = false;
-        foreach (Item item in contents.Keys)
-        {
-            if (item.Type == ItemType.MEAL)
-            {
-                meal.Type = item.Type;
-                meal.PurchasedPrice = item.PurchasedPrice;
-                foundMeal = true;
-            }
-        }
-        if (foundMeal)
-        {
-            Withdraw(meal);
-        }
-        return meal;
+        supportedRecipes.Add(MasterRecipe.Instance.Meal);
     }
 
     public bool Eat(Instruction instruction, CharacterSheet sheet)
