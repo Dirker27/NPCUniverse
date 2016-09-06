@@ -2,11 +2,13 @@
  * Class:Tavern
  * Purpose:Provides the functionality of a Tavern for an InnKeeper
  * 
- * public fields:
- *  
+ * Supports the Meal recipie
+ * Can Store Meals
+ * 
  * public methods:
  *  void Start(): 
- *  ItemType MakeMeal(Bread, Fish, Beer): Takes a Bread, Fish, and Beer to make one meal
+ *  void Eat():
+ *  void Sleep():
  * 
  * @author: NvS 
  */

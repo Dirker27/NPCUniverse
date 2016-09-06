@@ -64,10 +64,10 @@ public class TradeOracle : MonoBehaviour
             }
         }
  
-        Dictionary<Item, int> manifest = new Dictionary<Item, int>();
+        List<Item> manifest = new List<Item>();
         bestItem.PurchasedPrice = purchasedPrice;
 
-        manifest.Add(bestItem, canAffordOfBestItem);
+        manifest.Add(bestItem);
        
         TradeOrders tradeOrder = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeOrders>();
         tradeOrder.Manifests = manifest;
@@ -77,42 +77,40 @@ public class TradeOracle : MonoBehaviour
         return tradeOrder;
     }
 
-    public TradeOrders WhatShouldISell(TradeCity currentCity, Dictionary<Item,int> manifest)
+    public void WhatShouldISell(TradeCity currentCity, List<Item> manifest)
     {
-        Dictionary<Item, int> toSell = new Dictionary<Item, int>();
+        List<Item> toSell = new List<Item>();
 
-        foreach (TradeData data in currentCity.MarketPlace.TradeDataManifest)
-        {
-            if (manifest != null)
-            {
-                foreach (Item item in manifest.Keys)
-                {
-                    if (item.Type == data.Item)
-                    {
-                        if (data.CurrentCost() > item.PurchasedPrice)
-                        {
-                            if (toSell.ContainsKey(item))
-                            {
-                                toSell[item] += manifest[item];
-                            }
-                            else
-                            {
-                                toSell.Add(item, manifest[item]);
-                            }
-                            Log("Decided to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a profit of " + (item.PurchasedPrice - data.CurrentCost()));
-                        }
-                        else
-                        {
-                            Log("Decided not to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a loss of " + (data.CurrentCost() - item.PurchasedPrice));
-                        }
-                    }
-                }
-            }
-        }
+        //foreach (TradeData data in currentCity.MarketPlace.TradeDataManifest)
+        //{
+        //    if (manifest != null)
+        //    {
+        //        foreach (Item item in manifest)
+        //        {
+        //            if (item.Type == data.Item)
+        //            {
+        //                if (data.CurrentCost() > item.PurchasedPrice)
+        //                {
+        //                    if (toSell.Contains(item))
+        //                    {
+        //                        toSell.Add(manifest[item]);
+        //                    }
+        //                    else
+        //                    {
+        //                        toSell.Add(item, manifest[item]);
+        //                    }
+        //                    Log("Decided to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a profit of " + (item.PurchasedPrice - data.CurrentCost()));
+        //                }
+        //                else
+        //                {
+        //                    Log("Decided not to sell:" + item.Type + " at " + data.CurrentCost() + " bought it at " + item.PurchasedPrice + " for a loss of " + (data.CurrentCost() - item.PurchasedPrice));
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
-        TradeOrders tradeOrder = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeOrders>();
-        tradeOrder.Manifests = toSell;
-
-        return tradeOrder;
+        //TradeOrders tradeOrder = GameObject.FindGameObjectWithTag("GameManager").AddComponent<TradeOrders>();
+        //tradeOrder.Manifests = toSell;
     }
 }

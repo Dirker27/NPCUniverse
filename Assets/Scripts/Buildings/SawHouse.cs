@@ -2,11 +2,13 @@
  * Class:SawHouse
  * Purpose:Provides the functionality of a SawHouse for a SawWorker
  * 
+ * Supports the LumberPlank recipe
+ * Can Store LumberPlanks
+ * 
  * public fields:
  *  
  * public methods:
  *  void Start(): 
- *  ItemType MakePlanks(Item): Takes one log and makes one lumberplank.
  * 
  * @author: NvS 
  */

@@ -17,7 +17,7 @@ public class NonPlayableCharacter : MonoBehaviour
         sheet = GameObject.FindGameObjectWithTag("GameManager").AddComponent<CharacterSheet>();
 
         sheet.inventory = GetComponent<Inventory>();
-        sheet.inventory.items = new Dictionary<Item, int>();
+        sheet.inventory.items = new List<Item>();
 
         sheet.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
         sheet.npcOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<NPCOracle>();

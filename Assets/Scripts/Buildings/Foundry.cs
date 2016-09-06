@@ -2,6 +2,9 @@
  * Class:Foundry
  * Purpose:Provides the functionality of a Foundry for a Smith. Creates bars.
  * 
+ * Supports the Bar recipie
+ * Can Store Bars
+ * 
  * public fields:
  *  
  * public methods:

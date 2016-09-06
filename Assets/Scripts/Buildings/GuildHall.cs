@@ -2,6 +2,8 @@
  * Class:GuildHall
  * Purpose:Provides the functionality of a GuildHall for a Quatermaster.
  * 
+ * Can Store Armor and Weapons
+ * 
  * public fields:
  *  
  * public methods:

@@ -2,11 +2,12 @@
  * Class:Pond
  * Purpose:Provides the functionality of a Pond for a Fisherman
  * 
+ * Supports the Fish recipe
+ * 
  * public fields:
  *  
  * public methods:
  *  void Start(): 
- *  ItemType FishPond(Item): Returns one fish
  * 
  * @author: NvS 
  */

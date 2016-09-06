@@ -2,6 +2,8 @@
  * Class:OreShop
  * Purpose:Provides the functionality of a OreShop for a miner
  * 
+ * Can Store Ore and Stone
+ * 
  * public fields:
  *  
  * public methods:

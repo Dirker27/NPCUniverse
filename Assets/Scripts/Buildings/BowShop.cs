@@ -2,6 +2,9 @@
  * Class:BowShop
  * Purpose:Provides the functionality of a BowShop for a Fletcher. Creates bow and arrows.
  * 
+ * Supports the Bow and Arrow recipies
+ * Can Store Bow and Arrows
+ * 
  * public fields:
  *  
  * public methods:

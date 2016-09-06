@@ -17,12 +17,12 @@ public class TradeMarketPlace : MonoBehaviour
         }
     }
 
-    public int BuyThese(Dictionary<Item, int> manifest)
+    public int BuyThese(List<Item> manifest)
     {
         int cost = 0;
         Dictionary<TradeData, int> trades = new Dictionary<TradeData, int>();
 
-        foreach(Item good in manifest.Keys)
+        foreach(Item good in manifest)
         {
             foreach(TradeData data in TradeDataManifest)
             {
@@ -46,30 +46,30 @@ public class TradeMarketPlace : MonoBehaviour
         return cost;
     }
 
-    public int SellThese(Dictionary<Item, int> manifest)
+    public int SellThese(List<Item> manifest)
     {
         int profit = 0;
 
-        Dictionary<TradeData, int> trades = new Dictionary<TradeData, int>();
+        //Dictionary<TradeData, int> trades = new Dictionary<TradeData, int>();
 
-        foreach (Item good in manifest.Keys)
-        {
-            foreach (TradeData data in TradeDataManifest)
-            {
-                if (good.Type == data.Item)
-                {
-                    profit += data.CurrentCost();
-                    if (!trades.ContainsKey(data))
-                    {
-                        trades[data] = 1;
-                    }
-                    else
-                    {
-                        trades[data] += 1;
-                    }
-                }
-            }
-        }
+        //foreach (Item good in manifest.Keys)
+        //{
+        //    foreach (TradeData data in TradeDataManifest)
+        //    {
+        //        if (good.Type == data.Item)
+        //        {
+        //            profit += data.CurrentCost();
+        //            if (!trades.ContainsKey(data))
+        //            {
+        //                trades[data] = 1;
+        //            }
+        //            else
+        //            {
+        //                trades[data] += 1;
+        //            }
+        //        }
+        //    }
+        //}
 
         /*foreach (KeyValuePair<TradeData, int> kvp in trades)
         {

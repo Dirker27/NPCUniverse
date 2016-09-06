@@ -20,7 +20,7 @@ class Trader : NonPlayableCharacter
     void Start()
     {
         sheet.inventory = GetComponent<Inventory>();
-        sheet.inventory.items = new Dictionary<Item, int>();
+        sheet.inventory.items = new List<Item>();
         this.oracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
     }
 
@@ -60,17 +60,17 @@ class Trader : NonPlayableCharacter
 
     public void SellGoods(TradeOracle oracle)
     {
-        Log("Start SellGoods at " + currentCity);
-        TradeOrders orders = oracle.WhatShouldISell(currentCity, sheet.inventory.items);
+        //Log("Start SellGoods at " + currentCity);
+        //TradeOrders orders = oracle.WhatShouldISell(currentCity, sheet.inventory.items);
 
-        Log("Before trade currency:" + sheet.inventory.currency);
-        sheet.inventory.currency += currentCity.MarketPlace.SellThese(orders.Manifests);
-        Log("After trade currency:" + sheet.inventory.currency);
+        //Log("Before trade currency:" + sheet.inventory.currency);
+        //sheet.inventory.currency += currentCity.MarketPlace.SellThese(orders.Manifests);
+        //Log("After trade currency:" + sheet.inventory.currency);
 
-        Log("Items before sale:" + Item.ListToString(sheet.inventory.items));
-        Log("Items to sell:" + Item.ListToString(orders.Manifests));
-        sheet.inventory.RemoveCollection(orders.Manifests);
-        Log("Items after sale:" + Item.ListToString(sheet.inventory.items));
-        Log("End SellGoods");
+        //Log("Items before sale:" + Item.ListToString(sheet.inventory.items));
+        //Log("Items to sell:" + Item.ListToString(orders.Manifests));
+        //sheet.inventory.RemoveCollection(orders.Manifests);
+        //Log("Items after sale:" + Item.ListToString(sheet.inventory.items));
+        //Log("End SellGoods");
     }
 }

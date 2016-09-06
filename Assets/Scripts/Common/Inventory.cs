@@ -5,7 +5,7 @@ using System.Collections.Generic;  // dafuq? - No. Fuck You, Nathaniel.
 public class Inventory : MonoBehaviour
 {
     public int currency;
-    public Dictionary<Item, int> items;
+    public List<Item> items;
 
     private bool debug = false;
 
@@ -20,82 +20,46 @@ public class Inventory : MonoBehaviour
     public void InventorySet(Inventory other)
     {
         this.currency = other.currency;
-        this.items = new Dictionary<Item, int>(other.items);
-    }
-
-    public void Add(Item toAdd, int amount)
-    {
-        if (items.ContainsKey(toAdd))
-        {
-            items[toAdd] += 1;
-        }
-        else
-        {
-            items.Add(toAdd, 1);
-        }
+        this.items = new List<Item>(other.items);
     }
 
     public void Add(Item toAdd)
     {
-        Add(toAdd, 1);
+        items.Add(toAdd);
     }
 
-    public void AddCollection(Dictionary<Item,int> toAdd)
+    public void AddCollection(List<Item> toAdd)
     {
-        foreach (Item add in toAdd.Keys)
+        foreach (Item add in toAdd)
         {
-            Add(add, toAdd[add]);
-        }
-    }
-
-    public void Remove(Item toRemove, int amount)
-    {
-        Log("Remove:" + toRemove.ToString() + "From:" + ToString() + "Contains:" + items.ContainsKey(toRemove));
-        if (items.ContainsKey(toRemove))
-        {
-            if (items[toRemove] > amount)
-            {
-                items[toRemove] -= amount;
-            }
-            else
-            {
-                items.Remove(toRemove);
-            }
+            Add(add);
         }
     }
 
     public void Remove(Item toRemove)
     {
-        Remove(toRemove, 1);
+        items.Remove(toRemove);
     }
 
-    public void RemoveCollection(Dictionary<Item,int> toRemove)
+    public void RemoveCollection(List<Item> toRemove)
     {
-        foreach (Item remove in toRemove.Keys)
+        foreach (Item remove in toRemove)
         {
-            if (items.ContainsKey(remove))
-            {
-                Remove(remove, toRemove[remove]);
-            }
+            items.Remove(remove);
         }
-    }
-
-    public Dictionary<Item, int> SeeContents()
-    {
-        return new Dictionary<Item, int>(items);
     }
 
     public override string ToString()
     {
         string result = "Inventory [";
 
-        foreach (Item item in items.Keys)
+        foreach (Item item in items)
         {
             result += "(";
 
             result += item.ToString();
             result += " ";
-            result += items[item];
+            result += item;
             result += ")";
         }
 

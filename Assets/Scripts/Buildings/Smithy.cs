@@ -2,13 +2,13 @@
  * Class:Smithy
  * Purpose:Provides the functionality of a Smithy for a Weapon or Armor smith or Tool smith
  * 
+ * Supports the Armork, Weapon, and Tool recipes
+ * Can Store Armor, Weapons, and Tools
+ * 
  * public fields:
  *  
  * public methods:
  *  void Start(): 
- *  ItemType WorkSmithyArmor(Item): Takes one bar and returns Armor
- *  ItemType WorkSmithyWeapon(Item): Takes one bar and returns Weapon
- *  ItemType WorkSmithyTool(Item): Takes one bar and returns Tool
  * 
  * @author: NvS 
  */

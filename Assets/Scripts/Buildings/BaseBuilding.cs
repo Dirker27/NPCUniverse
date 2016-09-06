@@ -35,32 +35,9 @@ public class BaseBuilding : MonoBehaviour
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
         this.inventory = GetComponent<Inventory>();
-        this.inventory.items = new Dictionary<Item, int>();
-        supportedRecipes = new List<Recipe>();
-        canHold = new List<ItemType>();
-    }
-
-    public void Deposit(Item deposit)
-    {
-        logger.Log(debug, "To deposit" + deposit.ToString());
-        logger.Log(debug, "Inventory before deposit: " + inventory.ToString());
-        inventory.Add(deposit);
-        logger.Log(debug, "Inventory after deposit: " + inventory.ToString());
-    }
-
-    public void Withdraw(Item toWithdraw)
-    {
-        logger.Log(debug, "To withdraw" + toWithdraw.ToString());
-        logger.Log(debug, "Inventory before withdraw: " + inventory.ToString());
-        inventory.Remove(toWithdraw);
-        logger.Log(debug, "Inventory after withdraw: " + inventory.ToString());
-    }
-
-    public Inventory PeekContents()
-    {
-        Inventory toReturn = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Inventory>();
-        toReturn.InventorySet(inventory);
-        return toReturn;
+        this.inventory.items = new List<Item>();
+        this.supportedRecipes = new List<Recipe>();
+        this.canHold = new List<ItemType>();
     }
 
     public bool StoreItem(Instruction instruction, CharacterSheet sheet)
@@ -68,7 +45,7 @@ public class BaseBuilding : MonoBehaviour
         bool result = false;
         if (canHold.Contains(instruction.give[0]))
         {
-            foreach (Item item in sheet.inventory.items.Keys)
+            foreach (Item item in sheet.inventory.items)
             {
                 if (item.Type == instruction.give[0])
                 {
@@ -87,7 +64,7 @@ public class BaseBuilding : MonoBehaviour
         bool result = false;
         if (canHold.Contains(instruction.gather[0]))
         {
-            foreach (Item item in sheet.inventory.items.Keys)
+            foreach (Item item in sheet.inventory.items)
             {
                 if (item.Type == instruction.gather[0])
                 {
@@ -103,11 +80,7 @@ public class BaseBuilding : MonoBehaviour
 
     public bool MakeRecipe(Instruction instruction, CharacterSheet sheet)
     {
-        if (supportedRecipes.Contains(instruction.recipe) && instruction.recipe.CanFufill(sheet))
-        {
-            instruction.recipe.CompleteRecipe(sheet);   
-        }
-        return false;
+        return instruction.recipe.CompleteRecipe(sheet);
     }
 }
 

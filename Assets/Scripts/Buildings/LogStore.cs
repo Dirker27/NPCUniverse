@@ -2,6 +2,8 @@
  * Class:LogStore
  * Purpose:Provides the functionality of a LogStore for a forester.
  * 
+ * Can Store Log
+ * 
  * public fields:
  *  
  * public methods:

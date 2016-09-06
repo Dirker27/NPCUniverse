@@ -2,6 +2,9 @@
  * Class:Brewhouse
  * Purpose:Provides the functionality of a Brew house for a Brewmaster. Creates beer.
  * 
+ * Supports the Beer recipie
+ * Can Store Beer
+ * 
  * public fields:
  *  
  * public methods:

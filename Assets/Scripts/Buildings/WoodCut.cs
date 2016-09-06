@@ -1,12 +1,13 @@
 ﻿/**
  * Class:WoodCut
  * Purpose:Provides the functionality of a WoodCut for a WoodCuter
+ * Supports the FireWood recipe
+ * Can Store FireWood
  * 
  * public fields:
  *  
  * public methods:
  *  void Start(): 
- *  ItemType MakeFireWood(Log): Takes one log and returns one firewood;
  * 
  * @author: NvS 
  */

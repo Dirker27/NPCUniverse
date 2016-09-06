@@ -2,6 +2,9 @@
  * Class:CharcoalPit
  * Purpose:Provides the functionality of a Charcoal pit for a Colier. Creates coal.
  * 
+ * Supports the Charcoal recipie
+ * Can Store Charcoal
+ * 
  * public fields:
  *  
  * public methods:

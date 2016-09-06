@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public class TradeOrders : MonoBehaviour
 {
     public TradeRoute Destination;
-    public Dictionary<Item, int> Manifests;
+    public List<Item> Manifests;
 
-    public TradeOrders(TradeRoute Destination, Dictionary<Item, int> Manifests)
+    public TradeOrders(TradeRoute Destination, List<Item> Manifests)
     {
         this.Destination = Destination;
         this.Manifests = Manifests;

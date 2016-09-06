@@ -2,12 +2,13 @@
  * Class:HuntingLodge
  * Purpose:Provides the functionality of a HuntingLodge for a Hunter. Creates meat and leather.
  * 
+ * Supports the Meat and Leather recipie
+ * Can Store Meat and Leather
+ * 
  * public fields:
  *  
  * public methods:
  *  void Start(): 
- *  ItemType GatherMeat(Item): Takes bow and arrow and returns one meat
- *  ItemType GatherLeather(Item): Takes bow and arrow and returns one leather
  * 
  * @author: NvS 
  */

@@ -2,6 +2,8 @@
  * Class:Farm
  * Purpose:Provides the functionality of a farm for a farmer. Creates barley and wheat.
  * 
+ * Supports the Wheat and Barley recipie
+ * 
  * public fields:
  *  
  * public methods:

@@ -2,11 +2,12 @@
  * Class:Mine
  * Purpose:Provides the functionality of a Mine for a Miner
  * 
+ * Supports the Ore and Stone recipe
+ * 
  * public fields:
  *  
  * public methods:
  *  void Start(): 
- *  ItemType WorkMine(Item): Produces one item
  * 
  * @author: NvS 
  */
@@ -24,6 +25,7 @@ public class Mine : BaseBuilding
         this.debug = false;
         
         supportedRecipes.Add(MasterRecipe.Instance.Ore);
+        supportedRecipes.Add(MasterRecipe.Instance.Stone);
     }
 }
 

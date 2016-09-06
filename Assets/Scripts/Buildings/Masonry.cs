@@ -2,6 +2,9 @@
  * Class:Masonry
  * Purpose:Provides the functionality of a Masonry for a Mason
  * 
+ * Supports the Stoneblock recipie
+ * Can Store Stoneblocks
+ * 
  * public fields:
  *  
  * public methods:

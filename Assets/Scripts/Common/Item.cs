@@ -18,15 +18,15 @@ public class Item : MonoBehaviour
         }
     }
 
-    public static string ListToString(Dictionary<Item,int> items)
+    public static string ListToString(List<Item> items)
     {
         string output = "(";
 
         if (items != null)
         {
-            foreach (Item item in items.Keys)
+            foreach (Item item in items)
             {
-                output += "[" + item.ToString() + " : " + items[item] + " ";
+                output += "[" + item.ToString() + " : " + item + " ";
             }
         }
 

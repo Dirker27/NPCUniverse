@@ -9,14 +9,48 @@ public class Recipe
     public Dictionary<ItemType, int> required;
     public Dictionary<ItemType, int> produces;
 
-    public bool CanFufill(CharacterSheet sheet)
-    {
-        return true;
-    }
-
     public bool CompleteRecipe(CharacterSheet sheet)
     {
-        return true;
+        bool canFufill = true;
+        Dictionary<ItemType, int> needed = new Dictionary<ItemType,int>(required);
+        List<Item> toRemove = new List<Item>();
+        foreach (Item item in sheet.inventory.items)
+        {
+            if (needed.ContainsKey(item.Type) && needed[item.Type] > 0)
+            {
+                needed[item.Type]--;
+                toRemove.Add(item);
+            }
+        }
+
+        foreach (ItemType key in needed.Keys)
+        {
+            if (needed[key] != 0)
+            {
+                canFufill = false;
+            }
+        }
+
+        if (canFufill)
+        {
+            foreach (Item item in toRemove)
+            {
+                sheet.inventory.items.Remove(item);
+            }
+            
+            foreach (ItemType toAdd in produces.Keys)
+            {
+                for(int i = 0; i < produces[toAdd]; i++)
+                {
+                    Item adding = new Item();
+                    adding.Type = toAdd;
+                    adding.PurchasedPrice = 0;
+                    sheet.inventory.items.Add(adding);
+                }
+            }
+        }
+
+        return canFufill;
     }
 }
 

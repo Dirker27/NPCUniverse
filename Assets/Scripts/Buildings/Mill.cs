@@ -2,11 +2,13 @@
  * Class:Mill
  * Purpose:Provides the functionality of a Mill for a Miller
  * 
+ * Supports the Flour recipie
+ * Can Store Flour
+ * 
  * public fields:
  *  
  * public methods:
  *  void Start(): 
- *  ItemType MakeFlour(Item): Takes one wheat and returns one flour
  * 
  * @author: NvS 
  */

@@ -2,6 +2,8 @@
  * Class:Forest
  * Purpose:Provides the functionality of a Forest for a Forester. Creates logs.
  * 
+ * Supports the Log recipie
+ * 
  * public fields:
  *  
  * public methods:
