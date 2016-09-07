@@ -21,6 +21,7 @@ public class BrewMasterOracle : MonoBehaviour
         makeBeer.building = currentCity.Brewhouses[0];
         makeBeer.gather = new ItemType[] { ItemType.BEER };
         makeBeer.give = new ItemType[] { ItemType.BARLEY };
+        makeBeer.recipe = MasterRecipe.Instance.Beer;
         makeBeer.fun1 = new instructionFunction((makeBeer.building).MakeRecipe);
 
         instructions.Add(makeBeer);

@@ -6,7 +6,7 @@ public class NPCOracle : MonoBehaviour
 {
 
     public Logger logger;
-    private bool debug = true;
+    private bool debug = false;
     public JobOracle jobOracle;
 
     void Start()

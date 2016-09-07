@@ -7,7 +7,7 @@ public class JobOracle : MonoBehaviour
     Dictionary<Jobs, int> OpenPositions;
     Dictionary<Jobs, int> AvaliableSpots;
     Logger logger;
-    bool debug = true;
+    bool debug = false;
 
     void Start()
     {

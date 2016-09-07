@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class NonPlayableCharacter : MonoBehaviour
 {
     public Logger logger;
-    public bool debug = true;
+    public bool debug = false;
 
     public CharacterSheet sheet;
     

@@ -14,7 +14,7 @@ public class NPCJobDriver : NonPlayableCharacter
     {
         base.Start();
 
-        debug = true;
+        debug = false;
         logger.Log(debug, "sheet is:" + (sheet != null));
         instructions = new List<Instruction>();
         currentIntruction = 0;

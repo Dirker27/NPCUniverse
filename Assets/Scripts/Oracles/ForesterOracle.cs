@@ -15,6 +15,8 @@ public class ForesterOracle : MonoBehaviour
         getLog.recipe = MasterRecipe.Instance.Log;
         getLog.fun1 = new instructionFunction((getLog.building).MakeRecipe);
 
+        instructions.Add(getLog);
+
         Instruction storeLog = new Instruction();
         storeLog.destination = currentCity.LogStores[0].gameObject.GetComponent<NavigationWaypoint>();
         storeLog.building = currentCity.LogStores[0];

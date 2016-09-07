@@ -26,7 +26,7 @@ public class BaseBuilding : MonoBehaviour
     public Inventory inventory;
 
     public Logger logger;
-    public bool debug = false;
+    public bool debug = true;
 
     public List<Recipe> supportedRecipes;
     public List<ItemType> canHold;
@@ -56,6 +56,10 @@ public class BaseBuilding : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            logger.Log(debug, "Could not store item:" + instruction.give[0]);
+        }
         return result;
     }
 
@@ -75,12 +79,22 @@ public class BaseBuilding : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            logger.Log(debug, "Could not gather item:" + instruction.gather[0]);
+        }
         return result;
     }
 
     public bool MakeRecipe(Instruction instruction, CharacterSheet sheet)
     {
-        return instruction.recipe.CompleteRecipe(sheet);
+        bool result = instruction.recipe.CompleteRecipe(sheet);
+
+        if (result == false)
+        {
+            logger.Log(debug, "Could not make recipie item");
+        }
+        return result;
     }
 }
 

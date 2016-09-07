@@ -21,6 +21,7 @@ public class CollierOracle : MonoBehaviour
         getCharcoal.building = currentCity.CharcoalPits[0];
         getCharcoal.gather = new ItemType[] { ItemType.CHARCOAL };
         getCharcoal.give = new ItemType[] { ItemType.FIREWOOD };
+        getCharcoal.recipe = MasterRecipe.Instance.Charcoal;
         getCharcoal.fun1 = new instructionFunction((getCharcoal.building).MakeRecipe);
 
         instructions.Add(getCharcoal);
