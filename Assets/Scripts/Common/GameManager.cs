@@ -251,10 +251,18 @@ public class GameManager : MonoBehaviour
         if (npcOracle == null)
         {
             npcOracle = new NPCOracle();
-            npcOracle.Start();
         }
 
         return npcOracle;
+    }
+
+    public Logger GetLogger()
+    {
+        if (logger == null)
+        {
+            logger = new Logger();
+        }
+        return logger;
     }
 
 }

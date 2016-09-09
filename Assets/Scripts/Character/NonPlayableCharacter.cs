@@ -12,9 +12,9 @@ public class NonPlayableCharacter : MonoBehaviour
     // Use this for initialization
     public virtual void Start() 
     {
-        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
+        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetLogger();
         logger.Log(debug, " Non player character start");
-        sheet = GameObject.FindGameObjectWithTag("GameManager").AddComponent<CharacterSheet>();
+        sheet = new CharacterSheet();
 
         sheet.inventory = GetComponent<Inventory>();
         sheet.inventory.items = new List<Item>();
@@ -31,11 +31,6 @@ public class NonPlayableCharacter : MonoBehaviour
         sheet.energy = 100;
         InvokeRepeating("TimePasses", 5, 5);
 	}
-	
-	// Update is called once per frame
-    void Update()
-    {
-    }
 
     void TimePasses()
     {

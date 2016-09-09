@@ -3,15 +3,8 @@ using System.Collections.Generic;
 
 public class MineOracle
 {
-    public Logger logger;
-    private bool debug = false;
-
     private bool Ore = true;
     private bool Stone = false;
-    void Start()
-    {
-        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
-    }
 
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

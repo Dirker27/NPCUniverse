@@ -13,7 +13,7 @@ public class JobOracle
     {
         OpenPositions = new Dictionary<Jobs,int>();
         AvaliableSpots = new Dictionary<Jobs, int>();
-        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
+        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetLogger();
         foreach (Jobs job in Enum.GetValues(typeof(Jobs)))
         {
             OpenPositions.Add(job, 1);

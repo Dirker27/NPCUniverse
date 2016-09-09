@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
 
-public class Logger : MonoBehaviour
+public class Logger
 {
     bool debug = true;
     public void Log(bool toLog, string message)

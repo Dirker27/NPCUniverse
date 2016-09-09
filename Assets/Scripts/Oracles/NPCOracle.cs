@@ -9,9 +9,9 @@ public class NPCOracle
     private bool debug = false;
     public JobOracle jobOracle;
 
-    public void Start()
+    public NPCOracle()
     {
-        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
+        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetLogger();
         this.jobOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetJobOracle();
         logger.Log(debug, "jobOracle is:" + (jobOracle != null));
     }

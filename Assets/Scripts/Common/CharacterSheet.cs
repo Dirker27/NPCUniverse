@@ -2,11 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CharacterSheet : MonoBehaviour
+public class CharacterSheet
 {
-    public Logger logger;
-    public bool debug = false;
-
     public int health;
     public int hunger;
     public int energy;
@@ -29,10 +26,4 @@ public class CharacterSheet : MonoBehaviour
     public bool destinationIsHome = false;
 
     public Jobs job = Jobs.NONE;
-
-    // Use this for initialization
-    public virtual void Start()
-    {
-        this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
-    }
 }
