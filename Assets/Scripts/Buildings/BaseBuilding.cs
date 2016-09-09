@@ -34,7 +34,7 @@ public class BaseBuilding : MonoBehaviour
     public virtual void Start()
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetLogger();
-        this.inventory = GetComponent<Inventory>();
+        this.inventory = new Inventory();
         this.inventory.items = new List<Item>();
         this.supportedRecipes = new List<Recipe>();
         this.canHold = new List<ItemType>();

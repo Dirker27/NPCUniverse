@@ -2,20 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;  // dafuq? - No. Fuck You, Nathaniel.
 
-public class Inventory : MonoBehaviour
+public class Inventory
 {
     public int currency;
     public List<Item> items;
-
-    private bool debug = false;
-
-    void Log(string s)
-    {
-        if (debug)
-        {
-            Debug.Log("Inventory log <" + s + ">");
-        }
-    }
 
     public void InventorySet(Inventory other)
     {

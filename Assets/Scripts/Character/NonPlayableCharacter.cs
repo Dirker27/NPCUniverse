@@ -16,7 +16,7 @@ public class NonPlayableCharacter : MonoBehaviour
         logger.Log(debug, " Non player character start");
         sheet = new CharacterSheet();
 
-        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory = new Inventory();
         sheet.inventory.items = new List<Item>();
 
         sheet.npcOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetNPCOracle();

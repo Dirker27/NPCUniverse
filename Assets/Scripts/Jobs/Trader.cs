@@ -19,7 +19,7 @@ class Trader : NonPlayableCharacter
     }
     void Start()
     {
-        sheet.inventory = GetComponent<Inventory>();
+        sheet.inventory = new Inventory();
         sheet.inventory.items = new List<Item>();
         this.oracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
     }
