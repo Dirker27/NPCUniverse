@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Item : MonoBehaviour
+public class Item
 {
 
     public ItemType Type;

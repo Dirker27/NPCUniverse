@@ -17,7 +17,7 @@ public class TradeOracle
     {
         int bestProfit = 0;
 
-        Item bestItem = GameObject.FindGameObjectWithTag("GameManager").AddComponent<Item>();
+        Item bestItem = new Item();
         int canAffordOfBestItem = 0;
         TradeRoute bestRoute = avaliableTradeRoutes[0];
         int purchasedPrice = 0;
