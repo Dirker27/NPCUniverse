@@ -19,8 +19,7 @@ public class NonPlayableCharacter : MonoBehaviour
         sheet.inventory = GetComponent<Inventory>();
         sheet.inventory.items = new List<Item>();
 
-        sheet.tradeOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TradeOracle>();
-        sheet.npcOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<NPCOracle>();
+        sheet.npcOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetNPCOracle();
 
         logger.Log(debug, " calling where base city should be");
         sheet.baseCity = sheet.npcOracle.WhereShouldBaseCityBe();

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System;
 
-public class JobOracle : MonoBehaviour
+public class JobOracle
 {
     Dictionary<Jobs, int> OpenPositions;
     Dictionary<Jobs, int> AvaliableSpots;
     Logger logger;
     bool debug = false;
 
-    void Start()
+    public JobOracle()
     {
         OpenPositions = new Dictionary<Jobs,int>();
         AvaliableSpots = new Dictionary<Jobs, int>();

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class MineOracle : MonoBehaviour
+public class MineOracle
 {
     public Logger logger;
     private bool debug = false;

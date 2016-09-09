@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class TradeOracle : MonoBehaviour
+public class TradeOracle
 {
     private bool debug = false;
 

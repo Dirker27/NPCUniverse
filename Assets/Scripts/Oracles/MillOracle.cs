@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class MillOracle : MonoBehaviour
+public class MillOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

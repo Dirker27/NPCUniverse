@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class FoundryOracle : MonoBehaviour
+public class FoundryOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

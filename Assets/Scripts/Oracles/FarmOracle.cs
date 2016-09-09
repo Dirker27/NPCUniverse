@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class FarmOracle : MonoBehaviour
+public class FarmOracle
 {
     private bool Wheat = true;
     private bool Barley = false;

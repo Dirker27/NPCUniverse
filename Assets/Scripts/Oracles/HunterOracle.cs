@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class HunterOracle : MonoBehaviour
+public class HunterOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

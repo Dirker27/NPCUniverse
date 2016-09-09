@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class CollierOracle : MonoBehaviour
+public class CollierOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

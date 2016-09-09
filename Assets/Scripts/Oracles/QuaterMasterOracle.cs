@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class QuaterMasterOracle : MonoBehaviour
+public class QuaterMasterOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

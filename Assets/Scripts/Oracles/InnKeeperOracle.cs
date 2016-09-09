@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class InnKeeperOracle : MonoBehaviour
+public class InnKeeperOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

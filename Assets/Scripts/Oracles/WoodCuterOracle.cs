@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class WoodCuterOracle : MonoBehaviour
+public class WoodCuterOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System;
 
-public class NPCOracle : MonoBehaviour
+public class NPCOracle
 {
 
     public Logger logger;
     private bool debug = false;
     public JobOracle jobOracle;
 
-    void Start()
+    public void Start()
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Logger>();
-
+        this.jobOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetJobOracle();
         logger.Log(debug, "jobOracle is:" + (jobOracle != null));
     }
   
@@ -52,79 +52,79 @@ public class NPCOracle : MonoBehaviour
         switch(sheet.job)
         {
             case Jobs.ARMORSMITH:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ArmorSmithOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetArmorSmithOracle().GetInstructions(sheet.baseCity);
                 break;
             
             case Jobs.BAKER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<BakerOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetBakerOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.BREWMASTER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<BrewMasterOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetBrewMasterOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.COLLIER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<CollierOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetCollierOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.FARMER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FarmOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetFarmOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.FISHERMAN:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FishermanOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetFishermanOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.FLETCHER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FletcherOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetFletcherOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.FORESTER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ForesterOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetForesterOracle().GetInstructions(sheet.baseCity);
                 break;
             
             case Jobs.SMITH:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FoundryOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetFoundryOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.HUNTER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HunterOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetHunterOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.INNKEEPER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InnKeeperOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetInnKeeperOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.MILLER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MillOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetMillOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.MINER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MineOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetMineOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.QUATERMASTER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<QuaterMasterOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetQuaterMasterOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.SAWWORKER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<SawWorkerOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetSawWorkerOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.STONECUTTER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StoneCutterOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetStoneCutterOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.TOOLSMITH:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ToolSmithOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetToolSmithOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.WEAPONSMITH:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<WeaponSmithOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetWeaponSmithOracle().GetInstructions(sheet.baseCity);
                 break;
 
             case Jobs.WOODCUTER:
-                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<WoodCuterOracle>().GetInstructions(sheet.baseCity);
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetWoodCuterOracle().GetInstructions(sheet.baseCity);
                 break;
 
             default:

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ToolSmithOracle : MonoBehaviour
+public class ToolSmithOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

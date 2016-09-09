@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class FletcherOracle : MonoBehaviour
+public class FletcherOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

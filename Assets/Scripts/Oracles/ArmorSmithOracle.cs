@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ArmorSmithOracle : MonoBehaviour
+public class ArmorSmithOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

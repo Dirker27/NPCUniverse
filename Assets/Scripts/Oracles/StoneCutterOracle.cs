@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class StoneCutterOracle : MonoBehaviour
+public class StoneCutterOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

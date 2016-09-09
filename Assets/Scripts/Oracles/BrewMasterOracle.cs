@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BrewMasterOracle : MonoBehaviour
+public class BrewMasterOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class FishermanOracle : MonoBehaviour
+public class FishermanOracle
 {
     public List<Instruction> GetInstructions(TradeCity currentCity)
     {
