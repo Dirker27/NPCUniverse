@@ -4,40 +4,27 @@ using System;
 
 public class JobOracle
 {
-    Dictionary<Jobs, int> OpenPositions;
-    Dictionary<Jobs, int> AvaliableSpots;
+    Dictionary<Jobs, int> CurrentPositions;
+    Dictionary<Jobs, int> TotalPositions;
     Logger logger;
     bool debug = false;
 
     public JobOracle()
     {
-        OpenPositions = new Dictionary<Jobs,int>();
-        AvaliableSpots = new Dictionary<Jobs, int>();
+        CurrentPositions = new Dictionary<Jobs,int>();
+        TotalPositions = new Dictionary<Jobs, int>();
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetLogger();
-        foreach (Jobs job in Enum.GetValues(typeof(Jobs)))
-        {
-            OpenPositions.Add(job, 1);
-        }
-        foreach (Jobs job in Enum.GetValues(typeof(Jobs)))
-        {
-            AvaliableSpots.Add(job, 1);
-        }
-        OpenPositions.Remove(Jobs.NONE);
-        AvaliableSpots.Remove(Jobs.NONE);
-        OpenPositions[Jobs.FARMER] = 2;
-        AvaliableSpots[Jobs.FARMER] = 2;
-        OpenPositions[Jobs.MINER] = 2;
-        AvaliableSpots[Jobs.MINER] = 2;
+ 
 
     }
 
     public Jobs GetJob(CharacterSheet sheet)
     {
-        foreach (Jobs job in OpenPositions.Keys)
+        foreach (Jobs job in CurrentPositions.Keys)
         {
-            if (OpenPositions[job] > 0)
+            if (CurrentPositions[job] > 0)
             {
-                OpenPositions[job]--;
+                CurrentPositions[job]--;
                 return job;
             }
         }
@@ -46,8 +33,20 @@ public class JobOracle
 
     public void LeftJob(Jobs job)
     {
-        OpenPositions[job]++;
+        CurrentPositions[job]++;
     }
 
-  
+    public void AddJobs(Jobs job, int toAdd)
+    {
+        if (!TotalPositions.ContainsKey(job))
+        {
+            TotalPositions[job] = toAdd;
+            CurrentPositions[job] = toAdd;
+        }
+        else
+        {
+            TotalPositions[job] += toAdd;
+            CurrentPositions[job] += toAdd;
+        }
+    }
 }

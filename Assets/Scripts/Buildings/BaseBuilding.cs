@@ -38,6 +38,7 @@ public class BaseBuilding : MonoBehaviour
         this.inventory.items = new List<Item>();
         this.supportedRecipes = new List<Recipe>();
         this.canHold = new List<ItemType>();
+        Register();
     }
 
     public bool StoreItem(Instruction instruction, CharacterSheet sheet)
@@ -96,5 +97,131 @@ public class BaseBuilding : MonoBehaviour
         }
         return result;
     }
+
+    public TradeCity GetClosestCity()
+    {
+        GameObject[] cities = GameObject.FindGameObjectsWithTag("TradeCity");
+        GameObject closestsCity = null;
+        foreach (GameObject city in cities)
+        {
+            if (closestsCity == null)
+            {
+                closestsCity = city;
+            }
+            if (Vector3.Distance(transform.position, city.transform.position) <= Vector3.Distance(transform.position, closestsCity.transform.position))
+            {
+                closestsCity = city;
+            }
+        }
+        return closestsCity.GetComponent<TradeCity>();
+    }
+
+    public void Register()
+    {
+        TradeCity city = GetClosestCity();
+        JobOracle oracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetJobOracle();
+        System.Type buildingType = this.GetType();
+        
+        if (buildingType == typeof(Bakery))
+        {
+            city.Bakeries.Add((Bakery)this);
+            oracle.AddJobs(Jobs.BAKER, 1);
+        }
+        else if (buildingType == typeof(Barn))
+        {
+            city.Barns.Add((Barn)this);
+        }
+        else if (buildingType == typeof(BowShop))
+        {
+            city.BowShops.Add((BowShop)this);
+            oracle.AddJobs(Jobs.FLETCHER, 1);
+        }
+        else if (buildingType == typeof(Brewhouse))
+        {
+            city.Brewhouses.Add((Brewhouse)this);
+            oracle.AddJobs(Jobs.BREWMASTER, 1);
+        }
+        else if (buildingType == typeof(CharcoalPit))
+        {
+            city.CharcoalPits.Add((CharcoalPit)this);
+            oracle.AddJobs(Jobs.COLLIER, 1);
+        }
+        else if (buildingType == typeof(Farm))
+        {
+            city.Farms.Add((Farm)this);
+            oracle.AddJobs(Jobs.FARMER, 2);
+        }
+        else if (buildingType == typeof(Forest))
+        {
+            city.Forests.Add((Forest)this);
+            oracle.AddJobs(Jobs.FORESTER, 1);
+        }
+        else if (buildingType == typeof(Foundry))
+        {
+            city.Foundries.Add((Foundry)this);
+            oracle.AddJobs(Jobs.SMITH, 1);
+        }
+        else if (buildingType == typeof(GuildHall))
+        {
+            city.GuildHalls.Add((GuildHall)this);
+            oracle.AddJobs(Jobs.QUATERMASTER, 1);
+        }
+        else if (buildingType == typeof(HuntingLodge))
+        {
+            city.HuntingLodges.Add((HuntingLodge)this);
+            oracle.AddJobs(Jobs.HUNTER, 1);
+        }
+        else if (buildingType == typeof(LogStore))
+        {
+            city.LogStores.Add((LogStore)this);
+        }
+        else if (buildingType == typeof(Masonry))
+        {
+            city.Masonries.Add((Masonry)this);
+            oracle.AddJobs(Jobs.STONECUTTER, 1);
+        }
+        else if (buildingType == typeof(Mill))
+        {
+            city.Mills.Add((Mill)this);
+            oracle.AddJobs(Jobs.MILLER, 1);
+        }
+        else if (buildingType == typeof(Mine))
+        {
+            city.Mines.Add((Mine)this);
+            oracle.AddJobs(Jobs.MINER, 2);
+        }
+        else if (buildingType == typeof(OreShop))
+        {
+            city.OreShops.Add((OreShop)this);
+        }
+        else if (buildingType == typeof(Pond))
+        {
+            city.Ponds.Add((Pond)this);
+            oracle.AddJobs(Jobs.FISHERMAN, 1);
+        }
+        else if (buildingType == typeof(SawHouse))
+        {
+            city.SawHouses.Add((SawHouse)this);
+            oracle.AddJobs(Jobs.SAWWORKER, 1);
+        }
+        else if (buildingType == typeof(Smithy))
+        {
+            city.Smithies.Add((Smithy)this);
+            oracle.AddJobs(Jobs.TOOLSMITH, 1);
+            oracle.AddJobs(Jobs.ARMORSMITH, 1);
+            oracle.AddJobs(Jobs.WEAPONSMITH, 1);
+        }
+        else if (buildingType == typeof(Tavern))
+        {
+            city.Taverns.Add((Tavern)this);
+            oracle.AddJobs(Jobs.INNKEEPER, 1);
+        }
+        else if (buildingType == typeof(WoodCut))
+        {
+            city.WoodCuts.Add((WoodCut)this);
+            oracle.AddJobs(Jobs.WOODCUTER, 1);
+        }
+    }
+
 }
 
