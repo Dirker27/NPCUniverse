@@ -26,6 +26,9 @@ public class Mill : BaseBuilding
         canHold = new List<ItemType> { ItemType.FLOUR};
 
         supportedRecipes.Add(MasterRecipe.Instance.Flour);
+        CurrentPositions.Add(Jobs.MILLER, 1);
+        TotalPositions.Add(Jobs.MILLER, 1);
+        Register();
     }
 
 }

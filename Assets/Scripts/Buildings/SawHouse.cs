@@ -26,6 +26,10 @@ public class SawHouse : BaseBuilding
         canHold = new List<ItemType> { ItemType.LUMBERPLANK };
 
         supportedRecipes.Add(MasterRecipe.Instance.LumberPlank);
+
+        CurrentPositions.Add(Jobs.SAWWORKER, 1);
+        TotalPositions.Add(Jobs.SAWWORKER, 1);
+        Register();
     }
 }
 

@@ -25,6 +25,10 @@ public class Forest : BaseBuilding
         this.debug = false;
 
         supportedRecipes.Add(MasterRecipe.Instance.Log);
+
+        CurrentPositions.Add(Jobs.FORESTER, 1);
+        TotalPositions.Add(Jobs.FORESTER, 1);
+        Register();
     }
 
 }

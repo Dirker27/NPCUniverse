@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 public class WeaponSmithOracle
 {
-    public List<Instruction> GetInstructions(TradeCity currentCity)
+    public List<Instruction> GetInstructions(CharacterSheet sheet)
     {
         List<Instruction> instructions = new List<Instruction>();
 
         Instruction getBar = new Instruction();
-        getBar.destination = currentCity.Foundries[0].gameObject.GetComponent<NavigationWaypoint>();
-        getBar.building = currentCity.Foundries[0];
+        getBar.destination = sheet.baseCity.Foundries[0].gameObject.GetComponent<NavigationWaypoint>();
+        getBar.building = sheet.baseCity.Foundries[0];
         getBar.gather = new ItemType[] { ItemType.BAR };
         getBar.give = new ItemType[] { };
         getBar.fun1 = new instructionFunction((getBar.building).GetItem);
@@ -17,8 +17,31 @@ public class WeaponSmithOracle
         instructions.Add(getBar);
 
         Instruction makeWeapon = new Instruction();
-        makeWeapon.destination = currentCity.Smithies[0].gameObject.GetComponent<NavigationWaypoint>();
-        makeWeapon.building = currentCity.Smithies[0];
+        Smithy destination = null;
+        foreach (Smithy smithy in sheet.baseCity.Smithies)
+        {
+            if (smithy.workers.Contains(sheet))
+            {
+                destination = smithy;
+                break;
+            }
+        }
+
+        if (destination == null)
+        {
+            foreach (Smithy smithy in sheet.baseCity.Smithies)
+            {
+                if (smithy.CurrentPositions[Jobs.WEAPONSMITH] > 0)
+                {
+                    destination = smithy;
+                    smithy.workers.Add(sheet);
+                    smithy.CurrentPositions[Jobs.WEAPONSMITH]--;
+                    break;
+                }
+            }
+        }
+        makeWeapon.destination = destination.gameObject.GetComponent<NavigationWaypoint>();
+        makeWeapon.building = destination;
         makeWeapon.gather = new ItemType[] { ItemType.WEAPON };
         makeWeapon.give = new ItemType[] { ItemType.BAR };
         makeWeapon.recipe = MasterRecipe.Instance.Weapon;
@@ -27,11 +50,12 @@ public class WeaponSmithOracle
         instructions.Add(makeWeapon);
 
         Instruction storeWeapon = new Instruction();
-        storeWeapon.destination = currentCity.Smithies[0].gameObject.GetComponent<NavigationWaypoint>();
-        storeWeapon.building = currentCity.Smithies[0];
+        storeWeapon.destination = destination.gameObject.GetComponent<NavigationWaypoint>();
+        storeWeapon.building = destination;
         storeWeapon.gather = new ItemType[] { };
         storeWeapon.give = new ItemType[] { ItemType.WEAPON };
         storeWeapon.fun1 = new instructionFunction((storeWeapon.building).StoreItem);
+        storeWeapon.fun2 = new instructionFunction2((destination).ReleaseJob);
 
         instructions.Add(storeWeapon);
 

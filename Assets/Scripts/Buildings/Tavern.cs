@@ -26,6 +26,10 @@ public class Tavern : BaseBuilding
         canHold = new List<ItemType> { ItemType.MEAL };
 
         supportedRecipes.Add(MasterRecipe.Instance.Meal);
+
+        CurrentPositions.Add(Jobs.INNKEEPER, 1);
+        TotalPositions.Add(Jobs.INNKEEPER, 1);
+        Register();
     }
 
     public bool Eat(Instruction instruction, CharacterSheet sheet)
@@ -46,6 +50,11 @@ public class Tavern : BaseBuilding
             return true;
         }
         return false;
+    }
+
+    public bool Wait(Instruction instruction, CharacterSheet sheet)
+    {
+        return true;
     }
 }
 

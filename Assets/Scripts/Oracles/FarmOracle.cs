@@ -23,22 +23,46 @@ public class FarmOracle
         return ItemType.INVALID;
     }
 
-    public List<Instruction> GetInstructions(TradeCity currentCity)
+    public List<Instruction> GetInstructions(CharacterSheet sheet)
     {
         List<Instruction> instructions = new List<Instruction>();
 
         Instruction getCrop = new Instruction();
-        getCrop.destination = currentCity.Farms[0].gameObject.GetComponent<NavigationWaypoint>();
-        getCrop.building = currentCity.Farms[0];
+        Farm destination = null;
+        foreach (Farm farm in sheet.baseCity.Farms)
+        {
+            if (farm.workers.Contains(sheet))
+            {
+                destination = farm;
+                break;
+            }
+        }
+
+        if (destination == null)
+        {
+            foreach (Farm farm in sheet.baseCity.Farms)
+            {
+                if (farm.CurrentPositions[Jobs.FARMER] > 0)
+                {
+                    destination = farm;
+                    farm.workers.Add(sheet);
+                    farm.CurrentPositions[Jobs.FARMER]--;
+                    break;
+                }
+            }
+        }
+        getCrop.destination = destination.gameObject.GetComponent<NavigationWaypoint>();
+        getCrop.building = destination;
         getCrop.give = new ItemType[] { };
         getCrop.fun1 = new instructionFunction((getCrop.building).MakeRecipe);
 
 
         Instruction storeCrop = new Instruction();
-        storeCrop.destination = currentCity.Barns[0].gameObject.GetComponent<NavigationWaypoint>();
-        storeCrop.building = currentCity.Barns[0];
+        storeCrop.destination = sheet.baseCity.Barns[0].gameObject.GetComponent<NavigationWaypoint>();
+        storeCrop.building = sheet.baseCity.Barns[0];
         storeCrop.gather = new ItemType[] { };
         storeCrop.fun1 = new instructionFunction((storeCrop.building).StoreItem);
+        storeCrop.fun2 = new instructionFunction2((destination).ReleaseJob);
 
         if (Wheat)
         {

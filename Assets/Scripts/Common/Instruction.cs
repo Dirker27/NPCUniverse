@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 
 public delegate bool instructionFunction(Instruction instruction, CharacterSheet sheet);
+public delegate void instructionFunction2();
 
 public class Instruction
 {
@@ -14,5 +15,6 @@ public class Instruction
     public ItemType[] give;
     public Recipe recipe;
     public instructionFunction fun1;
+    public instructionFunction2 fun2;
 
 }

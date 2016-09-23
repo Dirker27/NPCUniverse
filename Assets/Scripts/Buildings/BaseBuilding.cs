@@ -31,6 +31,10 @@ public class BaseBuilding : MonoBehaviour
     public List<Recipe> supportedRecipes;
     public List<ItemType> canHold;
 
+    public Dictionary<Jobs, int> CurrentPositions;
+    public Dictionary<Jobs, int> TotalPositions;
+    public List<CharacterSheet> workers;
+
     public virtual void Start()
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetLogger();
@@ -38,7 +42,9 @@ public class BaseBuilding : MonoBehaviour
         this.inventory.items = new List<Item>();
         this.supportedRecipes = new List<Recipe>();
         this.canHold = new List<ItemType>();
-        Register();
+        CurrentPositions = new Dictionary<Jobs, int>();
+        TotalPositions = new Dictionary<Jobs, int>();
+        workers = new List<CharacterSheet>();
     }
 
     public bool StoreItem(Instruction instruction, CharacterSheet sheet)
@@ -98,6 +104,14 @@ public class BaseBuilding : MonoBehaviour
         return result;
     }
 
+    public void ReleaseJob()
+    {
+        if (this.GetType() == typeof(Pond))
+        {
+            CurrentPositions[Jobs.FISHERMAN]++;
+        }
+    }
+
     public TradeCity GetClosestCity()
     {
         GameObject[] cities = GameObject.FindGameObjectsWithTag("TradeCity");
@@ -125,7 +139,6 @@ public class BaseBuilding : MonoBehaviour
         if (buildingType == typeof(Bakery))
         {
             city.Bakeries.Add((Bakery)this);
-            oracle.AddJobs(Jobs.BAKER, 1);
         }
         else if (buildingType == typeof(Barn))
         {
@@ -134,42 +147,34 @@ public class BaseBuilding : MonoBehaviour
         else if (buildingType == typeof(BowShop))
         {
             city.BowShops.Add((BowShop)this);
-            oracle.AddJobs(Jobs.FLETCHER, 1);
         }
         else if (buildingType == typeof(Brewhouse))
         {
             city.Brewhouses.Add((Brewhouse)this);
-            oracle.AddJobs(Jobs.BREWMASTER, 1);
         }
         else if (buildingType == typeof(CharcoalPit))
         {
             city.CharcoalPits.Add((CharcoalPit)this);
-            oracle.AddJobs(Jobs.COLLIER, 1);
         }
         else if (buildingType == typeof(Farm))
         {
             city.Farms.Add((Farm)this);
-            oracle.AddJobs(Jobs.FARMER, 2);
         }
         else if (buildingType == typeof(Forest))
         {
             city.Forests.Add((Forest)this);
-            oracle.AddJobs(Jobs.FORESTER, 1);
         }
         else if (buildingType == typeof(Foundry))
         {
             city.Foundries.Add((Foundry)this);
-            oracle.AddJobs(Jobs.SMITH, 1);
         }
         else if (buildingType == typeof(GuildHall))
         {
             city.GuildHalls.Add((GuildHall)this);
-            oracle.AddJobs(Jobs.QUATERMASTER, 1);
         }
         else if (buildingType == typeof(HuntingLodge))
         {
             city.HuntingLodges.Add((HuntingLodge)this);
-            oracle.AddJobs(Jobs.HUNTER, 1);
         }
         else if (buildingType == typeof(LogStore))
         {
@@ -178,17 +183,14 @@ public class BaseBuilding : MonoBehaviour
         else if (buildingType == typeof(Masonry))
         {
             city.Masonries.Add((Masonry)this);
-            oracle.AddJobs(Jobs.STONECUTTER, 1);
         }
         else if (buildingType == typeof(Mill))
         {
             city.Mills.Add((Mill)this);
-            oracle.AddJobs(Jobs.MILLER, 1);
         }
         else if (buildingType == typeof(Mine))
         {
             city.Mines.Add((Mine)this);
-            oracle.AddJobs(Jobs.MINER, 2);
         }
         else if (buildingType == typeof(OreShop))
         {
@@ -197,30 +199,25 @@ public class BaseBuilding : MonoBehaviour
         else if (buildingType == typeof(Pond))
         {
             city.Ponds.Add((Pond)this);
-            oracle.AddJobs(Jobs.FISHERMAN, 1);
         }
         else if (buildingType == typeof(SawHouse))
         {
             city.SawHouses.Add((SawHouse)this);
-            oracle.AddJobs(Jobs.SAWWORKER, 1);
         }
         else if (buildingType == typeof(Smithy))
         {
             city.Smithies.Add((Smithy)this);
-            oracle.AddJobs(Jobs.TOOLSMITH, 1);
-            oracle.AddJobs(Jobs.ARMORSMITH, 1);
-            oracle.AddJobs(Jobs.WEAPONSMITH, 1);
         }
         else if (buildingType == typeof(Tavern))
         {
             city.Taverns.Add((Tavern)this);
-            oracle.AddJobs(Jobs.INNKEEPER, 1);
         }
         else if (buildingType == typeof(WoodCut))
         {
             city.WoodCuts.Add((WoodCut)this);
-            oracle.AddJobs(Jobs.WOODCUTER, 1);
         }
+
+        oracle.AddJobs(CurrentPositions, TotalPositions);
     }
 
 }

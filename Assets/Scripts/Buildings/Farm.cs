@@ -27,6 +27,10 @@ public class Farm : BaseBuilding
         
         supportedRecipes.Add(MasterRecipe.Instance.Wheat);
         supportedRecipes.Add(MasterRecipe.Instance.Barley);
+
+        CurrentPositions.Add(Jobs.FARMER, 2);
+        TotalPositions.Add(Jobs.FARMER, 2);
+        Register();
     }
 
 }

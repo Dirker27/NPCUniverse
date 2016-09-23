@@ -31,6 +31,10 @@ public class BowShop : BaseBuilding
 
         supportedRecipes.Add(MasterRecipe.Instance.Bow);
         supportedRecipes.Add(MasterRecipe.Instance.Arrow);
+
+        CurrentPositions.Add(Jobs.FLETCHER, 1);
+        TotalPositions.Add(Jobs.FLETCHER, 1);
+        Register();
     }
 }
 

@@ -28,6 +28,9 @@ public class Foundry : BaseBuilding
         canHold = new List<ItemType> { ItemType.BAR };
        
         supportedRecipes.Add(MasterRecipe.Instance.Bar);
+        CurrentPositions.Add(Jobs.SMITH, 1);
+        TotalPositions.Add(Jobs.SMITH, 1);
+        Register();
     }        
 }
 

@@ -26,6 +26,10 @@ public class Mine : BaseBuilding
         
         supportedRecipes.Add(MasterRecipe.Instance.Ore);
         supportedRecipes.Add(MasterRecipe.Instance.Stone);
+
+        CurrentPositions.Add(Jobs.MINER, 2);
+        TotalPositions.Add(Jobs.MINER, 2);
+        Register();
     }
 }
 

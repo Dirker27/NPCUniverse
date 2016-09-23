@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 public class SawWorkerOracle
 {
-    public List<Instruction> GetInstructions(TradeCity currentCity)
+    public List<Instruction> GetInstructions(CharacterSheet sheet)
     {
         List<Instruction> instructions = new List<Instruction>();
 
         Instruction getLog = new Instruction();
-        getLog.destination = currentCity.LogStores[0].gameObject.GetComponent<NavigationWaypoint>();
-        getLog.building = currentCity.LogStores[0];
+        getLog.destination = sheet.baseCity.LogStores[0].gameObject.GetComponent<NavigationWaypoint>();
+        getLog.building = sheet.baseCity.LogStores[0];
         getLog.gather = new ItemType[] { ItemType.LOG };
         getLog.give = new ItemType[] { };
         getLog.fun1 = new instructionFunction((getLog.building).GetItem);
@@ -17,8 +17,31 @@ public class SawWorkerOracle
         instructions.Add(getLog);
 
         Instruction makeLumber = new Instruction();
-        makeLumber.destination = currentCity.SawHouses[0].gameObject.GetComponent<NavigationWaypoint>();
-        makeLumber.building = currentCity.SawHouses[0];
+        SawHouse destination = null;
+        foreach (SawHouse sawHouse in sheet.baseCity.SawHouses)
+        {
+            if (sawHouse.workers.Contains(sheet))
+            {
+                destination = sawHouse;
+                break;
+            }
+        }
+
+        if (destination == null)
+        {
+            foreach (SawHouse sawHouse in sheet.baseCity.SawHouses)
+            {
+                if (sawHouse.CurrentPositions[Jobs.SAWWORKER] > 0)
+                {
+                    destination = sawHouse;
+                    sawHouse.workers.Add(sheet);
+                    sawHouse.CurrentPositions[Jobs.SAWWORKER]--;
+                    break;
+                }
+            }
+        }
+        makeLumber.destination = destination.gameObject.GetComponent<NavigationWaypoint>();
+        makeLumber.building = destination;
         makeLumber.gather = new ItemType[] { ItemType.LUMBERPLANK };
         makeLumber.give = new ItemType[] { ItemType.LOG };
         makeLumber.recipe = MasterRecipe.Instance.LumberPlank;
@@ -27,12 +50,12 @@ public class SawWorkerOracle
         instructions.Add(makeLumber);
 
         Instruction storeLumber = new Instruction();
-        storeLumber.destination = currentCity.SawHouses[0].gameObject.GetComponent<NavigationWaypoint>();
-        storeLumber.building = currentCity.SawHouses[0];
+        storeLumber.destination = destination.gameObject.GetComponent<NavigationWaypoint>();
+        storeLumber.building = destination;
         storeLumber.gather = new ItemType[] { };
         storeLumber.give = new ItemType[] { ItemType.LUMBERPLANK };
         storeLumber.fun1 = new instructionFunction((storeLumber.building).StoreItem);
-
+        storeLumber.fun2 = new instructionFunction2((destination).ReleaseJob);
         instructions.Add(storeLumber);
 
         return instructions;

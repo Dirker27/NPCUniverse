@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 public class InnKeeperOracle
 {
-    public List<Instruction> GetInstructions(TradeCity currentCity)
+    public List<Instruction> GetInstructions(CharacterSheet sheet)
     {
         List<Instruction> instructions = new List<Instruction>();
 
         Instruction getBeer = new Instruction();
-        getBeer.destination = currentCity.Brewhouses[0].gameObject.GetComponent<NavigationWaypoint>();
-        getBeer.building = currentCity.Brewhouses[0];
+        getBeer.destination = sheet.baseCity.Brewhouses[0].gameObject.GetComponent<NavigationWaypoint>();
+        getBeer.building = sheet.baseCity.Brewhouses[0];
         getBeer.gather = new ItemType[] { ItemType.BEER };
         getBeer.give = new ItemType[] { };
         getBeer.fun1 = new instructionFunction((getBeer.building).GetItem);
@@ -17,8 +17,8 @@ public class InnKeeperOracle
         instructions.Add(getBeer);
 
         Instruction getFish = new Instruction();
-        getFish.destination = currentCity.Barns[0].gameObject.GetComponent<NavigationWaypoint>();
-        getFish.building = currentCity.Barns[0];
+        getFish.destination = sheet.baseCity.Barns[0].gameObject.GetComponent<NavigationWaypoint>();
+        getFish.building = sheet.baseCity.Barns[0];
         getFish.gather = new ItemType[] { ItemType.FISH };
         getFish.give = new ItemType[] { };
         getFish.fun1 = new instructionFunction((getFish.building).GetItem);
@@ -26,8 +26,8 @@ public class InnKeeperOracle
         instructions.Add(getFish);
 
         Instruction getBread = new Instruction();
-        getBread.destination = currentCity.Bakeries[0].gameObject.GetComponent<NavigationWaypoint>();
-        getBread.building = currentCity.Bakeries[0];
+        getBread.destination = sheet.baseCity.Bakeries[0].gameObject.GetComponent<NavigationWaypoint>();
+        getBread.building = sheet.baseCity.Bakeries[0];
         getBread.gather = new ItemType[] { ItemType.BREAD };
         getBread.give = new ItemType[] { };
         getBread.fun1 = new instructionFunction((getBread.building).GetItem);
@@ -36,8 +36,31 @@ public class InnKeeperOracle
 
 
         Instruction makeMeal = new Instruction();
-        makeMeal.destination = currentCity.Taverns[0].gameObject.GetComponent<NavigationWaypoint>();
-        makeMeal.building = currentCity.Taverns[0];
+        Tavern destination = null;
+        foreach (Tavern tavern in sheet.baseCity.Taverns)
+        {
+            if (tavern.workers.Contains(sheet))
+            {
+                destination = tavern;
+                break;
+            }
+        }
+
+        if (destination == null)
+        {
+            foreach (Tavern tavern in sheet.baseCity.Taverns)
+            {
+                if (tavern.CurrentPositions[Jobs.INNKEEPER] > 0)
+                {
+                    destination = tavern;
+                    tavern.workers.Add(sheet);
+                    tavern.CurrentPositions[Jobs.INNKEEPER]--;
+                    break;
+                }
+            }
+        }
+        makeMeal.destination = destination.gameObject.GetComponent<NavigationWaypoint>();
+        makeMeal.building = destination;
         makeMeal.gather = new ItemType[] { ItemType.MEAL };
         makeMeal.give = new ItemType[] { ItemType.BEER, ItemType.BREAD, ItemType.FISH };
         makeMeal.recipe = MasterRecipe.Instance.Meal;
@@ -46,12 +69,12 @@ public class InnKeeperOracle
         instructions.Add(makeMeal);
 
         Instruction storeMeal = new Instruction();
-        storeMeal.destination = currentCity.Taverns[0].gameObject.GetComponent<NavigationWaypoint>();
-        storeMeal.building = currentCity.Taverns[0];
+        storeMeal.destination = destination.gameObject.GetComponent<NavigationWaypoint>();
+        storeMeal.building = destination;
         storeMeal.gather = new ItemType[] { };
         storeMeal.give = new ItemType[] { ItemType.MEAL };
         storeMeal.fun1 = new instructionFunction((storeMeal.building).StoreItem);
-
+        storeMeal.fun2 = new instructionFunction2((destination).ReleaseJob);
         instructions.Add(storeMeal);
 
         return instructions;

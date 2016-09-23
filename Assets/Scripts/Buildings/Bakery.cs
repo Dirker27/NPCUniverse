@@ -25,6 +25,10 @@ public class Bakery : BaseBuilding
         canHold = new List<ItemType> { ItemType.BREAD };
 
         supportedRecipes.Add(MasterRecipe.Instance.Bread);
+
+        CurrentPositions.Add(Jobs.BAKER, 1);
+        TotalPositions.Add(Jobs.BAKER, 1);
+        Register();
     }
 }
 

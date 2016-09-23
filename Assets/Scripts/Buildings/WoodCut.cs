@@ -25,6 +25,10 @@ public class WoodCut : BaseBuilding
         canHold = new List<ItemType> { ItemType.FIREWOOD };
 
         supportedRecipes.Add(MasterRecipe.Instance.FireWood);
+
+        CurrentPositions.Add(Jobs.WOODCUTER, 1);
+        TotalPositions.Add(Jobs.WOODCUTER, 1);
+        Register();
     }
 
 }

@@ -25,6 +25,7 @@ public class OreShop : BaseBuilding
         this.debug = false;
 
         canHold = new List<ItemType> { ItemType.ORE, ItemType.STONE };
+        Register();
     }
 
 }

@@ -24,6 +24,7 @@ public class LogStore : BaseBuilding
         this.debug = false;
 
         canHold = new List<ItemType> { ItemType.LOG };
+        Register();
     }
 }
 

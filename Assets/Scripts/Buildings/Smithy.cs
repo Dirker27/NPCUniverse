@@ -28,6 +28,14 @@ public class Smithy : BaseBuilding
         supportedRecipes.Add(MasterRecipe.Instance.Armor);
         supportedRecipes.Add(MasterRecipe.Instance.Weapon);
         supportedRecipes.Add(MasterRecipe.Instance.Tool);
+
+        CurrentPositions.Add(Jobs.ARMORSMITH, 1);
+        TotalPositions.Add(Jobs.ARMORSMITH, 1);
+        CurrentPositions.Add(Jobs.WEAPONSMITH, 1);
+        TotalPositions.Add(Jobs.WEAPONSMITH, 1);
+        CurrentPositions.Add(Jobs.TOOLSMITH, 1);
+        TotalPositions.Add(Jobs.TOOLSMITH, 1);
+        Register();
     }
 
 }

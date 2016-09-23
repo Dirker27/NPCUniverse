@@ -28,6 +28,9 @@ public class CharcoalPit : BaseBuilding
         canHold = new List<ItemType> { ItemType.CHARCOAL };
 
         supportedRecipes.Add(MasterRecipe.Instance.Charcoal);
+        CurrentPositions.Add(Jobs.COLLIER, 1);
+        TotalPositions.Add(Jobs.COLLIER, 1);
+        Register();
     }
 
 }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 public class CollierOracle
 {
-    public List<Instruction> GetInstructions(TradeCity currentCity)
+    public List<Instruction> GetInstructions(CharacterSheet sheet)
     {
         List<Instruction> instructions = new List<Instruction>();
 
         Instruction getFirewood = new Instruction();
-        getFirewood.destination = currentCity.WoodCuts[0].gameObject.GetComponent<NavigationWaypoint>();
-        getFirewood.building = currentCity.WoodCuts[0];
+        getFirewood.destination = sheet.baseCity.WoodCuts[0].gameObject.GetComponent<NavigationWaypoint>();
+        getFirewood.building = sheet.baseCity.WoodCuts[0];
         getFirewood.gather = new ItemType[] { ItemType.FIREWOOD };
         getFirewood.give = new ItemType[] { };
         getFirewood.fun1 = new instructionFunction((getFirewood.building).GetItem);
@@ -17,8 +17,31 @@ public class CollierOracle
         instructions.Add(getFirewood);
 
         Instruction getCharcoal = new Instruction();
-        getCharcoal.destination = currentCity.CharcoalPits[0].gameObject.GetComponent<NavigationWaypoint>();
-        getCharcoal.building = currentCity.CharcoalPits[0];
+        CharcoalPit destination = null;
+        foreach (CharcoalPit charcoalPit in sheet.baseCity.CharcoalPits)
+        {
+            if (charcoalPit.workers.Contains(sheet))
+            {
+                destination = charcoalPit;
+                break;
+            }
+        }
+
+        if (destination == null)
+        {
+            foreach (CharcoalPit charcoalPit in sheet.baseCity.CharcoalPits)
+            {
+                if (charcoalPit.CurrentPositions[Jobs.COLLIER] > 0)
+                {
+                    destination = charcoalPit;
+                    charcoalPit.workers.Add(sheet);
+                    charcoalPit.CurrentPositions[Jobs.COLLIER]--;
+                    break;
+                }
+            }
+        }
+        getCharcoal.destination = destination.gameObject.GetComponent<NavigationWaypoint>();
+        getCharcoal.building = destination;
         getCharcoal.gather = new ItemType[] { ItemType.CHARCOAL };
         getCharcoal.give = new ItemType[] { ItemType.FIREWOOD };
         getCharcoal.recipe = MasterRecipe.Instance.Charcoal;
@@ -27,11 +50,12 @@ public class CollierOracle
         instructions.Add(getCharcoal);
 
         Instruction storeCharcoal = new Instruction();
-        storeCharcoal.destination = currentCity.CharcoalPits[0].gameObject.GetComponent<NavigationWaypoint>();
-        storeCharcoal.building = currentCity.CharcoalPits[0];
+        storeCharcoal.destination = destination.gameObject.GetComponent<NavigationWaypoint>();
+        storeCharcoal.building = destination;
         storeCharcoal.gather = new ItemType[] { };
         storeCharcoal.give = new ItemType[] { ItemType.CHARCOAL };
         storeCharcoal.fun1 = new instructionFunction((storeCharcoal.building).StoreItem);
+        storeCharcoal.fun2 = new instructionFunction2((destination).ReleaseJob);
 
         instructions.Add(storeCharcoal);
 

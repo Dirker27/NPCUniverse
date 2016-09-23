@@ -27,6 +27,10 @@ public class HuntingLodge : BaseBuilding
 
         supportedRecipes.Add(MasterRecipe.Instance.Meat);
         supportedRecipes.Add(MasterRecipe.Instance.Leather);
+
+        CurrentPositions.Add(Jobs.HUNTER, 1);
+        TotalPositions.Add(Jobs.HUNTER, 1);
+        Register();
     }
 }
 

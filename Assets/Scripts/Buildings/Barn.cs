@@ -23,6 +23,7 @@ public class Barn : BaseBuilding
         this.debug = false;
 
         canHold = new List<ItemType> { ItemType.BARLEY, ItemType.WHEAT, ItemType.FISH };
+        Register();
     }
 }
 

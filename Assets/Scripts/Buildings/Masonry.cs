@@ -28,6 +28,10 @@ public class Masonry : BaseBuilding
         canHold = new List<ItemType> { ItemType.STONEBLOCK };
 
         supportedRecipes.Add(MasterRecipe.Instance.StoneBlock);
+
+        CurrentPositions.Add(Jobs.STONECUTTER, 1);
+        TotalPositions.Add(Jobs.STONECUTTER, 1);
+        Register();
     }
 }
 

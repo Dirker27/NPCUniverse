@@ -24,6 +24,11 @@ public class Pond : BaseBuilding
         this.debug = false;
         
         supportedRecipes.Add(MasterRecipe.Instance.Fish);
+        logger.Log(debug, "woodCut constructor");
+
+        CurrentPositions.Add(Jobs.FISHERMAN, 1);
+        TotalPositions.Add(Jobs.FISHERMAN, 1);
+        Register();
     }
 }
 

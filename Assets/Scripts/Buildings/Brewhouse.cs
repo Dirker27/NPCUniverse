@@ -29,6 +29,9 @@ public class Brewhouse : BaseBuilding
         canHold = new List<ItemType> { ItemType.BEER };
 
         supportedRecipes.Add(MasterRecipe.Instance.Beer);
+        CurrentPositions.Add(Jobs.BREWMASTER, 1);
+        TotalPositions.Add(Jobs.BREWMASTER, 1);
+        Register();
     }
 
 }

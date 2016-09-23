@@ -23,6 +23,9 @@ public class GuildHall : BaseBuilding
         this.debug = false;
 
         canHold = new List<ItemType> { ItemType.ARMOR, ItemType.WEAPON };
+        CurrentPositions.Add(Jobs.QUATERMASTER, 1);
+        TotalPositions.Add(Jobs.QUATERMASTER, 1);
+        Register();
     }
 
 }

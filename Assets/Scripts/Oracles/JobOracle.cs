@@ -36,17 +36,29 @@ public class JobOracle
         CurrentPositions[job]++;
     }
 
-    public void AddJobs(Jobs job, int toAdd)
+    public void AddJobs(Dictionary<Jobs, int> thierCurrentPositions, Dictionary<Jobs, int> theirTotalPositions)
     {
-        if (!TotalPositions.ContainsKey(job))
+        foreach(Jobs job in theirTotalPositions.Keys)
         {
-            TotalPositions[job] = toAdd;
-            CurrentPositions[job] = toAdd;
+            if (!TotalPositions.ContainsKey(job))
+            {
+                TotalPositions[job] = theirTotalPositions[job];
+            }
+            else
+            {
+                TotalPositions[job] += theirTotalPositions[job];
+            }
         }
-        else
+        foreach (Jobs job in thierCurrentPositions.Keys)
         {
-            TotalPositions[job] += toAdd;
-            CurrentPositions[job] += toAdd;
+            if (!CurrentPositions.ContainsKey(job))
+            {
+                CurrentPositions[job] = thierCurrentPositions[job];
+            }
+            else
+            {
+                CurrentPositions[job] += thierCurrentPositions[job];
+            }
         }
     }
 }
