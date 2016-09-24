@@ -29,7 +29,7 @@ public class NonPlayableCharacter : MonoBehaviour
         sheet.health = 100;
         sheet.hunger = 100;
         sheet.energy = 100;
-        InvokeRepeating("TimePasses", 5, 5);
+        InvokeRepeating("TimePasses", 500, 500);
 	}
 
     void TimePasses()

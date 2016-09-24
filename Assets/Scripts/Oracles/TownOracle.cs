@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System;
 
-public class TownOracle
+public class TownOracle 
 {
     int heightY = 1;
     int startinX = 10;
     int startingZ = 10;
     List<Vector3> buildingCoordinates;
     int buildingNumber = 0;
+    int pillNumber = 0;
     int nextToBuild = 0;
     List<Type> baseBuildings = new List<Type> { typeof(Barn), typeof(LogStore), typeof(OreShop) };
     List<Type> buildingOrder = new List<Type> { typeof(Forest), typeof(Farm), typeof(Pond), typeof(Mine),
@@ -23,6 +24,21 @@ public class TownOracle
         buildingCoordinates.Add(new Vector3(0, heightY, 0));
 
         maxBuilding = buildingOrder.Count;
+    }
+
+    public void SpawnCharacter()
+    {
+        GameObject myCube;
+        myCube = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+
+        myCube.transform.position = new Vector3(0, heightY, 0);
+
+        myCube.AddComponent<NPCJobDriver>();
+        myCube.AddComponent<NavigationWaypoint>();
+        myCube.AddComponent<CharacterMovement>();
+        myCube.name = "Pill person:" + pillNumber;
+        myCube.GetComponent<CharacterMovement>().travelRate = 10;
+        pillNumber++;
     }
 
     public void BuildBasicBuildings()

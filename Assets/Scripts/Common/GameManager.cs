@@ -39,6 +39,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GetTownOracle().BuildBasicBuildings();
+        InvokeRepeating("SpawnCharacter", 1, 3);
+    }
+
+    void SpawnCharacter()
+    {
+        GetTownOracle().SpawnCharacter();
     }
 
     // Update is called once per frame

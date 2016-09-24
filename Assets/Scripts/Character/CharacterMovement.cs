@@ -9,12 +9,14 @@ public class CharacterMovement : MonoBehaviour
     public bool twoDimensionalMovement = true;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         if (destination != null)
         {
             Move();
@@ -29,6 +31,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void Move()
     {
+        
         Vector3 dPos = destination.transform.position;
         Vector3 myPos = transform.position;
         if (twoDimensionalMovement)
@@ -40,7 +43,12 @@ public class CharacterMovement : MonoBehaviour
 
         float rate = Time.deltaTime * travelRate;
 
-        transform.localPosition += directionVector * rate;
+        //TODO: Figure out a better way to stall untill directionVector is not all nan.
+        if (!float.IsNaN(directionVector.x))
+        {
+            transform.localPosition += directionVector * rate;
+        }
+        
     }
 
     public bool isInTransit()
