@@ -38,6 +38,9 @@ public class TownOracle
         myCube.AddComponent<CharacterMovement>();
         myCube.name = "Pill person:" + pillNumber;
         myCube.GetComponent<CharacterMovement>().travelRate = 10;
+        myCube.GetComponent<NPCJobDriver>().Start();
+        myCube.GetComponent<NPCJobDriver>().sheet.name = myCube.name;
+        myCube.GetComponent<NPCJobDriver>().sheet.Save();
         pillNumber++;
     }
 
@@ -88,7 +91,9 @@ public class TownOracle
                 myCube.AddComponent(building);
                 myCube.AddComponent<NavigationWaypoint>();
                 myCube.name = building.ToString() + " " + buildingNumber;
+                myCube.GetComponent<BaseBuilding>().name = myCube.name;
                 myCube.transform.position = position;
+                myCube.GetComponent<BaseBuilding>().Save();
                 buildingCoordinates.Add(position);
                 buildingNumber++;
             }

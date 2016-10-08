@@ -69,5 +69,8 @@ public class NPCJobDriver : NonPlayableCharacter
                 sheet.previousState = NPCStates.WORK;
             }
         }
+
+        DatabaseInterface di = new DatabaseInterface();
+        di.Update(sheet);
     }
 }

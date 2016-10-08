@@ -35,6 +35,8 @@ public class BaseBuilding : MonoBehaviour
     public Dictionary<Jobs, int> TotalPositions;
     public List<CharacterSheet> workers;
 
+    public string name;
+
     public virtual void Start()
     {
         this.logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetLogger();
@@ -218,6 +220,12 @@ public class BaseBuilding : MonoBehaviour
         }
 
         oracle.AddJobs(CurrentPositions, TotalPositions);
+    }
+
+    public void Save()
+    {
+        DatabaseInterface di = new DatabaseInterface();
+        di.Save(this);
     }
 
 }
