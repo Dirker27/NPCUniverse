@@ -6,7 +6,7 @@ public class CameraMan : MonoBehaviour
     public GameObject aperture;
     public GameObject trackBall;
     public Vector3 offset = new Vector3(0, 50, -50);
-    public float movementSpeed = 5f;
+    public float movementSpeed = 50f;
 
     private InputManager input;
 
@@ -48,7 +48,7 @@ public class CameraMan : MonoBehaviour
 
         // Move Track-Ball
         Vector3 dir = GetMovementVector();
-        trackBall.transform.position += dir * movementSpeed;
+        trackBall.transform.Translate(dir * movementSpeed * Time.deltaTime);
 
         // Move camera relative to track ball
         aperture.transform.position = trackBall.transform.position + offset;
@@ -64,14 +64,14 @@ public class CameraMan : MonoBehaviour
     private Vector3 GetMovementVector()
     {
         Vector3 delta = Vector3.zero;
-        if (input.IsButtonDownNorth())
-            delta.x += 1;
-        if (input.IsButtonDownSouth())
-            delta.x -= 1;
-        if (input.IsButtonDownEast())
+        if (input.buttonDownNorth)
             delta.z += 1;
-        if (input.IsButtonDownWest())
+        if (input.buttonDownSouth)
             delta.z -= 1;
+        if (input.buttonDownEast)
+            delta.x += 1;
+        if (input.buttonDownWest)
+            delta.x -= 1;
 
         return delta;
     }
