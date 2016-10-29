@@ -69,9 +69,9 @@ public class CameraMan : MonoBehaviour
         if (input.buttonDownSouth)
             delta.z -= 1;
         if (input.buttonDownEast)
-            delta.x += 1;
-        if (input.buttonDownWest)
             delta.x -= 1;
+        if (input.buttonDownWest)
+            delta.x += 1;
 
         return delta;
     }
