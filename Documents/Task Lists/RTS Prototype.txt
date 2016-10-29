@@ -1,0 +1,37 @@
+RTS Task List
+=============
+
+User Interface
+==============
+
+	Camera Control
+	==============
+		[X] Simple Arrow Key control
+		----------------------------
+			[X] Camera-Man object
+			[X] Input Manager
+
+		[ ] Mouse Control
+		-----------------
+		<deferred>
+
+	Unit Selection
+	==============
+		[ ] Render Cursor
+
+		[ ] Select Unit
+
+		[ ] Rubber-Band select
+
+
+	Unit Commands
+	=============
+		<deferred - Unit Selection>
+		[ ] Move
+		[ ] Attack
+
+
+	Head's-Up Display
+	=================
+	<deferred>
+
