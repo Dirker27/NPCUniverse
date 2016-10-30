@@ -3,7 +3,7 @@ using System.Collections;
 
 public class RTSManager : MonoBehaviour {
 
-    private static GameObject gameAdmin;
+    private static GameObject gameManager;
 
    /**
     * Called first in object initialization cycle
@@ -11,8 +11,8 @@ public class RTSManager : MonoBehaviour {
     */
 	void Awake()
     {
-        gameAdmin = GameObject.FindGameObjectWithTag("GameManager");
-        if (gameAdmin == null)
+        gameManager = GameObject.FindGameObjectWithTag("GameManager");
+        if (gameManager == null)
         {
             Debug.LogWarning("No management to be found... We've got total anarchy here.");
         }
@@ -20,6 +20,6 @@ public class RTSManager : MonoBehaviour {
 
     public static GameObject GetGameManager()
     {
-        return gameAdmin;
+        return gameManager;
     }
 }

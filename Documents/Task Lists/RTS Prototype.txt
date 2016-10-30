@@ -15,18 +15,9 @@ User Interface
 		-----------------
 		<deferred>
 
-	Unit Selection
-	==============
-		[ ] Render Cursor
-
-		[ ] Select Unit
-
-		[ ] Rubber-Band select
-
-
 	Unit Commands
 	=============
-		<deferred - Unit Selection>
+		[X] Select Single Unit
 		[ ] Move
 		[ ] Attack
 
@@ -34,4 +25,5 @@ User Interface
 	Head's-Up Display
 	=================
 	<deferred>
+		[ ] Render Cursor
 

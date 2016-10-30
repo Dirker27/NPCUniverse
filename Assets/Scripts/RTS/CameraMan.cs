@@ -64,13 +64,13 @@ public class CameraMan : MonoBehaviour
     private Vector3 GetMovementVector()
     {
         Vector3 delta = Vector3.zero;
-        if (input.buttonDownNorth)
+        if (input.buttonDownCameraNorth)
             delta.z += 1;
-        if (input.buttonDownSouth)
+        if (input.buttonDownCameraSouth)
             delta.z -= 1;
-        if (input.buttonDownEast)
+        if (input.buttonDownCameraEast)
             delta.x -= 1;
-        if (input.buttonDownWest)
+        if (input.buttonDownCameraWest)
             delta.x += 1;
 
         return delta;
