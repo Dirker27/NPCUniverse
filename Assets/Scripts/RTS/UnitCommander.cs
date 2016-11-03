@@ -63,12 +63,19 @@ public class UnitCommander : MonoBehaviour {
         if (input.buttonDownUnitMove && this.selectedUnits.Count > 0)
         {
             Debug.Log("Placing waypoint at <" + cursor.transform.position + ">");
-            RTSWaypoint waypoint = (RTSWaypoint) RTSManager.SpawnWaypoint();
 
-            waypoint.transform.position = cursor.transform.position;
-            foreach (RTSUnit unit in selectedUnits)
+            RTSWaypoint waypoint = (RTSWaypoint) RTSManager.SpawnWaypoint();
+            if (waypoint != null)
             {
-                unit.SetDestinationWaypoint(waypoint);
+                waypoint.transform.position = cursor.transform.position;
+                foreach (RTSUnit unit in selectedUnits)
+                {
+                    unit.SetDestinationWaypoint(waypoint);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Movement failure - Could not spawn waypoint.");
             }
         }
 	}

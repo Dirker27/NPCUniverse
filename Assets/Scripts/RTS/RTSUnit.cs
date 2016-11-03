@@ -21,7 +21,7 @@ public class RTSUnit : MonoBehaviour
     {
         if (this.waypointMovement != null)
         {
-            this.waypointMovement.targetWaypoint = waypoint;
+            this.waypointMovement.SetTargetWaypoint(waypoint);
         }
     }
 }

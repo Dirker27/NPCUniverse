@@ -18,7 +18,7 @@ User Interface
 	Unit Commands
 	=============
 		[X] Select Single Unit
-		[ ] Move
+		[X] Move
 		[ ] Attack
 
 

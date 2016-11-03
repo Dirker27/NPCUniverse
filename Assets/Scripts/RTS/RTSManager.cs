@@ -12,12 +12,16 @@ public class RTSManager : MonoBehaviour {
     */
 	void Awake()
     {
+        //- Find Game Manager --------------------------------------=
+        //
         gameManager = GameObject.FindGameObjectWithTag("GameManager");
         if (gameManager == null)
         {
             Debug.LogWarning("No management to be found... We've got total anarchy here.");
         }
 
+        //- Find Template Farm -------------------------------------=
+        //
         GameObject templateFarmObj = GameObject.FindGameObjectWithTag("Template");
         if (templateFarmObj != null) {
             templateFarm = templateFarmObj.GetComponent<TemplateFarm>();
@@ -28,11 +32,21 @@ public class RTSManager : MonoBehaviour {
         }
 	}
 
+    /**
+     * Lookup Helper: Game Manager
+     * 
+     * A number of objects will need access to common utilities under the GM.
+     *   By maintaining a static reference to the GM (linked @ Awake), we can
+     *   simplify lookup and provide a performance boost at Start().
+     */
     public static GameObject GetGameManager()
     {
         return gameManager;
     }
 
+    /**
+     * Spawn an RTS waypoint object based off our template.
+     */
     public static RTSWaypoint SpawnWaypoint()
     {
         if (templateFarm == null || templateFarm.waypoint == null)
@@ -41,19 +55,20 @@ public class RTSManager : MonoBehaviour {
             return null;
         }
 
-        GameObject obj = GameObject.Instantiate(templateFarm.waypoint);
-        RTSWaypoint waypoint = obj.GetComponent<RTSWaypoint>();
+        GameObject cloneWaypoint = GameObject.Instantiate(templateFarm.waypoint);
+        RTSWaypoint waypoint = cloneWaypoint.GetComponent<RTSWaypoint>();
 
         if (waypoint == null)
         {
-            GameObject.Destroy(obj);
+            Debug.LogWarning("Spawn failure - Template object is not a waypoint.");
+            GameObject.Destroy(cloneWaypoint);
             return null;
         }
 
         // Template objects may be inactive. Make sure the clones aren't.
-        if (! obj.activeInHierarchy)
+        if (! cloneWaypoint.activeInHierarchy)
         {
-            obj.SetActive(true);
+            cloneWaypoint.SetActive(true);
         }
         return waypoint;
     }

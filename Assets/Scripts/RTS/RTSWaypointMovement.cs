@@ -3,7 +3,7 @@ using System.Collections;
 
 public class RTSWaypointMovement : MonoBehaviour
 {
-    public RTSWaypoint targetWaypoint;
+    private RTSWaypoint targetWaypoint;
     private Vector3 destination;
 
     public float travelRate = 1; // [m/s]
@@ -37,6 +37,7 @@ public class RTSWaypointMovement : MonoBehaviour
             float delta = Vector3.Distance(destination, transform.position);
             if (delta < targetWaypoint.arrivalRadius)
             {
+                targetWaypoint.UnitArrived(this);
                 targetWaypoint = null;
                 destination = transform.position;
             }
@@ -72,5 +73,16 @@ public class RTSWaypointMovement : MonoBehaviour
         }
         
         return (destination - myPos) / distance;
+    }
+
+    public void SetTargetWaypoint(RTSWaypoint waypoint)
+    {
+        if (this.targetWaypoint != null)
+        {
+            targetWaypoint.UnitArrived(this);
+        }
+
+        this.targetWaypoint = waypoint;
+        waypoint.UnitIncoming(this);
     }
 }
