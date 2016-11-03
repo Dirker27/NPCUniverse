@@ -41,12 +41,12 @@ public class UnitCommander : MonoBehaviour {
 
         //- Select units in radius of cursor -----------------------=
         //
-        if (input.buttonDownSelectUnit)
+        if (input.buttonDownUnitSelect)
         {
-            selectedUnits.Clear();
+            this.selectedUnits.Clear();
 
             // Nasty linear search
-            foreach(RTSUnit unit in unitRoster)
+            foreach (RTSUnit unit in unitRoster)
             {
                 Vector3 delta = unit.transform.position - cursor.transform.position;
                 if (delta.magnitude < this.selectionRadius)
@@ -54,6 +54,21 @@ public class UnitCommander : MonoBehaviour {
                     this.selectedUnits.Add(unit);
                     Debug.Log("Unit [" + unit.name + "] selected.");
                 }
+            }
+        }
+
+        //- Move selected units ------------------------------------=
+        //
+        // ( is 'Count' efficient? )
+        if (input.buttonDownUnitMove && this.selectedUnits.Count > 0)
+        {
+            Debug.Log("Placing waypoint at <" + cursor.transform.position + ">");
+            RTSWaypoint waypoint = (RTSWaypoint) RTSManager.SpawnWaypoint();
+
+            waypoint.transform.position = cursor.transform.position;
+            foreach (RTSUnit unit in selectedUnits)
+            {
+                unit.SetDestinationWaypoint(waypoint);
             }
         }
 	}
