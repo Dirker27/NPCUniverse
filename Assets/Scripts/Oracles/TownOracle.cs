@@ -46,7 +46,7 @@ public class TownOracle
 
         myCube.transform.position = new Vector3(startinX, heightY, startingZ);
 
-        myCube.AddComponent<NPCJobDriver>();
+        /*myCube.AddComponent<NPCJobDriver>();
         myCube.AddComponent<NavigationWaypoint>();
         myCube.AddComponent<CharacterMovement>();
         myCube.name = "Pill person:" + pillNumber;
@@ -54,7 +54,7 @@ public class TownOracle
         myCube.GetComponent<NPCJobDriver>().Start();
         myCube.GetComponent<NPCJobDriver>().sheet.name = myCube.name;
         myCube.GetComponent<NPCJobDriver>().sheet.Save();
-        pillNumber++;
+        pillNumber++;*/
     }
 
     public void BuildBasicBuildings()
