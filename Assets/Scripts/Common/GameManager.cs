@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private WeaponSmithOracle weaponSmithOracle;
     private WoodCuterOracle woodCuterOracle;
     private TownOracle townOracle;
+    private RegionOracle regionOracle;
 
     // Non job oracles
     private JobOracle jobOracle;
@@ -38,18 +39,29 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        GetTownOracle().BuildBasicBuildings();
-        InvokeRepeating("SpawnCharacter", 1, 3);
+        //GetTownOracle().BuildBasicBuildings();
+        GetRegionOracle().NewTown();
+        InvokeRepeating("UpdateRegion", 1, 3);
     }
 
-    void SpawnCharacter()
+    void UpdateRegion()
     {
-        GetTownOracle().SpawnCharacter();
+        GetRegionOracle().UpdateTowns();
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public RegionOracle GetRegionOracle()
+    {
+        if (regionOracle == null)
+        {
+            regionOracle = new RegionOracle();
+        }
+
+        return regionOracle;
     }
 
     public JobOracle GetJobOracle()
@@ -271,12 +283,12 @@ public class GameManager : MonoBehaviour
         return logger;
     }
 
-    public TownOracle GetTownOracle()
+    /*public TownOracle GetTownOracle()
     {
         if (townOracle == null)
         {
             townOracle = new TownOracle();
         }
         return townOracle;
-    }
+    }*/
 }

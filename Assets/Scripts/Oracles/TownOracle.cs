@@ -4,9 +4,9 @@ using System;
 
 public class TownOracle 
 {
-    int heightY = 1;
-    int startinX = 10;
-    int startingZ = 10;
+    float heightY;
+    float startinX;
+    float startingZ;
     List<Vector3> buildingCoordinates;
     int buildingNumber = 0;
     int pillNumber = 0;
@@ -18,12 +18,25 @@ public class TownOracle
                                                 typeof(GuildHall), typeof(Tavern),
                                               };
     int maxBuilding;
-    public TownOracle()
-    {
-        buildingCoordinates = new List<Vector3>();
-        buildingCoordinates.Add(new Vector3(0, heightY, 0));
 
+    public TownOracle(Vector3 location)
+    {
+        heightY = location.y;
+        startinX = location.x;
+        startingZ = location.z;
+        
+        GameObject town = UnityEngine.Object.Instantiate(Resources.Load("City") as GameObject);
+        town.name = "town 1";
+        town.AddComponent<TradeCity>();
+        town.GetComponent<TradeCity>().townOracle = this;
+        buildingCoordinates = new List<Vector3>();
+        buildingCoordinates.Add(location);
         maxBuilding = buildingOrder.Count;
+    }
+
+    public void Update()
+    {
+        SpawnCharacter();
     }
 
     public void SpawnCharacter()
@@ -31,7 +44,7 @@ public class TownOracle
         GameObject myCube;
         myCube = GameObject.CreatePrimitive(PrimitiveType.Capsule);
 
-        myCube.transform.position = new Vector3(0, heightY, 0);
+        myCube.transform.position = new Vector3(startinX, heightY, startingZ);
 
         myCube.AddComponent<NPCJobDriver>();
         myCube.AddComponent<NavigationWaypoint>();
@@ -68,9 +81,9 @@ public class TownOracle
         bool foundNewPosition = false;
         while (!foundNewPosition)
         {
-            for (int x = startinX; x >= -(startinX); x = x - 10)
+            for (float x = startinX; x >= -(startinX); x = x - 10)
             {
-                for (int z = startingZ; z >= -(startingZ); z = z - 10)
+                for (float z = startingZ; z >= -(startingZ); z = z - 10)
                 {
                     position = new Vector3(x, heightY, z);
                     if (!buildingCoordinates.Contains(position))

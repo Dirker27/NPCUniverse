@@ -137,7 +137,7 @@ public class NPCOracle
 
                 i.Add(wait);
 
-                GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetTownOracle().BuildNextBuilding();
+                sheet.baseCity.townOracle.BuildNextBuilding();
                 break;
         }
          

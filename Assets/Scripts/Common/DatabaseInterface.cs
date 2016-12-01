@@ -2,7 +2,7 @@
 
 public class DatabaseInterface
 {
-    bool writeToDatabase = true;
+    bool writeToDatabase = false;
     public void Save(CharacterSheet sheet)
     {
         if (!writeToDatabase)

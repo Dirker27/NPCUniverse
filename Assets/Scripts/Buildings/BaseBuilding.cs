@@ -129,12 +129,23 @@ public class BaseBuilding : MonoBehaviour
                 closestsCity = city;
             }
         }
-        return closestsCity.GetComponent<TradeCity>();
+        if (closestsCity)
+        {
+            return closestsCity.GetComponent<TradeCity>();
+        }
+
+        return null;
     }
 
     public void Register()
     {
         TradeCity city = GetClosestCity();
+        if (!city)
+        {
+            logger.Log(debug, "Everything is aweeful");
+            return;
+        }
+        logger.Log(debug, "Everything is awesome");
         JobOracle oracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetJobOracle();
         System.Type buildingType = this.GetType();
         

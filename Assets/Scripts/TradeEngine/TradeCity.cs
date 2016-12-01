@@ -26,4 +26,30 @@ public class TradeCity : MonoBehaviour
     public List<SawHouse> SawHouses;
     public List<BowShop> BowShops;
     public List<HuntingLodge> HuntingLodges;
+    public TownOracle townOracle;
+
+    public void Start()
+    {
+        Routes = new List<TradeRoute>();
+        Farms = new List<Farm>();
+        Barns = new List<Barn>();
+        Mills = new List<Mill>();
+        Bakeries = new List<Bakery>();
+        Mines = new List<Mine>();
+        OreShops = new List<OreShop>();
+        Foundries = new List<Foundry>();
+        Forests = new List<Forest>();
+        WoodCuts = new List<WoodCut>();
+        CharcoalPits = new List<CharcoalPit>();
+        LogStores = new List<LogStore>();
+        Smithies = new List<Smithy>();
+        GuildHalls = new List<GuildHall>();
+        Brewhouses = new List<Brewhouse>();
+        Ponds = new List<Pond>();
+        Taverns = new List<Tavern>();
+        Masonries = new List<Masonry>();
+        SawHouses = new List<SawHouse>();
+        BowShops = new List<BowShop>();
+        HuntingLodges = new List<HuntingLodge>();
+    }
 }
