@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class NonPlayableCharacter : MonoBehaviour
 {
     public Logger logger;
-    public bool debug = false;
+    public bool debug = true;
 
     public CharacterSheet sheet;
     
@@ -29,8 +29,18 @@ public class NonPlayableCharacter : MonoBehaviour
         sheet.health = 100;
         sheet.hunger = 100;
         sheet.energy = 100;
-        InvokeRepeating("TimePasses", 500, 500);
+        //InvokeRepeating("TimePasses", 500, 500);
 	}
+
+    void Update()
+    {
+        logger.Log(debug, "npc update called");
+        if (sheet.baseCity == null)
+        {
+            sheet.baseCity = sheet.npcOracle.WhereShouldBaseCityBe();
+            logger.Log(debug, "new city:" + sheet.baseCity);
+        }
+    }
 
     void TimePasses()
     {

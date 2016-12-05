@@ -6,7 +6,7 @@ public class NPCOracle
 {
 
     public Logger logger;
-    private bool debug = false;
+    private bool debug = true;
     public JobOracle jobOracle;
 
     public NPCOracle()
@@ -131,13 +131,25 @@ public class NPCOracle
                 //throw some error
                 logger.Log(debug, "No job figure out why:" + sheet.job);
                 Instruction wait = new Instruction();
-                wait.destination = sheet.baseCity.gameObject.GetComponent<NavigationWaypoint>();
+                if (sheet.baseCity)
+                {
+                    wait.destination = sheet.baseCity.gameObject.GetComponent<NavigationWaypoint>();
+                }
+                
                 wait.gather = new ItemType[] { };
                 wait.give = new ItemType[] { };
 
                 i.Add(wait);
 
-                sheet.baseCity.townOracle.BuildNextBuilding();
+                if (sheet.baseCity)
+                {
+                    sheet.baseCity.townOracle.BuildNextBuilding();
+                }
+                else
+                {
+                    sheet.baseCity = sheet.npcOracle.WhereShouldBaseCityBe();
+                    logger.Log(debug, "new city:" + sheet.baseCity);
+                }
                 break;
         }
          
@@ -147,11 +159,12 @@ public class NPCOracle
     public TradeCity WhereShouldBaseCityBe()
     {
         GameObject[] cities = new GameObject[] {};
-        while (cities.Length == 0)
-        {
-            cities = GameObject.FindGameObjectsWithTag("TradeCity");
-        }
-        return cities[0].GetComponent<TradeCity>();
 
+        cities = GameObject.FindGameObjectsWithTag("TradeCity");
+
+        if (cities.Length != 0)
+            return cities[0].GetComponent<TradeCity>();
+        else
+            return null;
     }
 }

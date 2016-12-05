@@ -29,6 +29,7 @@ public class TownOracle
         town.name = "town 1";
         town.AddComponent<TradeCity>();
         town.GetComponent<TradeCity>().townOracle = this;
+        town.tag = "TradeCity";
         buildingCoordinates = new List<Vector3>();
         buildingCoordinates.Add(location);
         maxBuilding = buildingOrder.Count;
@@ -43,10 +44,8 @@ public class TownOracle
     {
         GameObject myCube;
         myCube = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-
         myCube.transform.position = new Vector3(startinX, heightY, startingZ);
-
-        /*myCube.AddComponent<NPCJobDriver>();
+        myCube.AddComponent<NPCJobDriver>();
         myCube.AddComponent<NavigationWaypoint>();
         myCube.AddComponent<CharacterMovement>();
         myCube.name = "Pill person:" + pillNumber;
@@ -54,7 +53,7 @@ public class TownOracle
         myCube.GetComponent<NPCJobDriver>().Start();
         myCube.GetComponent<NPCJobDriver>().sheet.name = myCube.name;
         myCube.GetComponent<NPCJobDriver>().sheet.Save();
-        pillNumber++;*/
+        pillNumber++;
     }
 
     public void BuildBasicBuildings()

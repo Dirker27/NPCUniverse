@@ -38,9 +38,12 @@ public class NPCJobDriver : NonPlayableCharacter
             instructions = sheet.npcOracle.GetInstruction(sheet);
             currentIntruction = 0;
             logger.Log(debug, "Adding instruction of length:" + instructions.Count);
-            GetComponent<CharacterMovement>().destination = instructions[currentIntruction].destination;
+            if (instructions[currentIntruction].destination != null)
+            {
+                GetComponent<CharacterMovement>().destination = instructions[currentIntruction].destination;
+            }
         }
-        else if (!GetComponent<CharacterMovement>().isInTransit())
+        else if (GetComponent<CharacterMovement>() != null && !GetComponent<CharacterMovement>().isInTransit())
         {
             logger.Log(debug, "Traveling");
             if (GetComponent<CharacterMovement>().location == instructions[currentIntruction].destination)
