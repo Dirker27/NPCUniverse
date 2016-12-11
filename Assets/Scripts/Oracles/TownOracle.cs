@@ -7,6 +7,8 @@ public class TownOracle
     float heightY;
     float startinX;
     float startingZ;
+    float rangeHeight = 10;
+    float rangeWidth = 10;
     List<Vector3> buildingCoordinates;
     int buildingNumber = 0;
     int pillNumber = 0;
@@ -18,6 +20,7 @@ public class TownOracle
                                                 typeof(GuildHall), typeof(Tavern),
                                               };
     int maxBuilding;
+    public bool townFull = false;
 
     public TownOracle(Vector3 location)
     {
@@ -30,30 +33,29 @@ public class TownOracle
         town.AddComponent<TradeCity>();
         town.GetComponent<TradeCity>().townOracle = this;
         town.tag = "TradeCity";
+        town.transform.position = location;
         buildingCoordinates = new List<Vector3>();
         buildingCoordinates.Add(location);
         maxBuilding = buildingOrder.Count;
     }
 
-    public void Update()
-    {
-        SpawnCharacter();
-    }
-
     public void SpawnCharacter()
     {
-        GameObject myCube;
-        myCube = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-        myCube.transform.position = new Vector3(startinX, heightY, startingZ);
-        myCube.AddComponent<NPCJobDriver>();
-        myCube.AddComponent<NavigationWaypoint>();
-        myCube.AddComponent<CharacterMovement>();
-        myCube.name = "Pill person:" + pillNumber;
-        myCube.GetComponent<CharacterMovement>().travelRate = 10;
-        myCube.GetComponent<NPCJobDriver>().Start();
-        myCube.GetComponent<NPCJobDriver>().sheet.name = myCube.name;
-        myCube.GetComponent<NPCJobDriver>().sheet.Save();
-        pillNumber++;
+        if (!townFull)
+        {
+            GameObject myCube;
+            myCube = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            myCube.transform.position = new Vector3(startinX, heightY, startingZ);
+            myCube.AddComponent<NPCJobDriver>();
+            myCube.AddComponent<NavigationWaypoint>();
+            myCube.AddComponent<CharacterMovement>();
+            myCube.name = "Pill person:" + pillNumber;
+            myCube.GetComponent<CharacterMovement>().travelRate = 10;
+            myCube.GetComponent<NPCJobDriver>().Start();
+            myCube.GetComponent<NPCJobDriver>().sheet.name = myCube.name;
+            myCube.GetComponent<NPCJobDriver>().sheet.Save();
+            pillNumber++;
+        }
     }
 
     public void BuildBasicBuildings()
@@ -71,6 +73,7 @@ public class TownOracle
         if(nextToBuild >= maxBuilding)
         {
             nextToBuild = 0;
+            townFull = true;
         }
     }
 
@@ -80,9 +83,9 @@ public class TownOracle
         bool foundNewPosition = false;
         while (!foundNewPosition)
         {
-            for (float x = startinX; x >= -(startinX); x = x - 10)
+            for (float x = startinX + rangeWidth; x >= startinX - rangeWidth; x = x - 10)
             {
-                for (float z = startingZ; z >= -(startingZ); z = z - 10)
+                for (float z = startingZ + rangeHeight; z >= startingZ - rangeHeight; z = z - 10)
                 {
                     position = new Vector3(x, heightY, z);
                     if (!buildingCoordinates.Contains(position))
@@ -112,8 +115,8 @@ public class TownOracle
             else
             {
 
-                startinX += 10;
-                startingZ += 10;
+                rangeWidth += 10;
+                rangeHeight += 10;
             }
         }
     }

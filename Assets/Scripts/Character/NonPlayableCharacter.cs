@@ -22,7 +22,7 @@ public class NonPlayableCharacter : MonoBehaviour
         sheet.npcOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetNPCOracle();
 
         logger.Log(debug, " calling where base city should be");
-        sheet.baseCity = sheet.npcOracle.WhereShouldBaseCityBe();
+        sheet.baseCity = sheet.npcOracle.WhereShouldBaseCityBe(transform);
 
         logger.Log(debug, "city:" + sheet.baseCity);
         
@@ -37,7 +37,7 @@ public class NonPlayableCharacter : MonoBehaviour
         logger.Log(debug, "npc update called");
         if (sheet.baseCity == null)
         {
-            sheet.baseCity = sheet.npcOracle.WhereShouldBaseCityBe();
+            sheet.baseCity = sheet.npcOracle.WhereShouldBaseCityBe(transform);
             logger.Log(debug, "new city:" + sheet.baseCity);
         }
     }

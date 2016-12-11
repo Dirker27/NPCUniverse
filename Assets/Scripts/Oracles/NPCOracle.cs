@@ -15,7 +15,7 @@ public class NPCOracle
         this.jobOracle = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetJobOracle();
         logger.Log(debug, "jobOracle is:" + (jobOracle != null));
     }
-  
+
     public NPCStates WhatShouldIDo(CharacterSheet sheet)
     {
         logger.Log(debug, "Hunger is:" + sheet.hunger + " energy is:" + sheet.energy);
@@ -49,12 +49,12 @@ public class NPCOracle
             FindAndSetJob(sheet);
         }
         List<Instruction> i = new List<Instruction>();
-        switch(sheet.job)
+        switch (sheet.job)
         {
             case Jobs.ARMORSMITH:
                 i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetArmorSmithOracle().GetInstructions(sheet);
                 break;
-            
+
             case Jobs.BAKER:
                 i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetBakerOracle().GetInstructions(sheet);
                 break;
@@ -82,7 +82,7 @@ public class NPCOracle
             case Jobs.FORESTER:
                 i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetForesterOracle().GetInstructions(sheet);
                 break;
-            
+
             case Jobs.SMITH:
                 i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetFoundryOracle().GetInstructions(sheet);
                 break;
@@ -135,7 +135,7 @@ public class NPCOracle
                 {
                     wait.destination = sheet.baseCity.gameObject.GetComponent<NavigationWaypoint>();
                 }
-                
+
                 wait.gather = new ItemType[] { };
                 wait.give = new ItemType[] { };
 
@@ -145,26 +145,32 @@ public class NPCOracle
                 {
                     sheet.baseCity.townOracle.BuildNextBuilding();
                 }
-                else
-                {
-                    sheet.baseCity = sheet.npcOracle.WhereShouldBaseCityBe();
-                    logger.Log(debug, "new city:" + sheet.baseCity);
-                }
                 break;
         }
-         
+
         return i;
     }
 
-    public TradeCity WhereShouldBaseCityBe()
+    public TradeCity WhereShouldBaseCityBe(Transform transform)
     {
-        GameObject[] cities = new GameObject[] {};
+        GameObject[] cities = GameObject.FindGameObjectsWithTag("TradeCity");
+        GameObject closestsCity = null;
+        foreach (GameObject city in cities)
+        {
+            if (closestsCity == null)
+            {
+                closestsCity = city;
+            }
+            if (Vector3.Distance(transform.position, city.transform.position) <= Vector3.Distance(transform.position, closestsCity.transform.position))
+            {
+                closestsCity = city;
+            }
+        }
+        if (closestsCity)
+        {
+            return closestsCity.GetComponent<TradeCity>();
+        }
 
-        cities = GameObject.FindGameObjectsWithTag("TradeCity");
-
-        if (cities.Length != 0)
-            return cities[0].GetComponent<TradeCity>();
-        else
-            return null;
+        return null;
     }
 }
