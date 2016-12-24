@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //GetTownOracle().BuildBasicBuildings();
-        GetRegionOracle().NewTown();
+        //GetRegionOracle().NewTown();
         InvokeRepeating("UpdateRegion", 1, 3);
     }
 

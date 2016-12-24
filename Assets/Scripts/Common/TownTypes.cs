@@ -14,10 +14,30 @@ namespace TownTypes
                                                          typeof(CharcoalPit), typeof(Smithy), typeof(Bakery), typeof(HuntingLodge),
                                                          typeof(GuildHall), typeof(Tavern),
                                                        };
+
         public static List<Type> TOWN_MINNINGTOWN = new List<Type> { typeof(Mine),
                                                          typeof(Foundry), typeof(Masonry),
                                                          typeof(Smithy),
-                                                         typeof(GuildHall), typeof(Tavern),
+                                                         typeof(Tavern),
                                                        };
+
+        public static List<Type> TOWN_FARMINGTOWN = new List<Type> { typeof(Farm), typeof(Pond),
+                                                         typeof(Mill), typeof(Brewhouse),
+                                                         typeof(Bakery),
+                                                         typeof(Tavern),
+                                                       };
+
+        public static List<Type> TOWN_FORESTTOWN = new List<Type> { typeof(Forest),
+                                                         typeof(WoodCut), typeof(SawHouse),
+                                                         typeof(CharcoalPit),
+                                                         typeof(Tavern),
+                                                       };
+
+        public static List<Type> TOWN_HUNTINGTOWN = new List<Type> { 
+                                                         typeof(BowShop),
+                                                         typeof(HuntingLodge),
+                                                         typeof(Tavern),
+                                                       };
+
     }
 }
