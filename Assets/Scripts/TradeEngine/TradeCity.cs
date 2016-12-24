@@ -26,6 +26,7 @@ public class TradeCity : MonoBehaviour
     public List<SawHouse> SawHouses;
     public List<BowShop> BowShops;
     public List<HuntingLodge> HuntingLodges;
+    public List<TradeHouse> TradeHouses;
     public TownOracle townOracle;
 
     public void Start()
@@ -51,5 +52,6 @@ public class TradeCity : MonoBehaviour
         SawHouses = new List<SawHouse>();
         BowShops = new List<BowShop>();
         HuntingLodges = new List<HuntingLodge>();
+        TradeHouses = new List<TradeHouse>();
     }
 }

@@ -8,31 +8,73 @@ public class InnKeeperOracle
         List<Instruction> instructions = new List<Instruction>();
 
         Instruction getBeer = new Instruction();
-        getBeer.destination = sheet.baseCity.Brewhouses[0].gameObject.GetComponent<NavigationWaypoint>();
-        getBeer.building = sheet.baseCity.Brewhouses[0];
-        getBeer.gather = new ItemType[] { ItemType.BEER };
-        getBeer.give = new ItemType[] { };
-        getBeer.fun1 = new instructionFunction((getBeer.building).GetItem);
+        if (sheet.baseCity.Brewhouses.Count > 0)
+        {
+            getBeer.destination = sheet.baseCity.Brewhouses[0].gameObject.GetComponent<NavigationWaypoint>();
+            getBeer.building = sheet.baseCity.Brewhouses[0];
+            getBeer.gather = new ItemType[] { ItemType.BEER };
+            getBeer.give = new ItemType[] { };
+            getBeer.fun1 = new instructionFunction((getBeer.building).GetItem);
 
-        instructions.Add(getBeer);
+            instructions.Add(getBeer);
+        }
+        else
+        {
+            getBeer.destination = sheet.baseCity.TradeHouses[0].gameObject.GetComponent<NavigationWaypoint>();
+            getBeer.building = sheet.baseCity.TradeHouses[0];
+            getBeer.gather = new ItemType[] { ItemType.BEER };
+            getBeer.give = new ItemType[] { };
+            getBeer.fun1 = new instructionFunction((getBeer.building).GetItem);
+
+            instructions.Add(getBeer);
+        }
+        
 
         Instruction getFish = new Instruction();
-        getFish.destination = sheet.baseCity.Barns[0].gameObject.GetComponent<NavigationWaypoint>();
-        getFish.building = sheet.baseCity.Barns[0];
-        getFish.gather = new ItemType[] { ItemType.FISH };
-        getFish.give = new ItemType[] { };
-        getFish.fun1 = new instructionFunction((getFish.building).GetItem);
+        if (sheet.baseCity.Ponds.Count > 0)
+        {
+            getFish.destination = sheet.baseCity.Barns[0].gameObject.GetComponent<NavigationWaypoint>();
+            getFish.building = sheet.baseCity.Barns[0];
+            getFish.gather = new ItemType[] { ItemType.FISH };
+            getFish.give = new ItemType[] { };
+            getFish.fun1 = new instructionFunction((getFish.building).GetItem);
 
-        instructions.Add(getFish);
+            instructions.Add(getFish);
+        }
+        else
+        {
+            getFish.destination = sheet.baseCity.TradeHouses[0].gameObject.GetComponent<NavigationWaypoint>();
+            getFish.building = sheet.baseCity.TradeHouses[0];
+            getFish.gather = new ItemType[] { ItemType.FISH };
+            getFish.give = new ItemType[] { };
+            getFish.fun1 = new instructionFunction((getFish.building).GetItem);
+
+            instructions.Add(getFish);
+        }
+
+
 
         Instruction getBread = new Instruction();
-        getBread.destination = sheet.baseCity.Bakeries[0].gameObject.GetComponent<NavigationWaypoint>();
-        getBread.building = sheet.baseCity.Bakeries[0];
-        getBread.gather = new ItemType[] { ItemType.BREAD };
-        getBread.give = new ItemType[] { };
-        getBread.fun1 = new instructionFunction((getBread.building).GetItem);
+        if (sheet.baseCity.Bakeries.Count > 0)
+        {
+            getBread.destination = sheet.baseCity.Bakeries[0].gameObject.GetComponent<NavigationWaypoint>();
+            getBread.building = sheet.baseCity.Bakeries[0];
+            getBread.gather = new ItemType[] { ItemType.BREAD };
+            getBread.give = new ItemType[] { };
+            getBread.fun1 = new instructionFunction((getBread.building).GetItem);
 
-        instructions.Add(getBread);
+            instructions.Add(getBread);
+        }
+        else
+        {
+            getBread.destination = sheet.baseCity.TradeHouses[0].gameObject.GetComponent<NavigationWaypoint>();
+            getBread.building = sheet.baseCity.TradeHouses[0];
+            getBread.gather = new ItemType[] { ItemType.BREAD };
+            getBread.give = new ItemType[] { };
+            getBread.fun1 = new instructionFunction((getBread.building).GetItem);
+
+            instructions.Add(getBread);
+        }
 
 
         Instruction makeMeal = new Instruction();

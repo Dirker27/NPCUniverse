@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 public class Logger
 {
-    bool debug = true;
+    bool debug = false;
     public void Log(bool toLog, string message)
     {
         //Refrence of methods https://msdn.microsoft.com/en-us/library/system.diagnostics.stackframe_members(v=vs.90).aspx

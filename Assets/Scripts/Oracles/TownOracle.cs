@@ -13,30 +13,28 @@ public class TownOracle
     int buildingNumber = 0;
     int pillNumber = 0;
     int nextToBuild = 0;
-    List<Type> baseBuildings = new List<Type> { typeof(Barn), typeof(LogStore), typeof(OreShop) };
-    List<Type> buildingOrder = new List<Type> { typeof(Forest), typeof(Farm), typeof(Pond), typeof(Mine),
-                                                typeof(WoodCut), typeof(Mill), typeof(Brewhouse), typeof(Foundry), typeof(BowShop), typeof(SawHouse), typeof(Masonry),
-                                                typeof(CharcoalPit), typeof(Smithy), typeof(Bakery), typeof(HuntingLodge),
-                                                typeof(GuildHall), typeof(Tavern),
-                                              };
+    List<Type> m_baseBuildings;
+    List<Type> m_buildingOrder;
+
     int maxBuilding;
     public bool townFull = false;
 
-    public TownOracle(Vector3 location)
+    public TownOracle(String name, Vector3 location, List<Type> BuildingOrder, List<Type> BaseBuildings)
     {
         heightY = location.y;
         startinX = location.x;
         startingZ = location.z;
-        
+        m_baseBuildings = BaseBuildings;
+        m_buildingOrder = BuildingOrder;
         GameObject town = UnityEngine.Object.Instantiate(Resources.Load("City") as GameObject);
-        town.name = "town 1";
+        town.name = name;
         town.AddComponent<TradeCity>();
         town.GetComponent<TradeCity>().townOracle = this;
         town.tag = "TradeCity";
         town.transform.position = location;
         buildingCoordinates = new List<Vector3>();
         buildingCoordinates.Add(location);
-        maxBuilding = buildingOrder.Count;
+        maxBuilding = m_buildingOrder.Count;
     }
 
     public void SpawnCharacter()
@@ -60,7 +58,7 @@ public class TownOracle
 
     public void BuildBasicBuildings()
     {
-        foreach (Type building in baseBuildings)
+        foreach (Type building in m_baseBuildings)
         {
             BuildNewBuilding(building);
         }
@@ -68,7 +66,7 @@ public class TownOracle
 
     public void BuildNextBuilding()
     {
-        BuildNewBuilding(buildingOrder[nextToBuild]);
+        BuildNewBuilding(m_buildingOrder[nextToBuild]);
         nextToBuild++;
         if(nextToBuild >= maxBuilding)
         {

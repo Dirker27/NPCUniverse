@@ -229,6 +229,10 @@ public class BaseBuilding : MonoBehaviour
         {
             city.WoodCuts.Add((WoodCut)this);
         }
+        else if (buildingType == typeof(TradeHouse))
+        {
+            city.TradeHouses.Add((TradeHouse)this);
+        }
 
         oracle.AddJobs(CurrentPositions, TotalPositions);
     }

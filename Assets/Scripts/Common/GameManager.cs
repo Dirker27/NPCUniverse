@@ -282,13 +282,4 @@ public class GameManager : MonoBehaviour
         }
         return logger;
     }
-
-    /*public TownOracle GetTownOracle()
-    {
-        if (townOracle == null)
-        {
-            townOracle = new TownOracle();
-        }
-        return townOracle;
-    }*/
 }

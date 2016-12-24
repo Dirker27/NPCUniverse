@@ -46,10 +46,11 @@ public class RegionOracle
             }
             if (foundNewPosition)
             {
-                TownOracle newTown = new TownOracle(position);
+                TownOracle newTown = new TownOracle("Town " + townNumber, position, TownTypes.Types.TOWN_MINNINGTOWN, TownTypes.Types.TOWN_BASEBUILDING);
                 newTown.BuildBasicBuildings();
                 townOracles.Add(newTown);
                 townCoordinates.Add(position);
+                townNumber++;
             }
             else
             {
