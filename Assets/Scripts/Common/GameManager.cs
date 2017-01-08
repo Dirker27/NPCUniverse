@@ -31,7 +31,8 @@ public class GameManager : MonoBehaviour
     private WoodCuterOracle woodCuterOracle;
     private TownOracle townOracle;
     private RegionOracle regionOracle;
-
+    private TradeRunnerOracle tradeRunnerOracle;
+    private MultiCityTraderOracle multiCityTraderOracle;
     // Non job oracles
     private JobOracle jobOracle;
     private NPCOracle npcOracle;
@@ -272,6 +273,26 @@ public class GameManager : MonoBehaviour
         }
 
         return npcOracle;
+    }
+
+    public TradeRunnerOracle GetTradeRunnerOracle()
+    {
+        if (tradeRunnerOracle == null)
+        {
+            tradeRunnerOracle = new TradeRunnerOracle();
+        }
+
+        return tradeRunnerOracle;
+    }
+
+    public MultiCityTraderOracle GetMultiCityTraderOracle()
+    {
+        if (multiCityTraderOracle == null)
+        {
+            multiCityTraderOracle = new MultiCityTraderOracle();
+        }
+
+        return multiCityTraderOracle;
     }
 
     public Logger GetLogger()

@@ -6,6 +6,8 @@ public class Inventory
 {
     public int currency;
     public List<Item> items;
+    public bool debug = false;
+    public Logger logger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetLogger();
 
     public void InventorySet(Inventory other)
     {
@@ -56,5 +58,23 @@ public class Inventory
         result += "]";
 
         return result;
+    }
+
+    public Dictionary<ItemType, int> GetCountOfItems()
+    {
+        Dictionary<ItemType, int> toReturn = new Dictionary<ItemType, int>();
+        foreach (Item item in items)
+        {
+            if (!toReturn.ContainsKey(item.Type))
+            {
+                toReturn.Add(item.Type, 1);
+            }
+            else
+            {
+                toReturn[item.Type]++;
+            }
+        }
+
+        return toReturn;
     }
 }

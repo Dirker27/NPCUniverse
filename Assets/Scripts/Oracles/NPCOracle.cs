@@ -6,7 +6,7 @@ public class NPCOracle
 {
 
     public Logger logger;
-    private bool debug = true;
+    private bool debug = false;
     public JobOracle jobOracle;
 
     public NPCOracle()
@@ -125,6 +125,14 @@ public class NPCOracle
 
             case Jobs.WOODCUTER:
                 i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetWoodCuterOracle().GetInstructions(sheet);
+                break;
+
+            case Jobs.TRADERUNNER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetTradeRunnerOracle().GetInstructions(sheet);
+                break;
+
+            case Jobs.MULTICITYTRADER:
+                i = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetMultiCityTraderOracle().GetInstructions(sheet);
                 break;
 
             default:

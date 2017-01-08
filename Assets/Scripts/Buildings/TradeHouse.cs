@@ -24,7 +24,16 @@ public class TradeHouse : BaseBuilding
         this.debug = false;
 
         canHold = new List<ItemType>(Enum.GetValues(typeof(ItemType)).Cast<ItemType>().ToList());
+
+        CurrentPositions.Add(Jobs.TRADERUNNER, 1);
+        TotalPositions.Add(Jobs.TRADERUNNER, 1);
+
+        CurrentPositions.Add(Jobs.MULTICITYTRADER, 1);
+        TotalPositions.Add(Jobs.MULTICITYTRADER, 1);
+
         Register();
     }
+
+
 }
 

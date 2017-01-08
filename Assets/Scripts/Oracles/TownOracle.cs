@@ -19,6 +19,8 @@ public class TownOracle
     int maxBuilding;
     public bool townFull = false;
 
+    public GameObject town;
+
     public TownOracle(String name, Vector3 location, List<Type> BuildingOrder, List<Type> BaseBuildings)
     {
         heightY = location.y;
@@ -26,7 +28,7 @@ public class TownOracle
         startingZ = location.z;
         m_baseBuildings = BaseBuildings;
         m_buildingOrder = BuildingOrder;
-        GameObject town = UnityEngine.Object.Instantiate(Resources.Load("City") as GameObject);
+        town = UnityEngine.Object.Instantiate(Resources.Load("City") as GameObject);
         town.name = name;
         town.AddComponent<TradeCity>();
         town.GetComponent<TradeCity>().townOracle = this;

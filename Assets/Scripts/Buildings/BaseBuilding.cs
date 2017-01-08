@@ -26,7 +26,7 @@ public class BaseBuilding : MonoBehaviour
     public Inventory inventory;
 
     public Logger logger;
-    public bool debug = true;
+    public bool debug = false;
 
     public List<Recipe> supportedRecipes;
     public List<ItemType> canHold;
@@ -52,12 +52,14 @@ public class BaseBuilding : MonoBehaviour
     public bool StoreItem(Instruction instruction, CharacterSheet sheet)
     {
         bool result = false;
+        logger.Log(debug, "Trying to store item:" + instruction.give[0]);
         if (canHold.Contains(instruction.give[0]))
         {
             foreach (Item item in sheet.inventory.items)
             {
                 if (item.Type == instruction.give[0])
                 {
+                    logger.Log(debug, "Stored item:" + instruction.give[0]);
                     inventory.Add(item);
                     sheet.inventory.Remove(item);
                     result = true;
@@ -69,18 +71,24 @@ public class BaseBuilding : MonoBehaviour
         {
             logger.Log(debug, "Could not store item:" + instruction.give[0]);
         }
+        if (result == false)
+        {
+            logger.Log(debug, "Faild to store item:" + instruction.give[0]);
+        }
         return result;
     }
 
     public bool GetItem(Instruction instruction, CharacterSheet sheet)
     {
         bool result = false;
+        logger.Log(debug, "Trying to gather item:" + instruction.gather[0]);
         if (canHold.Contains(instruction.gather[0]))
         {
-            foreach (Item item in sheet.inventory.items)
+            foreach (Item item in inventory.items)
             {
                 if (item.Type == instruction.gather[0])
                 {
+                    logger.Log(debug, "Gathered item:" + instruction.gather[0]);
                     sheet.inventory.Add(item);
                     inventory.Remove(item);
                     result = true;
@@ -91,6 +99,10 @@ public class BaseBuilding : MonoBehaviour
         else
         {
             logger.Log(debug, "Could not gather item:" + instruction.gather[0]);
+        }
+        if (result == false)
+        {
+            logger.Log(debug, "Faild to gather item:" + instruction.gather[0]);
         }
         return result;
     }
@@ -108,10 +120,10 @@ public class BaseBuilding : MonoBehaviour
 
     public void ReleaseJob()
     {
-        if (this.GetType() == typeof(Pond))
-        {
-            CurrentPositions[Jobs.FISHERMAN]++;
-        }
+        //if (this.GetType() == typeof(Pond))
+        //{
+        //    CurrentPositions[Jobs.FISHERMAN]++;
+        //}
     }
 
     public TradeCity GetClosestCity()

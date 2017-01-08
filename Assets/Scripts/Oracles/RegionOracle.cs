@@ -22,7 +22,7 @@ public class RegionOracle
     int nextToBuild = 0;
     int maxTowns;
 
-    List<TownOracle> townOracles;
+    public List<TownOracle> townOracles;
 
     public RegionOracle()
     {

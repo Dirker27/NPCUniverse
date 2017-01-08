@@ -51,11 +51,29 @@ public class NPCJobDriver : NonPlayableCharacter
                 logger.Log(debug, "doing action");
                 if (instructions[currentIntruction].fun1 != null)
                 {
-                    instructions[currentIntruction].fun1(instructions[currentIntruction], sheet);
+                    logger.Log(debug, "calling fun1");
+                    bool result = instructions[currentIntruction].fun1(instructions[currentIntruction], sheet);
+                    if (result)
+                    {
+                        logger.Log(debug, "fun1 succeded");
+                    }
+                    else
+                    {
+                        logger.Log(debug, "fun1 failed");
+                    }
+                }
+                else
+                {
+                    logger.Log(debug, "no fun1");
                 }
                 if (instructions[currentIntruction].fun2 != null)
                 {
+                    logger.Log(debug, "calling fun2");
                     instructions[currentIntruction].fun2();
+                }
+                else
+                {
+                    logger.Log(debug, "no fun2");
                 }
                 currentIntruction++;
                 logger.Log(debug, "CurrentInstruction is now:" + currentIntruction + " total instructions:" + instructions.Count);
