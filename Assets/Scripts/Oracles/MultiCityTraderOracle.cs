@@ -18,7 +18,7 @@ public class MultiCityTraderOracle
         //See who needs what this house has
         //Take an item there
         //set sheet base city as the destination city
-
+        //if no matches and other cities travel to them
 
 
         List<Instruction> instructions = new List<Instruction>();
@@ -79,7 +79,21 @@ public class MultiCityTraderOracle
             }
         }
 
-        sheet.baseCity = newBaseCity;
+        if (newBaseCity == sheet.baseCity)
+        {
+            foreach (TownOracle townOracle in regionOracle.townOracles)
+            {
+                if (townOracle.town.GetComponent<TradeCity>() != sheet.baseCity)
+                {
+                    sheet.baseCity = townOracle.town.GetComponent<TradeCity>();
+                    break;
+                }
+            }
+        }
+        else
+        {
+            sheet.baseCity = newBaseCity;
+        }
 
         return instructions;
     }
