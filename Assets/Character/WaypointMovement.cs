@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(Unit))]
+[RequireComponent(typeof(UnitController))]
 [RequireComponent(typeof(NavMeshAgent))]
 public class WaypointMovement : MonoBehaviour {
 
@@ -11,16 +11,22 @@ public class WaypointMovement : MonoBehaviour {
     public GameObject currentWaypoint;
 
     private NavMeshAgent agent;
-    private Unit unit;
+    private UnitController controller;
 
-	// Use this for initialization
 	void Start ()
     {
-        unit = GetComponent<Unit>();
+        controller = GetComponent<UnitController>();
+
         agent = GetComponent<NavMeshAgent>();
+        // If you want the controller to move the object, not the agent.
+        //   See: https://docs.unity3d.com/Manual/nav-MixingComponents.html
+        //agent.updatePosition = false;
+        //agent.updateRotation = false;
+        // Use controller's movement params.
+        agent.speed = controller.movementSpeed;
+        agent.angularSpeed = controller.turnSpeed;
 	}
 	
-	// Update is called once per frame
 	void Update () {
         if (currentWaypoint != null)
         {
@@ -34,20 +40,33 @@ public class WaypointMovement : MonoBehaviour {
         //TODO: remove
         agent.destination = currentWaypoint.transform.position;
 
-        Vector3 worldDelta = agent.nextPosition - transform.position;
-        if (worldDelta.magnitude < arrivalRadius)
+        //- Waypoint Reached -----------------------------=
+        //
+        Vector3 destinationDelta = currentWaypoint.transform.position - transform.position;
+        if (destinationDelta.magnitude < arrivalRadius)
         {
             currentWaypoint = null;
+
+            agent.SetDestination(transform.position);
+
+            controller.ApplyForwardSpeed(0f);
+            controller.ApplyTurnSpeed(0f);
+
             return;
         }
 
+        //- Apply NavMesh Movement  ----------------------=
+        //
         /*
-        float turnSpeed = Vector3.Dot(Vector3.up, Vector3.Cross(transform.forward, worldDelta));
-        float forwardSpeed = Vector3.Dot(transform.forward, worldDelta);
+        Vector3 navigationDelta = agent.nextPosition - transform.position;
+        float turnSpeed = Vector3.Dot(Vector3.up, Vector3.Cross(transform.forward, navigationDelta));
+        controller.ApplyTurnSpeed(turnSpeed);
         */
-
-        Vector3 targetDirection = worldDelta / worldDelta.magnitude;
-        transform.position += targetDirection * unit.movementSpeed * Time.deltaTime;
+        //
+        //float forwardSpeed = Vector3.Dot(transform.forward, navigationDelta);
+        controller.ApplyForwardSpeed(agent.velocity.magnitude);
+        //
+        Debug.DrawLine(transform.position, agent.nextPosition, Color.red);
     }
 
     /*public void AssignWaypoint(GameObject waypoint)
