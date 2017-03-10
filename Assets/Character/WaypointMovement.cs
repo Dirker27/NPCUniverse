@@ -37,9 +37,6 @@ public class WaypointMovement : MonoBehaviour {
 
     private void moveTowardsWaypoint()
     {
-        //TODO: remove
-        agent.destination = currentWaypoint.transform.position;
-
         //- Waypoint Reached -----------------------------=
         //
         Vector3 destinationDelta = currentWaypoint.transform.position - transform.position;
@@ -47,7 +44,7 @@ public class WaypointMovement : MonoBehaviour {
         {
             currentWaypoint = null;
 
-            agent.SetDestination(transform.position);
+            agent.Stop();
 
             controller.ApplyForwardSpeed(0f);
             controller.ApplyTurnSpeed(0f);
@@ -69,9 +66,9 @@ public class WaypointMovement : MonoBehaviour {
         Debug.DrawLine(transform.position, agent.nextPosition, Color.red);
     }
 
-    /*public void AssignWaypoint(GameObject waypoint)
+    public void AssignWaypoint(GameObject waypoint)
     {
         currentWaypoint = waypoint;
         agent.SetDestination(waypoint.transform.position);
-    }*/
+    }
 }

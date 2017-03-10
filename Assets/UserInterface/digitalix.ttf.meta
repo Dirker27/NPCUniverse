@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: c961b1b85ebd47b44b4f5e270129d23a
+timeCreated: 1489128797
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Digitalix
+  fontNames:
+  - Digitalix
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
