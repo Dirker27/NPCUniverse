@@ -1232,19 +1232,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4920499365436106, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4920499365436106, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.9881502
       objectReference: {fileID: 0}
     - target: {fileID: 4920499365436106, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4920499365436106, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.1534906
       objectReference: {fileID: 0}
     - target: {fileID: 4920499365436106, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_RootOrder
@@ -1255,6 +1255,10 @@ Prefab:
       propertyPath: currentWaypoint
       value: 
       objectReference: {fileID: 1079604485}
+    - target: {fileID: 1138244562973108, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
+      propertyPath: m_Name
+      value: HighlightSpotlight
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
   m_IsPrefabParent: 0
