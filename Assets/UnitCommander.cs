@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(UnitSelection))]
+[RequireComponent(typeof(UnitSelector))]
 public class UnitCommander : MonoBehaviour {
 
     public GameObject waypointTemplate;
 
     private Camera selectionCamera;
-    private UnitSelection unitSelection;
+    private UnitSelector unitSelection;
 
     private void Start()
     {
-        unitSelection = GetComponent<UnitSelection>();
+        unitSelection = GetComponent<UnitSelector>();
 
         selectionCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         if (selectionCamera == null) { Debug.LogError("Please define a Main Camera."); }

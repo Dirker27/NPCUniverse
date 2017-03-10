@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitSelection : MonoBehaviour {
+public class UnitSelector : MonoBehaviour {
     private const int SELECTED_LAYER_MASK = 1 << 8; // Ignore all layers except #8
 
     public List<Unit> selectedUnits;

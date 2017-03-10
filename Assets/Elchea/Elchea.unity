@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 7504724}
   - component: {fileID: 7504723}
   - component: {fileID: 7504722}
+  - component: {fileID: 7504725}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -188,6 +189,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &7504725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 7504720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b8074f6e808f9b44873cbfc2f726471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedUnitsTextField: {fileID: 1643069091}
+  currentObjectiveTextField: {fileID: 873618470}
+  unitSelector: {fileID: 85061369}
 --- !u!1 &85061366
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +737,11 @@ Prefab:
     - target: {fileID: 1340018234143378, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
@@ -1317,6 +1337,11 @@ Prefab:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
   m_IsPrefabParent: 0
@@ -1865,6 +1890,11 @@ Prefab:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
   m_IsPrefabParent: 0
@@ -2148,6 +2178,11 @@ Prefab:
     - target: {fileID: 1332302581827048, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_Name
       value: '[Grunt] Maynard'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
@@ -2701,6 +2736,11 @@ Prefab:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
   m_IsPrefabParent: 0
@@ -3167,6 +3207,11 @@ Prefab:
     - target: {fileID: 1625937966478870, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
@@ -3884,6 +3929,11 @@ Prefab:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
   m_IsPrefabParent: 0
@@ -3954,7 +4004,13 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 2
-  m_Text: 
+  m_Text: '- [Grunt] Bob
+
+    - [Grunt] Steve
+
+    - [Sniper] Larry
+
+    - [Tank] Ivan'
 --- !u!222 &1643069092
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4424,6 +4480,11 @@ Prefab:
     - target: {fileID: 1819745863272514, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
@@ -5146,6 +5207,11 @@ Prefab:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
   m_IsPrefabParent: 0
@@ -5303,6 +5369,11 @@ Prefab:
     - target: {fileID: 1332302581827048, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_Name
       value: '[Grunt] Randy'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
@@ -5771,6 +5842,11 @@ Prefab:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
   m_IsPrefabParent: 0
@@ -6237,6 +6313,11 @@ Prefab:
     - target: {fileID: 1929428078049748, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
@@ -6861,6 +6942,11 @@ Prefab:
     - target: {fileID: 1827526281026580, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114809080497103480, guid: ffbd5e5f8c40d3c488e87f52fd0512e2,
+        type: 2}
+      propertyPath: arrivalRadius
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffbd5e5f8c40d3c488e87f52fd0512e2, type: 2}
