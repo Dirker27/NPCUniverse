@@ -70,5 +70,6 @@ public class WaypointMovement : MonoBehaviour {
     {
         currentWaypoint = waypoint;
         agent.SetDestination(waypoint.transform.position);
+        agent.Resume();
     }
 }

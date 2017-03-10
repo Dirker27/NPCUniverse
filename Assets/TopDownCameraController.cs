@@ -8,8 +8,7 @@ public class TopDownCameraController : MonoBehaviour {
     public int verticalThreshold = 15;
 
     public float transitSpeed = 5f;
-	
-	// Update is called once per frame
+
 	void Update () {
         // Get at each Update to handle screen scaling
         int screenWidth = Screen.width;
@@ -17,6 +16,14 @@ public class TopDownCameraController : MonoBehaviour {
 
         float mouseX = Input.mousePosition.x;
         float mouseY = Input.mousePosition.y;
+
+        //- Verify Mouse In-Bounds -----------------------=
+        //
+        Rect screenRect = new Rect(0, 0, screenWidth, screenHeight);
+        if (!screenRect.Contains(Input.mousePosition))
+        {
+            return;
+        }
 
         //- Horizontal Tracking --------------------------=
         //
